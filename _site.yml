@@ -1,12 +1,12 @@
 name: "my-website"
 output_dir: "."
 navbar:
-  title: "My Website"
+  title: "Gian Lima"
   left:
     - text: "Home"
       href: index.html
-    - text: "About"
-      href: about.html
+    - text: "Tutorial Exams"
+      href: r-exams-tutorial/
 output:
   html_document:
     theme: yeti
