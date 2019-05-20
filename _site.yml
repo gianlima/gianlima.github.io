@@ -9,6 +9,11 @@ navbar:
       href: r-exams-tutorial/
     - text: "About"
       href: about.html
+    - text: "Estudos"
+      menu:
+      - text: "Conteúdo de regressão"
+      - text: "Módulo 4 - Técnicas de diagnóstico"
+        href: regressao_outlier.html
 output:
   html_document:
     theme: flatly
