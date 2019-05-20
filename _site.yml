@@ -7,8 +7,10 @@ navbar:
       href: index.html
     - text: "Tutorial Exams"
       href: r-exams-tutorial/
+    - text: "About"
+      href: about.html
 output:
   html_document:
     theme: yeti
     highlight: default
-    
+
