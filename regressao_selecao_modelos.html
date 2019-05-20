@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Gian Lima" />
+
+
+<title>Seleção de modelos</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Gian Lima</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r-exams-tutorial/">Tutorial Exams</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estudos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Conteúdo de regressão</li>
+    <li>
+      <a href="regressao_outlier.html">Módulo 4 - Técnicas de diagnóstico</a>
+    </li>
+    <li>
+      <a href="regressao_selecao_modelos.html">Módulo 6 - Seleção de modelos</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Seleção de modelos</h1>
+<h4 class="author">Gian Lima</h4>
+
+</div>
+
+
+<p>Vamos usar a base de dados EURO4PlayerSkillsSep11 do pacote SportsAnalytics. O objetivo é modelar a precisão em passes de longa distância de jogadores de futebol em função de covariáveis referentes a características dos jogadores.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(SportsAnalytics)
+<span class="kw">require</span>(car)
+<span class="kw">data</span>(EURO4PlayerSkillsSep11)
+<span class="kw">summary</span>(EURO4PlayerSkillsSep11)</code></pre></div>
+<pre><code>##      Name                     League                      Team     
+##  Length:1851        Bundesliga   :434   Manchester United FC:  30  
+##  Class :character   LaLiga       :454   QPR                 :  29  
+##  Mode  :character   PremierLeague:496   SS Lazio            :  29  
+##                     SerieA       :467   Stoke City FC       :  29  
+##                                         Arsenal FC          :  28  
+##                                         AS Roma             :  28  
+##                                         (Other)             :1678  
+##      Number           Position    Positions           Birthday        
+##  Min.   : 0.0   Goalkeeper:191   Length:1851        Length:1851       
+##  1st Qu.: 7.0   Defender  :592   Class :character   Class :character  
+##  Median :15.0   Midfielder:657   Mode  :character   Mode  :character  
+##  Mean   :17.1   Forward   :411                                        
+##  3rd Qu.:23.0                                                         
+##  Max.   :99.0                                                         
+##                                                                       
+##       Nationality       Age           Height          Weight      
+##  Spanish    :305   Min.   :17.0   Min.   :160.0   Min.   : 55.00  
+##  Italian    :239   1st Qu.:23.0   1st Qu.:178.0   1st Qu.: 72.00  
+##  German     :216   Median :26.0   Median :183.0   Median : 76.00  
+##  English    :179   Mean   :26.5   Mean   :182.3   Mean   : 76.67  
+##  Argentinian: 97   3rd Qu.:30.0   3rd Qu.:187.0   3rd Qu.: 81.00  
+##  Brazilian  : 85   Max.   :42.0   Max.   :203.0   Max.   :100.00  
+##  (Other)    :730   NA&#39;s   :37                                     
+##  InjuryTolerance Foot     Side         Attack         Defence     
+##  A   :  55       L: 412   B:1402   Min.   : 0.00   Min.   : 0.00  
+##  B   :1643       R:1439   L: 237   1st Qu.:65.00   1st Qu.:48.00  
+##  C   : 150                R: 212   Median :73.00   Median :67.00  
+##  NA&#39;s:   3                         Mean   :68.33   Mean   :63.51  
+##                                    3rd Qu.:77.00   3rd Qu.:78.00  
+##                                    Max.   :95.00   Max.   :94.00  
+##                                                                   
+##     Balance         Stamina         TopSpeed      Acceleration  
+##  Min.   : 0.00   Min.   : 0.00   Min.   : 0.00   Min.   : 0.00  
+##  1st Qu.:78.00   1st Qu.:82.00   1st Qu.:78.00   1st Qu.:77.50  
+##  Median :82.00   Median :83.00   Median :81.00   Median :81.00  
+##  Mean   :81.53   Mean   :82.08   Mean   :80.05   Mean   :80.35  
+##  3rd Qu.:85.00   3rd Qu.:85.00   3rd Qu.:83.00   3rd Qu.:84.00  
+##  Max.   :96.00   Max.   :96.00   Max.   :97.00   Max.   :98.00  
+##                                                                 
+##     Response        Agility     DribbleAccuracy  DribbleSpeed  
+##  Min.   : 0.00   Min.   : 0.0   Min.   : 0.00   Min.   : 0.00  
+##  1st Qu.:79.00   1st Qu.:77.0   1st Qu.:74.00   1st Qu.:76.00  
+##  Median :81.00   Median :80.0   Median :78.00   Median :79.00  
+##  Mean   :80.97   Mean   :80.1   Mean   :75.77   Mean   :77.35  
+##  3rd Qu.:83.00   3rd Qu.:83.0   3rd Qu.:81.00   3rd Qu.:83.00  
+##  Max.   :98.00   Max.   :97.0   Max.   :97.00   Max.   :97.00  
+##                                                                
+##  ShortPassAccuracy ShortPassSpeed  LongPassAccuracy LongPassSpeed  
+##  Min.   : 0.00     Min.   : 0.00   Min.   : 0.00    Min.   : 0.00  
+##  1st Qu.:72.00     1st Qu.:73.00   1st Qu.:72.00    1st Qu.:73.00  
+##  Median :74.00     Median :75.00   Median :75.00    Median :76.00  
+##  Mean   :73.43     Mean   :74.67   Mean   :74.32    Mean   :75.91  
+##  3rd Qu.:78.00     3rd Qu.:78.00   3rd Qu.:78.00    3rd Qu.:79.00  
+##  Max.   :96.00     Max.   :96.00   Max.   :96.00    Max.   :96.00  
+##                                                                    
+##   ShotAccuracy     ShotPower     ShotTechnique   FreeKickAccuracy
+##  Min.   : 0.00   Min.   : 0.00   Min.   : 0.00   Min.   : 0.00   
+##  1st Qu.:66.00   1st Qu.:81.00   1st Qu.:66.00   1st Qu.:65.00   
+##  Median :70.00   Median :82.00   Median :72.00   Median :68.00   
+##  Mean   :68.71   Mean   :82.22   Mean   :70.18   Mean   :67.18   
+##  3rd Qu.:75.00   3rd Qu.:84.00   3rd Qu.:77.00   3rd Qu.:73.00   
+##  Max.   :94.00   Max.   :96.00   Max.   :95.00   Max.   :89.00   
+##                                                                  
+##     Curling          Header           Jump         Technique    
+##  Min.   : 0.00   Min.   : 0.00   Min.   : 0.00   Min.   : 0.00  
+##  1st Qu.:69.00   1st Qu.:70.00   1st Qu.:76.00   1st Qu.:75.00  
+##  Median :74.00   Median :75.00   Median :79.00   Median :78.00  
+##  Mean   :72.18   Mean   :72.74   Mean   :79.05   Mean   :76.44  
+##  3rd Qu.:78.00   3rd Qu.:80.00   3rd Qu.:82.00   3rd Qu.:82.00  
+##  Max.   :95.00   Max.   :95.00   Max.   :96.00   Max.   :97.00  
+##                                                                 
+##    Aggression      Mentality      KeeperSkills      Teamwork   
+##  Min.   : 0.00   Min.   : 0.00   Min.   : 0.00   Min.   : 0.0  
+##  1st Qu.:68.00   1st Qu.:77.00   1st Qu.:50.00   1st Qu.:77.0  
+##  Median :78.00   Median :79.00   Median :50.00   Median :78.0  
+##  Mean   :75.85   Mean   :79.66   Mean   :53.33   Mean   :78.8  
+##  3rd Qu.:83.00   3rd Qu.:82.00   3rd Qu.:50.00   3rd Qu.:81.0  
+##  Max.   :99.00   Max.   :95.00   Max.   :93.00   Max.   :98.0  
+##                                                                
+##  ConditionFitness WeakFootAccuracy WeakFootFrequency
+##  Min.   :3.000    Min.   :2.000    Min.   :2.00     
+##  1st Qu.:6.000    1st Qu.:4.000    1st Qu.:4.00     
+##  Median :6.000    Median :5.000    Median :5.00     
+##  Mean   :6.143    Mean   :5.063    Mean   :4.78     
+##  3rd Qu.:7.000    3rd Qu.:6.000    3rd Qu.:5.00     
+##  Max.   :8.000    Max.   :8.000    Max.   :8.00     
+## </code></pre>
+<div id="selecionando-as-covariaveis-para-analise" class="section level2">
+<h2>Selecionando as covariáveis para análise</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dados &lt;-<span class="st"> </span>EURO4PlayerSkillsSep11[-<span class="dv">1166</span>,<span class="kw">c</span>(<span class="st">&#39;Agility&#39;</span> , <span class="st">&#39;Acceleration&#39;</span> , <span class="st">&#39;TopSpeed&#39;</span> 
+                                        ,<span class="st">&#39;Balance&#39;</span>, <span class="st">&#39;Jump&#39;</span>, <span class="st">&#39;Teamwork&#39;</span>, <span class="st">&#39;Mentality&#39;</span>, 
+                                        <span class="st">&#39;ConditionFitness&#39;</span>,<span class="st">&#39;Height&#39;</span>, <span class="st">&#39;Age&#39;</span>, <span class="st">&#39;Weight&#39;</span>,
+                                        <span class="st">&#39;LongPassAccuracy&#39;</span>)]
+dados &lt;-<span class="st"> </span><span class="kw">na.omit</span>(dados)</code></pre></div>
+<p>O jogador da linha 1166 foi excluído pois os dados correspondentes, sua maioria, eram iguais a zero (provavelmente dados missing). Além disso, 37 jogadores foram excluídos da base por não terem todas as informações disponíveis. A base final para análise tem</p>
+<p>Antes de usar a função step para selecionar covariáveis via testes de hipóteses usando os algoritmos backward, forward e stepwise, vamos fazer isso no braço.</p>
+</div>
+<div id="algoritmo-backward" class="section level1">
+<h1>Algoritmo <strong>backward</strong></h1>
+<div id="ajuste-com-todas-as-covariaveis" class="section level2">
+<h2>Ajuste com todas as covariáveis</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span>., <span class="dt">data =</span> dados)
+<span class="kw">drop1</span>(ajuste, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Age + Weight
+##                  Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                        22069 4555.1                       
+## Agility           1     565.1 22634 4598.9  46.1140 1.510e-11 ***
+## Acceleration      1       3.1 22073 4553.3   0.2570    0.6123    
+## TopSpeed          1    2075.2 24145 4716.0 169.3476 &lt; 2.2e-16 ***
+## Balance           1     349.8 22419 4581.6  28.5475 1.031e-07 ***
+## Jump              1    2805.9 24875 4770.0 228.9751 &lt; 2.2e-16 ***
+## Teamwork          1    9996.6 32066 5230.4 815.7837 &lt; 2.2e-16 ***
+## Mentality         1       5.0 22074 4553.5   0.4097    0.5222    
+## ConditionFitness  1       2.9 22072 4553.3   0.2334    0.6291    
+## Height            1     201.6 22271 4569.5  16.4500 5.208e-05 ***
+## Age               1       0.0 22069 4553.1   0.0014    0.9698    
+## Weight            1       5.3 22075 4553.5   0.4320    0.5111    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>A função <code>drop1</code> apresenta os resultados do teste F produzidos mediante extração das covariáveis do modelo (uma a uma). A variável Age tem maior p-valor (p = 0.9698) e será eliminada do modelo.</p>
+</div>
+<div id="modelo-ajustado-sem-a-variavel-age" class="section level2">
+<h2>Modelo ajustado sem a variável <em>Age</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste2 &lt;-<span class="st"> </span><span class="kw">update</span>(ajuste, ~.-Age) 
+<span class="kw">drop1</span>(ajuste2, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Weight
+##                  Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                        22069 4553.1                       
+## Agility           1     569.6 22639 4597.3  46.5090 1.241e-11 ***
+## Acceleration      1       3.2 22073 4551.3   0.2602    0.6100    
+## TopSpeed          1    2079.0 24148 4714.3 169.7527 &lt; 2.2e-16 ***
+## Balance           1     351.9 22421 4579.7  28.7361 9.363e-08 ***
+## Jump              1    2813.0 24882 4768.6 229.6847 &lt; 2.2e-16 ***
+## Teamwork          1   10296.6 32366 5245.3 840.7321 &lt; 2.2e-16 ***
+## Mentality         1       5.0 22074 4551.5   0.4095    0.5223    
+## ConditionFitness  1       2.9 22072 4551.3   0.2329    0.6295    
+## Height            1     213.8 22283 4568.5  17.4566 3.080e-05 ***
+## Weight            1       5.3 22075 4551.5   0.4321    0.5111    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>A variável <code>ConditionFitness</code> tem maior p-valor (p = 0.6295) e será eliminada do modelo.</p>
+</div>
+<div id="modelo-ajustado-sem-a-variavel-conditionfitness" class="section level2">
+<h2>Modelo ajustado sem a variável <em>ConditionFitness</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste3 &lt;-<span class="st"> </span><span class="kw">update</span>(ajuste2, ~.-ConditionFitness)
+<span class="kw">drop1</span>(ajuste3, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>) </code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + Height + Weight
+##              Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                    22072 4551.3                       
+## Agility       1     585.0 22657 4596.7  47.7851 6.576e-12 ***
+## Acceleration  1       3.5 22076 4549.6   0.2829    0.5949    
+## TopSpeed      1    2096.4 24169 4713.8 171.2511 &lt; 2.2e-16 ***
+## Balance       1     359.5 22432 4578.6  29.3663 6.797e-08 ***
+## Jump          1    2847.4 24920 4769.3 232.5919 &lt; 2.2e-16 ***
+## Teamwork      1   10762.7 32835 5269.4 879.1644 &lt; 2.2e-16 ***
+## Mentality     1       3.9 22076 4549.6   0.3162    0.5740    
+## Height        1     213.4 22286 4566.7  17.4301 3.123e-05 ***
+## Weight        1       5.7 22078 4549.8   0.4666    0.4946    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>A variável <code>Acceleration</code> tem maior p-valor (p = 0.5949) e será eliminada do modelo.</p>
+</div>
+<div id="modelo-ajustado-sem-a-variavel-acceleration" class="section level2">
+<h2>Modelo ajustado sem a variável <em>Acceleration</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste4 &lt;-<span class="st"> </span><span class="kw">update</span>(ajuste3, ~.-Acceleration)
+<span class="kw">drop1</span>(ajuste4, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>) </code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Mentality + Height + Weight
+##           Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                 22076 4549.6                       
+## Agility    1     746.4 22822 4607.9  60.9913 9.649e-15 ***
+## TopSpeed   1    9292.0 31368 5184.5 759.3277 &lt; 2.2e-16 ***
+## Balance    1     356.5 22432 4576.6  29.1290 7.667e-08 ***
+## Jump       1    2856.3 24932 4768.2 233.4136 &lt; 2.2e-16 ***
+## Teamwork   1   10769.0 32845 5267.9 880.0302 &lt; 2.2e-16 ***
+## Mentality  1       4.2 22080 4547.9   0.3412    0.5592    
+## Height     1     209.9 22286 4564.7  17.1549 3.604e-05 ***
+## Weight     1       5.7 22081 4548.1   0.4682    0.4939    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>A variável <em>Mentality</em> tem maior p-valor (p = 0.5592) e será eliminada do modelo.</p>
+</div>
+<div id="modelo-ajustado-sem-a-variavel-mentality" class="section level2">
+<h2>Modelo ajustado sem a variável <em>Mentality</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste5 &lt;-<span class="st"> </span><span class="kw">update</span>(ajuste4, ~.-Mentality)
+<span class="kw">drop1</span>(ajuste5, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>) </code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height + Weight
+##          Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                22080 4547.9                       
+## Agility   1     781.2 22861 4609.0   63.860 2.360e-15 ***
+## TopSpeed  1    9645.8 31726 5203.1  788.535 &lt; 2.2e-16 ***
+## Balance   1     360.1 22440 4575.3   29.438 6.552e-08 ***
+## Jump      1    2897.6 24977 4769.5  236.876 &lt; 2.2e-16 ***
+## Teamwork  1   15066.7 37147 5489.1 1231.681 &lt; 2.2e-16 ***
+## Height    1     228.4 22308 4564.6   18.671 1.638e-05 ***
+## Weight    1       6.0 22086 4546.4    0.494    0.4822    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>A variável <code>Weight</code> tem maior p-valor (p = 0.4822) e será eliminada do modelo.</p>
+</div>
+<div id="modelo-ajustado-sem-a-variavel-weight" class="section level2">
+<h2>Modelo ajustado sem a variável Weight</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste6 &lt;-<span class="st"> </span><span class="kw">update</span>(ajuste5, ~.-Weight)
+<span class="kw">drop1</span>(ajuste6, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height
+##          Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                22086 4546.4                       
+## Agility   1     780.1 22866 4607.4   63.789 2.443e-15 ***
+## TopSpeed  1    9780.3 31866 5209.1  799.752 &lt; 2.2e-16 ***
+## Balance   1     449.8 22536 4581.0   36.785 1.603e-09 ***
+## Jump      1    2895.8 24982 4767.8  236.793 &lt; 2.2e-16 ***
+## Teamwork  1   15311.1 37397 5499.2 1252.012 &lt; 2.2e-16 ***
+## Height    1     356.9 22443 4573.5   29.188 7.439e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Todas as variáveis remanescentes têm efeito significativo. O processo é encerrado com o modelo atual, sem excluir novas covariáveis.</p>
+</div>
+<div id="resumo-do-modelo-final" class="section level2">
+<h2>Resumo do modelo final</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste6) </code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = LongPassAccuracy ~ Agility + TopSpeed + Balance + 
+##     Jump + Teamwork + Height, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -12.4177  -2.2009  -0.0368   2.2641  12.1375 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 39.52347    5.48863   7.201 8.74e-13 ***
+## Agility     -0.22568    0.02826  -7.987 2.44e-15 ***
+## TopSpeed     0.56021    0.01981  28.280  &lt; 2e-16 ***
+## Balance     -0.20783    0.03427  -6.065 1.60e-09 ***
+## Jump        -0.38166    0.02480 -15.388  &lt; 2e-16 ***
+## Teamwork     0.94919    0.02683  35.384  &lt; 2e-16 ***
+## Height      -0.10775    0.01994  -5.403 7.44e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.497 on 1806 degrees of freedom
+## Multiple R-squared:  0.6743, Adjusted R-squared:  0.6732 
+## F-statistic: 623.2 on 6 and 1806 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div id="algoritmo-forward" class="section level1">
+<h1>Algoritmo <strong>forward</strong></h1>
+<div id="modelo-nulo-so-com-intercepto" class="section level2">
+<h2>Modelo nulo (só com intercepto)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste0 &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dados)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add1</span>(ajuste0, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration +<span class="st"> </span>TopSpeed 
+     +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+     +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term additions
+## 
+## Model:
+## LongPassAccuracy ~ 1
+##                  Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                        67812 6568.2                       
+## Agility           1    6975.4 60837 6373.5 207.6443 &lt; 2.2e-16 ***
+## Acceleration      1   19573.6 48238 5952.8 734.8443 &lt; 2.2e-16 ***
+## TopSpeed          1   21923.9 45888 5862.2 865.2358 &lt; 2.2e-16 ***
+## Balance           1   12055.7 55756 6215.4 391.5779 &lt; 2.2e-16 ***
+## Jump              1   10694.1 57118 6259.1 339.0700 &lt; 2.2e-16 ***
+## Teamwork          1   16772.5 51040 6055.1 595.1288 &lt; 2.2e-16 ***
+## Mentality         1    3223.9 64588 6481.9  90.3944 &lt; 2.2e-16 ***
+## ConditionFitness  1     346.2 67466 6561.0   9.2921  0.002335 ** 
+## Height            1   15781.5 52031 6090.0 549.2977 &lt; 2.2e-16 ***
+## Age               1     244.7 67567 6563.7   6.5586  0.010518 *  
+## Weight            1   13834.9 53977 6156.6 464.1797 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>A função <code>add1</code> apresenta os resultados do teste F produzidos mediante inclusão das covariáveis do modelo (uma a uma). A variável <em>TopSpeed</em> tem maior valor para a estatística F (F = 865.2358), e p-valor extremamente baixo, e será incluída ao modelo.</p>
+<p>Nota: neste caso avaliar menor p-valor e maior valor da estatística F é equivalente apenas porque todas as covariáveis têm um grau de liberdade associado.</p>
+</div>
+<div id="modelo-com-a-inclusao-de-topspeed" class="section level2">
+<h2>Modelo com a inclusão de <em>TopSpeed</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span>TopSpeed, <span class="dt">data =</span> dados)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add1</span>(ajuste2, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+     +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+     +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term additions
+## 
+## Model:
+## LongPassAccuracy ~ TopSpeed
+##                  Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                        45888 5862.2                       
+## Agility           1      11.6 45877 5863.8   0.4561   0.49952    
+## Acceleration      1      72.0 45816 5861.4   2.8424   0.09198 .  
+## Balance           1    2356.7 43531 5768.6  97.9904 &lt; 2.2e-16 ***
+## Jump              1    5816.7 40071 5618.5 262.7380 &lt; 2.2e-16 ***
+## Teamwork          1   15663.7 30224 5107.2 938.0251 &lt; 2.2e-16 ***
+## Mentality         1    2458.9 43429 5764.4 102.4788 &lt; 2.2e-16 ***
+## ConditionFitness  1     648.1 45240 5838.4  25.9276 3.913e-07 ***
+## Height            1    3518.7 42369 5719.6 150.3176 &lt; 2.2e-16 ***
+## Age               1     801.1 45087 5832.3  32.1600 1.649e-08 ***
+## Weight            1    2848.3 43040 5748.0 119.7806 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>A inclusão da variável <em>Teamwork</em> produziu maior valor para a estatística F (e p-valor extremamente baixo) e será incluída ao modelo.</p>
+</div>
+<div id="modelo-com-a-inclusao-de-teamwork" class="section level2">
+<h2>Modelo com a inclusão de Teamwork</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste3 &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span>TopSpeed +<span class="st"> </span>Teamwork, <span class="dt">data =</span> dados)
+<span class="kw">add1</span>(ajuste3, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+     +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+     +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term additions
+## 
+## Model:
+## LongPassAccuracy ~ TopSpeed + Teamwork
+##                  Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                        30225 5107.2                       
+## Agility           1       0.0 30224 5109.2   0.0026   0.95916    
+## Acceleration      1      98.2 30126 5103.3   5.8949   0.01528 *  
+## Balance           1    3956.5 26268 4854.8 272.4738 &lt; 2.2e-16 ***
+## Jump              1    6419.2 23805 4676.3 487.8011 &lt; 2.2e-16 ***
+## Mentality         1     493.1 29731 5079.4  30.0042 4.915e-08 ***
+## ConditionFitness  1     553.3 29671 5075.7  33.7350 7.445e-09 ***
+## Height            1    1997.7 28227 4985.2 128.0309 &lt; 2.2e-16 ***
+## Age               1      59.2 30165 5105.6   3.5485   0.05976 .  
+## Weight            1    1752.2 28472 5000.9 111.3281 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="modelo-com-a-inclusao-de-jump" class="section level2">
+<h2>Modelo com a inclusão de <em>Jump</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste4 &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span>TopSpeed +<span class="st"> </span>Teamwork +<span class="st"> </span>Jump, <span class="dt">data =</span> dados)
+<span class="kw">add1</span>(ajuste4, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+     +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+     +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term additions
+## 
+## Model:
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump
+##                  Df Sum of Sq   RSS    AIC F value    Pr(&gt;F)    
+## &lt;none&gt;                        23805 4676.3                      
+## Agility           1     65.78 23740 4673.3  5.0099   0.02532 *  
+## Acceleration      1      2.62 23803 4678.1  0.1991   0.65552    
+## Balance           1    780.21 23025 4617.9 61.2648 8.427e-15 ***
+## Mentality         1      3.51 23802 4678.1  0.2668   0.60552    
+## ConditionFitness  1     49.02 23756 4674.6  3.7307   0.05358 .  
+## Height            1    738.51 23067 4621.2 57.8851 4.443e-14 ***
+## Age               1      4.80 23801 4678.0  0.3647   0.54598    
+## Weight            1    591.99 23213 4632.7 46.1082 1.513e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="modelo-com-a-inclusao-de-balance" class="section level2">
+<h2>Modelo com a inclusão de <em>Balance</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste5 &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span>TopSpeed +<span class="st"> </span>Teamwork +<span class="st"> </span>Jump +<span class="st"> </span>Balance, <span class="dt">data =</span> dados)
+<span class="kw">add1</span>(ajuste5, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+     +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+     +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Single term additions
+## 
+## Model:
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance
+##                  Df Sum of Sq   RSS    AIC F value    Pr(&gt;F)    
+## &lt;none&gt;                        23025 4617.9                      
+## Agility           1    582.24 22443 4573.5 46.8793 1.031e-11 ***
+## Acceleration      1    101.33 22924 4611.9  7.9873 0.0047625 ** 
+## Mentality         1     74.78 22950 4614.0  5.8875 0.0153463 *  
+## ConditionFitness  1     14.33 23011 4618.8  1.1254 0.2889064    
+## Height            1    159.10 22866 4607.4 12.5733 0.0004013 ***
+## Age               1     23.85 23001 4618.0  1.8737 0.1712262    
+## Weight            1     70.37 22955 4614.4  5.5393 0.0187009 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="modelo-com-a-inclusao-de-agility" class="section level2">
+<h2>Modelo com a inclusão de <em>Agility</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste6 &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span>TopSpeed +<span class="st"> </span>Teamwork +<span class="st"> </span>
+<span class="st">                </span>Jump +<span class="st"> </span>Balance +<span class="st"> </span>Agility, <span class="dt">data =</span> dados)
+<span class="kw">add1</span>(ajuste6, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+     +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+     +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>) </code></pre></div>
+<pre><code>## Single term additions
+## 
+## Model:
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility
+##                  Df Sum of Sq   RSS    AIC F value    Pr(&gt;F)    
+## &lt;none&gt;                        22443 4573.5                      
+## Acceleration      1      0.72 22442 4575.4  0.0577 0.8101457    
+## Mentality         1     40.06 22403 4572.3  3.2293 0.0724971 .  
+## ConditionFitness  1      0.87 22442 4575.4  0.0702 0.7910046    
+## Height            1    356.95 22086 4546.4 29.1882 7.439e-08 ***
+## Age               1     12.76 22430 4574.5  1.0274 0.3109095    
+## Weight            1    134.59 22308 4564.6 10.8963 0.0009824 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="modelo-com-a-inclusao-de-height" class="section level2">
+<h2>Modelo com a inclusão de <em>Height</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste7 &lt;-<span class="st"> </span><span class="kw">lm</span>(LongPassAccuracy ~<span class="st"> </span>TopSpeed +<span class="st"> </span>Teamwork +<span class="st"> </span>
+<span class="st">                </span>Jump +<span class="st"> </span>Balance +<span class="st"> </span>Agility +<span class="st"> </span>Height, <span class="dt">data =</span> dados)
+<span class="kw">add1</span>(ajuste7, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+     +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+     +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>) </code></pre></div>
+<pre><code>## Single term additions
+## 
+## Model:
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility + 
+##     Height
+##                  Df Sum of Sq   RSS    AIC F value Pr(&gt;F)
+## &lt;none&gt;                        22086 4546.4               
+## Acceleration      1    3.7991 22082 4548.1  0.3105 0.5774
+## Mentality         1    4.4891 22081 4548.1  0.3670 0.5447
+## ConditionFitness  1    2.2037 22084 4548.2  0.1801 0.6713
+## Age               1    0.0608 22086 4548.4  0.0050 0.9438
+## Weight            1    6.0430 22080 4547.9  0.4940 0.4822</code></pre>
+<p>As variáveis que ainda não foram incluídas no modelo não apresentam efeito significativo, segundo o teste F. O processo é encerrado com o modelo atual, sem adicionar novas covariáveis.</p>
+</div>
+</div>
+<div id="usando-a-funcao-step-do-r" class="section level1">
+<h1>Usando a função step do R</h1>
+<div id="selecao-backward" class="section level2">
+<h2>Seleção <strong>backward</strong></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_back &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste, <span class="dt">direction =</span> <span class="st">&#39;backward&#39;</span>, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Start:  AIC=4555.06
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Age + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - Age               1       0.0 22069 4553.1   0.0014    0.9698    
+## - ConditionFitness  1       2.9 22072 4553.3   0.2334    0.6291    
+## - Acceleration      1       3.1 22073 4553.3   0.2570    0.6123    
+## - Mentality         1       5.0 22074 4553.5   0.4097    0.5222    
+## - Weight            1       5.3 22075 4553.5   0.4320    0.5111    
+## &lt;none&gt;                          22069 4555.1                       
+## - Height            1     201.6 22271 4569.5  16.4500 5.208e-05 ***
+## - Balance           1     349.8 22419 4581.6  28.5475 1.031e-07 ***
+## - Agility           1     565.1 22634 4598.9  46.1140 1.510e-11 ***
+## - TopSpeed          1    2075.2 24145 4716.0 169.3476 &lt; 2.2e-16 ***
+## - Jump              1    2805.9 24875 4770.0 228.9751 &lt; 2.2e-16 ***
+## - Teamwork          1    9996.6 32066 5230.4 815.7837 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4553.07
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Weight
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - ConditionFitness  1       2.9 22072 4551.3   0.2329    0.6295    
+## - Acceleration      1       3.2 22073 4551.3   0.2602    0.6100    
+## - Mentality         1       5.0 22074 4551.5   0.4095    0.5223    
+## - Weight            1       5.3 22075 4551.5   0.4321    0.5111    
+## &lt;none&gt;                          22069 4553.1                       
+## - Height            1     213.8 22283 4568.5  17.4566 3.080e-05 ***
+## - Balance           1     351.9 22421 4579.7  28.7361 9.363e-08 ***
+## - Agility           1     569.6 22639 4597.3  46.5090 1.241e-11 ***
+## - TopSpeed          1    2079.0 24148 4714.3 169.7527 &lt; 2.2e-16 ***
+## - Jump              1    2813.0 24882 4768.6 229.6847 &lt; 2.2e-16 ***
+## - Teamwork          1   10296.6 32366 5245.3 840.7321 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4551.3
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + Height + Weight
+## 
+##                Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - Acceleration  1       3.5 22076 4549.6   0.2829    0.5949    
+## - Mentality     1       3.9 22076 4549.6   0.3162    0.5740    
+## - Weight        1       5.7 22078 4549.8   0.4666    0.4946    
+## &lt;none&gt;                      22072 4551.3                       
+## - Height        1     213.4 22286 4566.7  17.4301 3.123e-05 ***
+## - Balance       1     359.5 22432 4578.6  29.3663 6.797e-08 ***
+## - Agility       1     585.0 22657 4596.7  47.7851 6.576e-12 ***
+## - TopSpeed      1    2096.4 24169 4713.8 171.2511 &lt; 2.2e-16 ***
+## - Jump          1    2847.4 24920 4769.3 232.5919 &lt; 2.2e-16 ***
+## - Teamwork      1   10762.7 32835 5269.4 879.1644 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4549.58
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Mentality + Height + Weight
+## 
+##             Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - Mentality  1       4.2 22080 4547.9   0.3412    0.5592    
+## - Weight     1       5.7 22081 4548.1   0.4682    0.4939    
+## &lt;none&gt;                   22076 4549.6                       
+## - Height     1     209.9 22286 4564.7  17.1549 3.604e-05 ***
+## - Balance    1     356.5 22432 4576.6  29.1290 7.667e-08 ***
+## - Agility    1     746.4 22822 4607.9  60.9913 9.649e-15 ***
+## - Jump       1    2856.3 24932 4768.2 233.4136 &lt; 2.2e-16 ***
+## - TopSpeed   1    9292.0 31368 5184.5 759.3277 &lt; 2.2e-16 ***
+## - Teamwork   1   10769.0 32845 5267.9 880.0302 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4547.93
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height + Weight
+## 
+##            Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - Weight    1       6.0 22086 4546.4    0.494    0.4822    
+## &lt;none&gt;                  22080 4547.9                       
+## - Height    1     228.4 22308 4564.6   18.671 1.638e-05 ***
+## - Balance   1     360.1 22440 4575.3   29.438 6.552e-08 ***
+## - Agility   1     781.2 22861 4609.0   63.860 2.360e-15 ***
+## - Jump      1    2897.6 24977 4769.5  236.876 &lt; 2.2e-16 ***
+## - TopSpeed  1    9645.8 31726 5203.1  788.535 &lt; 2.2e-16 ***
+## - Teamwork  1   15066.7 37147 5489.1 1231.681 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4546.42
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height
+## 
+##            Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## &lt;none&gt;                  22086 4546.4                       
+## - Height    1     356.9 22443 4573.5   29.188 7.439e-08 ***
+## - Balance   1     449.8 22536 4581.0   36.785 1.603e-09 ***
+## - Agility   1     780.1 22866 4607.4   63.789 2.443e-15 ***
+## - Jump      1    2895.8 24982 4767.8  236.793 &lt; 2.2e-16 ***
+## - TopSpeed  1    9780.3 31866 5209.1  799.752 &lt; 2.2e-16 ***
+## - Teamwork  1   15311.1 37397 5499.2 1252.012 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="selecao-forward" class="section level2">
+<h2>Seleção <strong>forward</strong></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_for &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste0, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+                +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+                +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">direction =</span> <span class="st">&#39;forward&#39;</span>, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Start:  AIC=6568.25
+## LongPassAccuracy ~ 1
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## + TopSpeed          1   21923.9 45888 5862.2 865.2358 &lt; 2.2e-16 ***
+## + Acceleration      1   19573.6 48238 5952.8 734.8443 &lt; 2.2e-16 ***
+## + Teamwork          1   16772.5 51040 6055.1 595.1288 &lt; 2.2e-16 ***
+## + Height            1   15781.5 52031 6090.0 549.2977 &lt; 2.2e-16 ***
+## + Weight            1   13834.9 53977 6156.6 464.1797 &lt; 2.2e-16 ***
+## + Balance           1   12055.7 55756 6215.4 391.5779 &lt; 2.2e-16 ***
+## + Jump              1   10694.1 57118 6259.1 339.0700 &lt; 2.2e-16 ***
+## + Agility           1    6975.4 60837 6373.5 207.6443 &lt; 2.2e-16 ***
+## + Mentality         1    3223.9 64588 6481.9  90.3944 &lt; 2.2e-16 ***
+## + ConditionFitness  1     346.2 67466 6561.0   9.2921  0.002335 ** 
+## + Age               1     244.7 67567 6563.7   6.5586  0.010518 *  
+## &lt;none&gt;                          67812 6568.2                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=5862.21
+## LongPassAccuracy ~ TopSpeed
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## + Teamwork          1   15663.7 30224 5107.2 938.0251 &lt; 2.2e-16 ***
+## + Jump              1    5816.7 40071 5618.5 262.7380 &lt; 2.2e-16 ***
+## + Height            1    3518.7 42369 5719.6 150.3176 &lt; 2.2e-16 ***
+## + Weight            1    2848.3 43040 5748.0 119.7806 &lt; 2.2e-16 ***
+## + Mentality         1    2458.9 43429 5764.4 102.4788 &lt; 2.2e-16 ***
+## + Balance           1    2356.7 43531 5768.6  97.9904 &lt; 2.2e-16 ***
+## + Age               1     801.1 45087 5832.3  32.1600 1.649e-08 ***
+## + ConditionFitness  1     648.1 45240 5838.4  25.9276 3.913e-07 ***
+## + Acceleration      1      72.0 45816 5861.4   2.8424   0.09198 .  
+## &lt;none&gt;                          45888 5862.2                       
+## + Agility           1      11.6 45877 5863.8   0.4561   0.49952    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=5107.18
+## LongPassAccuracy ~ TopSpeed + Teamwork
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## + Jump              1    6419.2 23805 4676.3 487.8011 &lt; 2.2e-16 ***
+## + Balance           1    3956.5 26268 4854.8 272.4738 &lt; 2.2e-16 ***
+## + Height            1    1997.7 28227 4985.2 128.0309 &lt; 2.2e-16 ***
+## + Weight            1    1752.2 28472 5000.9 111.3281 &lt; 2.2e-16 ***
+## + ConditionFitness  1     553.3 29671 5075.7  33.7350 7.445e-09 ***
+## + Mentality         1     493.1 29731 5079.4  30.0042 4.915e-08 ***
+## + Acceleration      1      98.2 30126 5103.3   5.8949   0.01528 *  
+## + Age               1      59.2 30165 5105.6   3.5485   0.05976 .  
+## &lt;none&gt;                          30225 5107.2                       
+## + Agility           1       0.0 30224 5109.2   0.0026   0.95916    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4676.34
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump
+## 
+##                    Df Sum of Sq   RSS    AIC F value    Pr(&gt;F)    
+## + Balance           1    780.21 23025 4617.9 61.2648 8.427e-15 ***
+## + Height            1    738.51 23067 4621.2 57.8851 4.443e-14 ***
+## + Weight            1    591.99 23213 4632.7 46.1082 1.513e-11 ***
+## + Agility           1     65.78 23740 4673.3  5.0099   0.02532 *  
+## + ConditionFitness  1     49.02 23756 4674.6  3.7307   0.05358 .  
+## &lt;none&gt;                          23805 4676.3                      
+## + Age               1      4.80 23801 4678.0  0.3647   0.54598    
+## + Mentality         1      3.51 23802 4678.1  0.2668   0.60552    
+## + Acceleration      1      2.62 23803 4678.1  0.1991   0.65552    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4617.93
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance
+## 
+##                    Df Sum of Sq   RSS    AIC F value    Pr(&gt;F)    
+## + Agility           1    582.24 22443 4573.5 46.8793 1.031e-11 ***
+## + Height            1    159.10 22866 4607.4 12.5733 0.0004013 ***
+## + Acceleration      1    101.33 22924 4611.9  7.9873 0.0047625 ** 
+## + Mentality         1     74.78 22950 4614.0  5.8875 0.0153463 *  
+## + Weight            1     70.37 22955 4614.4  5.5393 0.0187009 *  
+## &lt;none&gt;                          23025 4617.9                      
+## + Age               1     23.85 23001 4618.0  1.8737 0.1712262    
+## + ConditionFitness  1     14.33 23011 4618.8  1.1254 0.2889064    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4573.49
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility
+## 
+##                    Df Sum of Sq   RSS    AIC F value    Pr(&gt;F)    
+## + Height            1    356.95 22086 4546.4 29.1882 7.439e-08 ***
+## + Weight            1    134.59 22308 4564.6 10.8963 0.0009824 ***
+## + Mentality         1     40.06 22403 4572.3  3.2293 0.0724971 .  
+## &lt;none&gt;                          22443 4573.5                      
+## + Age               1     12.76 22430 4574.5  1.0274 0.3109095    
+## + ConditionFitness  1      0.87 22442 4575.4  0.0702 0.7910046    
+## + Acceleration      1      0.72 22442 4575.4  0.0577 0.8101457    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4546.42
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility + 
+##     Height
+## 
+##                    Df Sum of Sq   RSS    AIC F value Pr(&gt;F)
+## &lt;none&gt;                          22086 4546.4               
+## + Weight            1    6.0430 22080 4547.9  0.4940 0.4822
+## + Mentality         1    4.4891 22081 4548.1  0.3670 0.5447
+## + Acceleration      1    3.7991 22082 4548.1  0.3105 0.5774
+## + ConditionFitness  1    2.2037 22084 4548.2  0.1801 0.6713
+## + Age               1    0.0608 22086 4548.4  0.0050 0.9438</code></pre>
+</div>
+<div id="selecao-stepwise" class="section level2">
+<h2>Seleção <strong>stepwise</strong></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_step &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste, <span class="dt">direction =</span> <span class="st">&#39;both&#39;</span>, <span class="dt">test =</span> <span class="st">&#39;F&#39;</span>)</code></pre></div>
+<pre><code>## Start:  AIC=4555.06
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Age + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - Age               1       0.0 22069 4553.1   0.0014    0.9698    
+## - ConditionFitness  1       2.9 22072 4553.3   0.2334    0.6291    
+## - Acceleration      1       3.1 22073 4553.3   0.2570    0.6123    
+## - Mentality         1       5.0 22074 4553.5   0.4097    0.5222    
+## - Weight            1       5.3 22075 4553.5   0.4320    0.5111    
+## &lt;none&gt;                          22069 4555.1                       
+## - Height            1     201.6 22271 4569.5  16.4500 5.208e-05 ***
+## - Balance           1     349.8 22419 4581.6  28.5475 1.031e-07 ***
+## - Agility           1     565.1 22634 4598.9  46.1140 1.510e-11 ***
+## - TopSpeed          1    2075.2 24145 4716.0 169.3476 &lt; 2.2e-16 ***
+## - Jump              1    2805.9 24875 4770.0 228.9751 &lt; 2.2e-16 ***
+## - Teamwork          1    9996.6 32066 5230.4 815.7837 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4553.07
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Weight
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - ConditionFitness  1       2.9 22072 4551.3   0.2329    0.6295    
+## - Acceleration      1       3.2 22073 4551.3   0.2602    0.6100    
+## - Mentality         1       5.0 22074 4551.5   0.4095    0.5223    
+## - Weight            1       5.3 22075 4551.5   0.4321    0.5111    
+## &lt;none&gt;                          22069 4553.1                       
+## + Age               1       0.0 22069 4555.1   0.0014    0.9698    
+## - Height            1     213.8 22283 4568.5  17.4566 3.080e-05 ***
+## - Balance           1     351.9 22421 4579.7  28.7361 9.363e-08 ***
+## - Agility           1     569.6 22639 4597.3  46.5090 1.241e-11 ***
+## - TopSpeed          1    2079.0 24148 4714.3 169.7527 &lt; 2.2e-16 ***
+## - Jump              1    2813.0 24882 4768.6 229.6847 &lt; 2.2e-16 ***
+## - Teamwork          1   10296.6 32366 5245.3 840.7321 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4551.3
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - Acceleration      1       3.5 22076 4549.6   0.2829    0.5949    
+## - Mentality         1       3.9 22076 4549.6   0.3162    0.5740    
+## - Weight            1       5.7 22078 4549.8   0.4666    0.4946    
+## &lt;none&gt;                          22072 4551.3                       
+## + ConditionFitness  1       2.9 22069 4553.1   0.2329    0.6295    
+## + Age               1       0.0 22072 4553.3   0.0008    0.9778    
+## - Height            1     213.4 22286 4566.7  17.4301 3.123e-05 ***
+## - Balance           1     359.5 22432 4578.6  29.3663 6.797e-08 ***
+## - Agility           1     585.0 22657 4596.7  47.7851 6.576e-12 ***
+## - TopSpeed          1    2096.4 24169 4713.8 171.2511 &lt; 2.2e-16 ***
+## - Jump              1    2847.4 24920 4769.3 232.5919 &lt; 2.2e-16 ***
+## - Teamwork          1   10762.7 32835 5269.4 879.1644 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4549.58
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Mentality + Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC  F value    Pr(&gt;F)    
+## - Mentality         1       4.2 22080 4547.9   0.3412    0.5592    
+## - Weight            1       5.7 22081 4548.1   0.4682    0.4939    
+## &lt;none&gt;                          22076 4549.6                       
+## + Acceleration      1       3.5 22072 4551.3   0.2829    0.5949    
+## + ConditionFitness  1       3.1 22073 4551.3   0.2555    0.6133    
+## + Age               1       0.0 22076 4551.6   0.0000    0.9999    
+## - Height            1     209.9 22286 4564.7  17.1549 3.604e-05 ***
+## - Balance           1     356.5 22432 4576.6  29.1290 7.667e-08 ***
+## - Agility           1     746.4 22822 4607.9  60.9913 9.649e-15 ***
+## - Jump              1    2856.3 24932 4768.2 233.4136 &lt; 2.2e-16 ***
+## - TopSpeed          1    9292.0 31368 5184.5 759.3277 &lt; 2.2e-16 ***
+## - Teamwork          1   10769.0 32845 5267.9 880.0302 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4547.93
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC   F value    Pr(&gt;F)    
+## - Weight            1       6.0 22086 4546.4    0.4940    0.4822    
+## &lt;none&gt;                          22080 4547.9                        
+## + Mentality         1       4.2 22076 4549.6    0.3412    0.5592    
+## + Acceleration      1       3.8 22076 4549.6    0.3080    0.5790    
+## + ConditionFitness  1       1.9 22078 4549.8    0.1546    0.6943    
+## + Age               1       0.0 22080 4549.9    0.0001    0.9914    
+## - Height            1     228.4 22308 4564.6   18.6712 1.638e-05 ***
+## - Balance           1     360.1 22440 4575.3   29.4384 6.552e-08 ***
+## - Agility           1     781.2 22861 4609.0   63.8603 2.360e-15 ***
+## - Jump              1    2897.6 24977 4769.5  236.8765 &lt; 2.2e-16 ***
+## - TopSpeed          1    9645.8 31726 5203.1  788.5349 &lt; 2.2e-16 ***
+## - Teamwork          1   15066.7 37147 5489.1 1231.6807 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Step:  AIC=4546.42
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height
+## 
+##                    Df Sum of Sq   RSS    AIC   F value    Pr(&gt;F)    
+## &lt;none&gt;                          22086 4546.4                        
+## + Weight            1       6.0 22080 4547.9    0.4940    0.4822    
+## + Mentality         1       4.5 22081 4548.1    0.3670    0.5447    
+## + Acceleration      1       3.8 22082 4548.1    0.3105    0.5774    
+## + ConditionFitness  1       2.2 22084 4548.2    0.1801    0.6713    
+## + Age               1       0.1 22086 4548.4    0.0050    0.9438    
+## - Height            1     356.9 22443 4573.5   29.1882 7.439e-08 ***
+## - Balance           1     449.8 22536 4581.0   36.7846 1.603e-09 ***
+## - Agility           1     780.1 22866 4607.4   63.7887 2.443e-15 ***
+## - Jump              1    2895.8 24982 4767.8  236.7933 &lt; 2.2e-16 ***
+## - TopSpeed          1    9780.3 31866 5209.1  799.7516 &lt; 2.2e-16 ***
+## - Teamwork          1   15311.1 37397 5499.2 1252.0120 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compareCoefs</span>(mod_back, mod_for, mod_step)</code></pre></div>
+<pre><code>## Calls:
+## 1: lm(formula = LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump 
+##   + Teamwork + Height, data = dados)
+## 2: lm(formula = LongPassAccuracy ~ TopSpeed + Teamwork + Jump + 
+##   Balance + Agility + Height, data = dados)
+## 3: lm(formula = LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump 
+##   + Teamwork + Height, data = dados)
+## 
+##             Model 1 Model 2 Model 3
+## (Intercept)   39.52   39.52   39.52
+## SE             5.49    5.49    5.49
+##                                    
+## Agility     -0.2257 -0.2257 -0.2257
+## SE           0.0283  0.0283  0.0283
+##                                    
+## TopSpeed     0.5602  0.5602  0.5602
+## SE           0.0198  0.0198  0.0198
+##                                    
+## Balance     -0.2078 -0.2078 -0.2078
+## SE           0.0343  0.0343  0.0343
+##                                    
+## Jump        -0.3817 -0.3817 -0.3817
+## SE           0.0248  0.0248  0.0248
+##                                    
+## Teamwork     0.9492  0.9492  0.9492
+## SE           0.0268  0.0268  0.0268
+##                                    
+## Height      -0.1078 -0.1078 -0.1078
+## SE           0.0199  0.0199  0.0199
+## </code></pre>
+<p>Os três métodos produziram o mesmo modelo (mesmo conjunto de covariáveis selecionadas). Isso não acontece sempre, é plenamente possível obter modelos diferentes usando métodos de seleção diferentes.</p>
+</div>
+</div>
+<div id="analise-baseada-em-criterios-de-ajuste" class="section level1">
+<h1>Análise baseada em critérios de ajuste</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(leaps)
+all_reg &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(LongPassAccuracy ~<span class="st"> </span>Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+                      +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+                      +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">method =</span> <span class="st">&quot;exhaustive&quot;</span>,
+                      <span class="dt">nvmax =</span> <span class="dv">11</span>, <span class="dt">data =</span> dados)</code></pre></div>
+<p>A função <code>regsubsets</code> vai ajustar todos os modelos de regressão possíveis, e armazenar os valores dos critérios de qualidade para os melhores ajustes com j = 1, j = 2, …, j = k covariáveis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(all_reg)</code></pre></div>
+<p><img src="regressao_selecao_modelos_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>BICs para os modelos ótimos para cada número de covariáveis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1 &lt;-<span class="st"> </span><span class="kw">summary</span>(all_reg, <span class="dt">matrix.logical=</span><span class="ot">TRUE</span>); s1</code></pre></div>
+<pre><code>## Subset selection object
+## Call: regsubsets.formula(LongPassAccuracy ~ Agility + Acceleration + 
+##     TopSpeed + Balance + Jump + Teamwork + Mentality + ConditionFitness + 
+##     Height + Age + Weight, method = &quot;exhaustive&quot;, nvmax = 11, 
+##     data = dados)
+## 11 Variables  (and intercept)
+##                  Forced in Forced out
+## Agility              FALSE      FALSE
+## Acceleration         FALSE      FALSE
+## TopSpeed             FALSE      FALSE
+## Balance              FALSE      FALSE
+## Jump                 FALSE      FALSE
+## Teamwork             FALSE      FALSE
+## Mentality            FALSE      FALSE
+## ConditionFitness     FALSE      FALSE
+## Height               FALSE      FALSE
+## Age                  FALSE      FALSE
+## Weight               FALSE      FALSE
+## 1 subsets of each size up to 11
+## Selection Algorithm: exhaustive
+##           Agility Acceleration TopSpeed Balance  Jump Teamwork Mentality
+## 1  ( 1 )    FALSE        FALSE     TRUE   FALSE FALSE    FALSE     FALSE
+## 2  ( 1 )    FALSE        FALSE     TRUE   FALSE FALSE     TRUE     FALSE
+## 3  ( 1 )    FALSE        FALSE     TRUE   FALSE  TRUE     TRUE     FALSE
+## 4  ( 1 )    FALSE        FALSE     TRUE    TRUE  TRUE     TRUE     FALSE
+## 5  ( 1 )     TRUE        FALSE     TRUE    TRUE  TRUE     TRUE     FALSE
+## 6  ( 1 )     TRUE        FALSE     TRUE    TRUE  TRUE     TRUE     FALSE
+## 7  ( 1 )     TRUE        FALSE     TRUE    TRUE  TRUE     TRUE     FALSE
+## 8  ( 1 )     TRUE        FALSE     TRUE    TRUE  TRUE     TRUE      TRUE
+## 9  ( 1 )     TRUE         TRUE     TRUE    TRUE  TRUE     TRUE      TRUE
+## 10  ( 1 )    TRUE         TRUE     TRUE    TRUE  TRUE     TRUE      TRUE
+## 11  ( 1 )    TRUE         TRUE     TRUE    TRUE  TRUE     TRUE      TRUE
+##           ConditionFitness Height   Age Weight
+## 1  ( 1 )             FALSE  FALSE FALSE  FALSE
+## 2  ( 1 )             FALSE  FALSE FALSE  FALSE
+## 3  ( 1 )             FALSE  FALSE FALSE  FALSE
+## 4  ( 1 )             FALSE  FALSE FALSE  FALSE
+## 5  ( 1 )             FALSE  FALSE FALSE  FALSE
+## 6  ( 1 )             FALSE   TRUE FALSE  FALSE
+## 7  ( 1 )             FALSE   TRUE FALSE   TRUE
+## 8  ( 1 )             FALSE   TRUE FALSE   TRUE
+## 9  ( 1 )             FALSE   TRUE FALSE   TRUE
+## 10  ( 1 )             TRUE   TRUE FALSE   TRUE
+## 11  ( 1 )             TRUE   TRUE  TRUE   TRUE</code></pre>
+<p>Cada linha da matriz lógica apresenta o melhor modelo para um particular número de covariáveis. Neste caso <code>TRUE</code> indica que a variável é incluída no modelo e <code>FALSE</code> que ela não é incluída.</p>
+<p>Assim, a título de exemplo, o melhor modelo com uma covariável tem <em>TopSpeed</em> como regressora; o melhor modelo com duas covariáveis é ajustado por <em>TopSpeed</em> e <em>Teamwork</em> e assim por diante.</p>
+<p>Como nesse primeiro momento apenas são comparados modelos com igual número de parâmetros, qualquer critério de qualidade de ajuste vai indicar a seleção do mesmo modelo.</p>
+<p>Para comparar a sequência de modelos obtidos para diferentes números de covariáveis, podemos recorrer aos critérios de qualidade de ajuste estudados.</p>
+<p><span class="math inline">\(R^2\)</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1$rsq </code></pre></div>
+<pre><code>##  [1] 0.3233033 0.5542904 0.6489515 0.6604570 0.6690431 0.6743069 0.6743960
+##  [8] 0.6744576 0.6745087 0.6745507 0.6745510</code></pre>
+<p><span class="math inline">\(R^2\)</span> ajustado</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1$adjr2 </code></pre></div>
+<pre><code>##  [1] 0.3229296 0.5537979 0.6483693 0.6597058 0.6681274 0.6732249 0.6731333
+##  [8] 0.6730140 0.6728839 0.6727447 0.6725632</code></pre>
+<p>Cp de Mallows</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1$cp</code></pre></div>
+<pre><code>##  [1] 1935.767261  659.509053  137.664863   75.994409   30.479972
+##  [6]    3.350739    4.857589    6.516812    8.234189   10.001433
+## [11]   12.000000</code></pre>
+<p>BIC</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1$bic </code></pre></div>
+<pre><code>##  [1]  -693.0292 -1442.5548 -1867.8934 -1920.8070 -1959.7395 -1981.3038
+##  [7] -1974.2972 -1967.1374 -1959.9191 -1952.6506 -1945.1493</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.max</span>(s1$adjr2) </code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<p>O modelo com seis covariáveis produziu maior valor de <span class="math inline">\(R^2\)</span> ajustado.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.min</span>(s1$bic) </code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<p>O modelo com seis covariáveis produziu menor valor de BIC.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.max</span>(s1$rsq) </code></pre></div>
+<pre><code>## [1] 11</code></pre>
+<p>O modelo com onze covariáveis produziu menor valor de <span class="math inline">\(R^2\)</span> (obviamente).</p>
+<div id="vamos-produzir-graficos" class="section level2">
+<h2>Vamos produzir gráficos</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n_cov &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">11</span>
+<span class="kw">plot</span>(n_cov, s1$rsq, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Número de covariáveis&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;R2&#39;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</code></pre></div>
+<p><img src="regressao_selecao_modelos_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(n_cov, s1$adjr2, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Número de covariáveis&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Adjusted R2&#39;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</code></pre></div>
+<p><img src="regressao_selecao_modelos_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(n_cov, s1$bic, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;Número de covariáveis&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;BIC&#39;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</code></pre></div>
+<p><img src="regressao_selecao_modelos_files/figure-html/unnamed-chunk-33-3.png" width="672" /></p>
+</div>
+<div id="agora-a-analise-do-cp-de-mallows" class="section level2">
+<h2>Agora a análise do Cp de Mallows</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(n_cov, s1$cp, <span class="dt">xlab =</span> <span class="st">&#39;Número de covariáveis&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;BIC&#39;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</code></pre></div>
+<p><img src="regressao_selecao_modelos_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>Os elevados valores de Cp para modelos com uma a três covariáveis dificulta a visualização dos resultados.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(n_cov[<span class="dv">3</span>:<span class="dv">11</span>], s1$cp[<span class="dv">3</span>:<span class="dv">11</span>], <span class="dt">xlab =</span> <span class="st">&#39;Número de covariáveis&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Cp&#39;</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</code></pre></div>
+<p><img src="regressao_selecao_modelos_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>O modelo com menor Cp próximo à reta identidade é o modelo com seis covariáveis.</p>
+</div>
+</div>
+<div id="minimizacao-dos-criterios-aic-e-bic" class="section level1">
+<h1>Minimização dos critérios AIC e BIC</h1>
+<p>Agora vamos repetir a análise usando os algoritmos backward, forward e stepwise com base na minimização dos critérios AIC e BIC. Primeiro usando AIC (k=2 é a constante de penalização).</p>
+<div id="selecao-backward-criterio-aic" class="section level2">
+<h2>Seleção <em>backward</em>, critério AIC</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_back &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste, <span class="dt">direction =</span> <span class="st">&#39;backward&#39;</span>, <span class="dt">k =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>## Start:  AIC=4555.06
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Age + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Age               1       0.0 22069 4553.1
+## - ConditionFitness  1       2.9 22072 4553.3
+## - Acceleration      1       3.1 22073 4553.3
+## - Mentality         1       5.0 22074 4553.5
+## - Weight            1       5.3 22075 4553.5
+## &lt;none&gt;                          22069 4555.1
+## - Height            1     201.6 22271 4569.5
+## - Balance           1     349.8 22419 4581.6
+## - Agility           1     565.1 22634 4598.9
+## - TopSpeed          1    2075.2 24145 4716.0
+## - Jump              1    2805.9 24875 4770.0
+## - Teamwork          1    9996.6 32066 5230.4
+## 
+## Step:  AIC=4553.07
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - ConditionFitness  1       2.9 22072 4551.3
+## - Acceleration      1       3.2 22073 4551.3
+## - Mentality         1       5.0 22074 4551.5
+## - Weight            1       5.3 22075 4551.5
+## &lt;none&gt;                          22069 4553.1
+## - Height            1     213.8 22283 4568.5
+## - Balance           1     351.9 22421 4579.7
+## - Agility           1     569.6 22639 4597.3
+## - TopSpeed          1    2079.0 24148 4714.3
+## - Jump              1    2813.0 24882 4768.6
+## - Teamwork          1   10296.6 32366 5245.3
+## 
+## Step:  AIC=4551.3
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + Height + Weight
+## 
+##                Df Sum of Sq   RSS    AIC
+## - Acceleration  1       3.5 22076 4549.6
+## - Mentality     1       3.9 22076 4549.6
+## - Weight        1       5.7 22078 4549.8
+## &lt;none&gt;                      22072 4551.3
+## - Height        1     213.4 22286 4566.7
+## - Balance       1     359.5 22432 4578.6
+## - Agility       1     585.0 22657 4596.7
+## - TopSpeed      1    2096.4 24169 4713.8
+## - Jump          1    2847.4 24920 4769.3
+## - Teamwork      1   10762.7 32835 5269.4
+## 
+## Step:  AIC=4549.58
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Mentality + Height + Weight
+## 
+##             Df Sum of Sq   RSS    AIC
+## - Mentality  1       4.2 22080 4547.9
+## - Weight     1       5.7 22081 4548.1
+## &lt;none&gt;                   22076 4549.6
+## - Height     1     209.9 22286 4564.7
+## - Balance    1     356.5 22432 4576.6
+## - Agility    1     746.4 22822 4607.9
+## - Jump       1    2856.3 24932 4768.2
+## - TopSpeed   1    9292.0 31368 5184.5
+## - Teamwork   1   10769.0 32845 5267.9
+## 
+## Step:  AIC=4547.93
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height + Weight
+## 
+##            Df Sum of Sq   RSS    AIC
+## - Weight    1       6.0 22086 4546.4
+## &lt;none&gt;                  22080 4547.9
+## - Height    1     228.4 22308 4564.6
+## - Balance   1     360.1 22440 4575.3
+## - Agility   1     781.2 22861 4609.0
+## - Jump      1    2897.6 24977 4769.5
+## - TopSpeed  1    9645.8 31726 5203.1
+## - Teamwork  1   15066.7 37147 5489.1
+## 
+## Step:  AIC=4546.42
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height
+## 
+##            Df Sum of Sq   RSS    AIC
+## &lt;none&gt;                  22086 4546.4
+## - Height    1     356.9 22443 4573.5
+## - Balance   1     449.8 22536 4581.0
+## - Agility   1     780.1 22866 4607.4
+## - Jump      1    2895.8 24982 4767.8
+## - TopSpeed  1    9780.3 31866 5209.1
+## - Teamwork  1   15311.1 37397 5499.2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mod_back)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = LongPassAccuracy ~ Agility + TopSpeed + Balance + 
+##     Jump + Teamwork + Height, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -12.4177  -2.2009  -0.0368   2.2641  12.1375 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 39.52347    5.48863   7.201 8.74e-13 ***
+## Agility     -0.22568    0.02826  -7.987 2.44e-15 ***
+## TopSpeed     0.56021    0.01981  28.280  &lt; 2e-16 ***
+## Balance     -0.20783    0.03427  -6.065 1.60e-09 ***
+## Jump        -0.38166    0.02480 -15.388  &lt; 2e-16 ***
+## Teamwork     0.94919    0.02683  35.384  &lt; 2e-16 ***
+## Height      -0.10775    0.01994  -5.403 7.44e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.497 on 1806 degrees of freedom
+## Multiple R-squared:  0.6743, Adjusted R-squared:  0.6732 
+## F-statistic: 623.2 on 6 and 1806 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="selecao-forward-criterio-aic" class="section level2">
+<h2>Seleção <em>forward</em>, critério AIC</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_for &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste0, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+                +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+                +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">direction =</span> <span class="st">&#39;forward&#39;</span>, <span class="dt">k =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>## Start:  AIC=6568.25
+## LongPassAccuracy ~ 1
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + TopSpeed          1   21923.9 45888 5862.2
+## + Acceleration      1   19573.6 48238 5952.8
+## + Teamwork          1   16772.5 51040 6055.1
+## + Height            1   15781.5 52031 6090.0
+## + Weight            1   13834.9 53977 6156.6
+## + Balance           1   12055.7 55756 6215.4
+## + Jump              1   10694.1 57118 6259.1
+## + Agility           1    6975.4 60837 6373.5
+## + Mentality         1    3223.9 64588 6481.9
+## + ConditionFitness  1     346.2 67466 6561.0
+## + Age               1     244.7 67567 6563.7
+## &lt;none&gt;                          67812 6568.2
+## 
+## Step:  AIC=5862.21
+## LongPassAccuracy ~ TopSpeed
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Teamwork          1   15663.7 30224 5107.2
+## + Jump              1    5816.7 40071 5618.5
+## + Height            1    3518.7 42369 5719.6
+## + Weight            1    2848.3 43040 5748.0
+## + Mentality         1    2458.9 43429 5764.4
+## + Balance           1    2356.7 43531 5768.6
+## + Age               1     801.1 45087 5832.3
+## + ConditionFitness  1     648.1 45240 5838.4
+## + Acceleration      1      72.0 45816 5861.4
+## &lt;none&gt;                          45888 5862.2
+## + Agility           1      11.6 45877 5863.8
+## 
+## Step:  AIC=5107.18
+## LongPassAccuracy ~ TopSpeed + Teamwork
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Jump              1    6419.2 23805 4676.3
+## + Balance           1    3956.5 26268 4854.8
+## + Height            1    1997.7 28227 4985.2
+## + Weight            1    1752.2 28472 5000.9
+## + ConditionFitness  1     553.3 29671 5075.7
+## + Mentality         1     493.1 29731 5079.4
+## + Acceleration      1      98.2 30126 5103.3
+## + Age               1      59.2 30165 5105.6
+## &lt;none&gt;                          30225 5107.2
+## + Agility           1       0.0 30224 5109.2
+## 
+## Step:  AIC=4676.34
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Balance           1    780.21 23025 4617.9
+## + Height            1    738.51 23067 4621.2
+## + Weight            1    591.99 23213 4632.7
+## + Agility           1     65.78 23740 4673.3
+## + ConditionFitness  1     49.02 23756 4674.6
+## &lt;none&gt;                          23805 4676.3
+## + Age               1      4.80 23801 4678.0
+## + Mentality         1      3.51 23802 4678.1
+## + Acceleration      1      2.62 23803 4678.1
+## 
+## Step:  AIC=4617.93
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Agility           1    582.24 22443 4573.5
+## + Height            1    159.10 22866 4607.4
+## + Acceleration      1    101.33 22924 4611.9
+## + Mentality         1     74.78 22950 4614.0
+## + Weight            1     70.37 22955 4614.4
+## &lt;none&gt;                          23025 4617.9
+## + Age               1     23.85 23001 4618.0
+## + ConditionFitness  1     14.33 23011 4618.8
+## 
+## Step:  AIC=4573.49
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Height            1    356.95 22086 4546.4
+## + Weight            1    134.59 22308 4564.6
+## + Mentality         1     40.06 22403 4572.3
+## &lt;none&gt;                          22443 4573.5
+## + Age               1     12.76 22430 4574.5
+## + ConditionFitness  1      0.87 22442 4575.4
+## + Acceleration      1      0.72 22442 4575.4
+## 
+## Step:  AIC=4546.42
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility + 
+##     Height
+## 
+##                    Df Sum of Sq   RSS    AIC
+## &lt;none&gt;                          22086 4546.4
+## + Weight            1    6.0430 22080 4547.9
+## + Mentality         1    4.4891 22081 4548.1
+## + Acceleration      1    3.7991 22082 4548.1
+## + ConditionFitness  1    2.2037 22084 4548.2
+## + Age               1    0.0608 22086 4548.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mod_for)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = LongPassAccuracy ~ TopSpeed + Teamwork + Jump + 
+##     Balance + Agility + Height, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -12.4177  -2.2009  -0.0368   2.2641  12.1375 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 39.52347    5.48863   7.201 8.74e-13 ***
+## TopSpeed     0.56021    0.01981  28.280  &lt; 2e-16 ***
+## Teamwork     0.94919    0.02683  35.384  &lt; 2e-16 ***
+## Jump        -0.38166    0.02480 -15.388  &lt; 2e-16 ***
+## Balance     -0.20783    0.03427  -6.065 1.60e-09 ***
+## Agility     -0.22568    0.02826  -7.987 2.44e-15 ***
+## Height      -0.10775    0.01994  -5.403 7.44e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.497 on 1806 degrees of freedom
+## Multiple R-squared:  0.6743, Adjusted R-squared:  0.6732 
+## F-statistic: 623.2 on 6 and 1806 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="selecao-stepwise-criterio-aic" class="section level2">
+<h2>Seleção <em>stepwise</em>, critério AIC</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="kw">nrow</span>(dados)
+mod_step &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste, <span class="dt">direction =</span> <span class="st">&#39;both&#39;</span>, <span class="dt">k =</span> <span class="kw">log</span>(n))</code></pre></div>
+<pre><code>## Start:  AIC=4621.1
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Age + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Age               1       0.0 22069 4613.6
+## - ConditionFitness  1       2.9 22072 4613.8
+## - Acceleration      1       3.1 22073 4613.9
+## - Mentality         1       5.0 22074 4614.0
+## - Weight            1       5.3 22075 4614.0
+## &lt;none&gt;                          22069 4621.1
+## - Height            1     201.6 22271 4630.1
+## - Balance           1     349.8 22419 4642.1
+## - Agility           1     565.1 22634 4659.4
+## - TopSpeed          1    2075.2 24145 4776.5
+## - Jump              1    2805.9 24875 4830.6
+## - Teamwork          1    9996.6 32066 5290.9
+## 
+## Step:  AIC=4613.6
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - ConditionFitness  1       2.9 22072 4606.3
+## - Acceleration      1       3.2 22073 4606.4
+## - Mentality         1       5.0 22074 4606.5
+## - Weight            1       5.3 22075 4606.5
+## &lt;none&gt;                          22069 4613.6
+## + Age               1       0.0 22069 4621.1
+## - Height            1     213.8 22283 4623.6
+## - Balance           1     351.9 22421 4634.8
+## - Agility           1     569.6 22639 4652.3
+## - TopSpeed          1    2079.0 24148 4769.3
+## - Jump              1    2813.0 24882 4823.6
+## - Teamwork          1   10296.6 32366 5300.3
+## 
+## Step:  AIC=4606.33
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Acceleration      1       3.5 22076 4599.1
+## - Mentality         1       3.9 22076 4599.1
+## - Weight            1       5.7 22078 4599.3
+## &lt;none&gt;                          22072 4606.3
+## + ConditionFitness  1       2.9 22069 4613.6
+## + Age               1       0.0 22072 4613.8
+## - Height            1     213.4 22286 4616.3
+## - Balance           1     359.5 22432 4628.1
+## - Agility           1     585.0 22657 4646.2
+## - TopSpeed          1    2096.4 24169 4763.3
+## - Jump              1    2847.4 24920 4818.8
+## - Teamwork          1   10762.7 32835 5318.9
+## 
+## Step:  AIC=4599.11
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Mentality + Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Mentality         1       4.2 22080 4591.9
+## - Weight            1       5.7 22081 4592.1
+## &lt;none&gt;                          22076 4599.1
+## + Acceleration      1       3.5 22072 4606.3
+## + ConditionFitness  1       3.1 22073 4606.4
+## + Age               1       0.0 22076 4606.6
+## - Height            1     209.9 22286 4608.8
+## - Balance           1     356.5 22432 4620.6
+## - Agility           1     746.4 22822 4651.9
+## - Jump              1    2856.3 24932 4812.2
+## - TopSpeed          1    9292.0 31368 5228.5
+## - Teamwork          1   10769.0 32845 5311.9
+## 
+## Step:  AIC=4591.95
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Weight            1       6.0 22086 4584.9
+## &lt;none&gt;                          22080 4591.9
+## + Mentality         1       4.2 22076 4599.1
+## + Acceleration      1       3.8 22076 4599.1
+## + ConditionFitness  1       1.9 22078 4599.3
+## + Age               1       0.0 22080 4599.5
+## - Height            1     228.4 22308 4603.1
+## - Balance           1     360.1 22440 4613.8
+## - Agility           1     781.2 22861 4647.5
+## - Jump              1    2897.6 24977 4808.0
+## - TopSpeed          1    9645.8 31726 5241.6
+## - Teamwork          1   15066.7 37147 5527.6
+## 
+## Step:  AIC=4584.94
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height
+## 
+##                    Df Sum of Sq   RSS    AIC
+## &lt;none&gt;                          22086 4584.9
+## + Weight            1       6.0 22080 4591.9
+## + Mentality         1       4.5 22081 4592.1
+## + Acceleration      1       3.8 22082 4592.1
+## + ConditionFitness  1       2.2 22084 4592.3
+## + Age               1       0.1 22086 4592.4
+## - Height            1     356.9 22443 4606.5
+## - Balance           1     449.8 22536 4614.0
+## - Agility           1     780.1 22866 4640.4
+## - Jump              1    2895.8 24982 4800.8
+## - TopSpeed          1    9780.3 31866 5242.1
+## - Teamwork          1   15311.1 37397 5532.3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mod_step)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = LongPassAccuracy ~ Agility + TopSpeed + Balance + 
+##     Jump + Teamwork + Height, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -12.4177  -2.2009  -0.0368   2.2641  12.1375 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 39.52347    5.48863   7.201 8.74e-13 ***
+## Agility     -0.22568    0.02826  -7.987 2.44e-15 ***
+## TopSpeed     0.56021    0.01981  28.280  &lt; 2e-16 ***
+## Balance     -0.20783    0.03427  -6.065 1.60e-09 ***
+## Jump        -0.38166    0.02480 -15.388  &lt; 2e-16 ***
+## Teamwork     0.94919    0.02683  35.384  &lt; 2e-16 ***
+## Height      -0.10775    0.01994  -5.403 7.44e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.497 on 1806 degrees of freedom
+## Multiple R-squared:  0.6743, Adjusted R-squared:  0.6732 
+## F-statistic: 623.2 on 6 and 1806 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>usando BIC (k=log(n) é a constante de penalização).</p>
+</div>
+<div id="selecao-backward-criterio-bic" class="section level2">
+<h2>Seleção <em>backward</em>, critério BIC</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_back &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste, <span class="dt">direction =</span> <span class="st">&#39;backward&#39;</span>, <span class="dt">k =</span> <span class="kw">log</span>(n))</code></pre></div>
+<pre><code>## Start:  AIC=4621.1
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Age + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Age               1       0.0 22069 4613.6
+## - ConditionFitness  1       2.9 22072 4613.8
+## - Acceleration      1       3.1 22073 4613.9
+## - Mentality         1       5.0 22074 4614.0
+## - Weight            1       5.3 22075 4614.0
+## &lt;none&gt;                          22069 4621.1
+## - Height            1     201.6 22271 4630.1
+## - Balance           1     349.8 22419 4642.1
+## - Agility           1     565.1 22634 4659.4
+## - TopSpeed          1    2075.2 24145 4776.5
+## - Jump              1    2805.9 24875 4830.6
+## - Teamwork          1    9996.6 32066 5290.9
+## 
+## Step:  AIC=4613.6
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - ConditionFitness  1       2.9 22072 4606.3
+## - Acceleration      1       3.2 22073 4606.4
+## - Mentality         1       5.0 22074 4606.5
+## - Weight            1       5.3 22075 4606.5
+## &lt;none&gt;                          22069 4613.6
+## - Height            1     213.8 22283 4623.6
+## - Balance           1     351.9 22421 4634.8
+## - Agility           1     569.6 22639 4652.3
+## - TopSpeed          1    2079.0 24148 4769.3
+## - Jump              1    2813.0 24882 4823.6
+## - Teamwork          1   10296.6 32366 5300.3
+## 
+## Step:  AIC=4606.33
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + Height + Weight
+## 
+##                Df Sum of Sq   RSS    AIC
+## - Acceleration  1       3.5 22076 4599.1
+## - Mentality     1       3.9 22076 4599.1
+## - Weight        1       5.7 22078 4599.3
+## &lt;none&gt;                      22072 4606.3
+## - Height        1     213.4 22286 4616.3
+## - Balance       1     359.5 22432 4628.1
+## - Agility       1     585.0 22657 4646.2
+## - TopSpeed      1    2096.4 24169 4763.3
+## - Jump          1    2847.4 24920 4818.8
+## - Teamwork      1   10762.7 32835 5318.9
+## 
+## Step:  AIC=4599.11
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Mentality + Height + Weight
+## 
+##             Df Sum of Sq   RSS    AIC
+## - Mentality  1       4.2 22080 4591.9
+## - Weight     1       5.7 22081 4592.1
+## &lt;none&gt;                   22076 4599.1
+## - Height     1     209.9 22286 4608.8
+## - Balance    1     356.5 22432 4620.6
+## - Agility    1     746.4 22822 4651.9
+## - Jump       1    2856.3 24932 4812.2
+## - TopSpeed   1    9292.0 31368 5228.5
+## - Teamwork   1   10769.0 32845 5311.9
+## 
+## Step:  AIC=4591.95
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height + Weight
+## 
+##            Df Sum of Sq   RSS    AIC
+## - Weight    1       6.0 22086 4584.9
+## &lt;none&gt;                  22080 4591.9
+## - Height    1     228.4 22308 4603.1
+## - Balance   1     360.1 22440 4613.8
+## - Agility   1     781.2 22861 4647.5
+## - Jump      1    2897.6 24977 4808.0
+## - TopSpeed  1    9645.8 31726 5241.6
+## - Teamwork  1   15066.7 37147 5527.6
+## 
+## Step:  AIC=4584.94
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height
+## 
+##            Df Sum of Sq   RSS    AIC
+## &lt;none&gt;                  22086 4584.9
+## - Height    1     356.9 22443 4606.5
+## - Balance   1     449.8 22536 4614.0
+## - Agility   1     780.1 22866 4640.4
+## - Jump      1    2895.8 24982 4800.8
+## - TopSpeed  1    9780.3 31866 5242.1
+## - Teamwork  1   15311.1 37397 5532.3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mod_back)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = LongPassAccuracy ~ Agility + TopSpeed + Balance + 
+##     Jump + Teamwork + Height, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -12.4177  -2.2009  -0.0368   2.2641  12.1375 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 39.52347    5.48863   7.201 8.74e-13 ***
+## Agility     -0.22568    0.02826  -7.987 2.44e-15 ***
+## TopSpeed     0.56021    0.01981  28.280  &lt; 2e-16 ***
+## Balance     -0.20783    0.03427  -6.065 1.60e-09 ***
+## Jump        -0.38166    0.02480 -15.388  &lt; 2e-16 ***
+## Teamwork     0.94919    0.02683  35.384  &lt; 2e-16 ***
+## Height      -0.10775    0.01994  -5.403 7.44e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.497 on 1806 degrees of freedom
+## Multiple R-squared:  0.6743, Adjusted R-squared:  0.6732 
+## F-statistic: 623.2 on 6 and 1806 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="selecao-forward-criterio-bic" class="section level2">
+<h2>Seleção <em>forward</em>, critério <em>BIC</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_for &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste0, <span class="dt">scope=</span>~Agility +<span class="st"> </span>Acceleration  +<span class="st"> </span>TopSpeed
+                +<span class="st"> </span>Balance +<span class="st"> </span>Jump +<span class="st"> </span>Teamwork +<span class="st"> </span>Mentality +<span class="st"> </span>ConditionFitness 
+                +<span class="st"> </span>Height +<span class="st"> </span>Age +<span class="st"> </span>Weight, <span class="dt">direction =</span> <span class="st">&#39;forward&#39;</span>, <span class="dt">k =</span> <span class="kw">log</span>(n))</code></pre></div>
+<pre><code>## Start:  AIC=6573.75
+## LongPassAccuracy ~ 1
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + TopSpeed          1   21923.9 45888 5873.2
+## + Acceleration      1   19573.6 48238 5963.8
+## + Teamwork          1   16772.5 51040 6066.1
+## + Height            1   15781.5 52031 6101.0
+## + Weight            1   13834.9 53977 6167.6
+## + Balance           1   12055.7 55756 6226.4
+## + Jump              1   10694.1 57118 6270.1
+## + Agility           1    6975.4 60837 6384.5
+## + Mentality         1    3223.9 64588 6492.9
+## + ConditionFitness  1     346.2 67466 6572.0
+## &lt;none&gt;                          67812 6573.7
+## + Age               1     244.7 67567 6574.7
+## 
+## Step:  AIC=5873.22
+## LongPassAccuracy ~ TopSpeed
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Teamwork          1   15663.7 30224 5123.7
+## + Jump              1    5816.7 40071 5635.0
+## + Height            1    3518.7 42369 5736.1
+## + Weight            1    2848.3 43040 5764.5
+## + Mentality         1    2458.9 43429 5780.9
+## + Balance           1    2356.7 43531 5785.1
+## + Age               1     801.1 45087 5848.8
+## + ConditionFitness  1     648.1 45240 5854.9
+## &lt;none&gt;                          45888 5873.2
+## + Acceleration      1      72.0 45816 5877.9
+## + Agility           1      11.6 45877 5880.3
+## 
+## Step:  AIC=5123.69
+## LongPassAccuracy ~ TopSpeed + Teamwork
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Jump              1    6419.2 23805 4698.4
+## + Balance           1    3956.5 26268 4876.8
+## + Height            1    1997.7 28227 5007.2
+## + Weight            1    1752.2 28472 5022.9
+## + ConditionFitness  1     553.3 29671 5097.7
+## + Mentality         1     493.1 29731 5101.4
+## &lt;none&gt;                          30225 5123.7
+## + Acceleration      1      98.2 30126 5125.3
+## + Age               1      59.2 30165 5127.6
+## + Agility           1       0.0 30224 5131.2
+## 
+## Step:  AIC=4698.35
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Balance           1    780.21 23025 4645.4
+## + Height            1    738.51 23067 4648.7
+## + Weight            1    591.99 23213 4660.2
+## &lt;none&gt;                          23805 4698.4
+## + Agility           1     65.78 23740 4700.8
+## + ConditionFitness  1     49.02 23756 4702.1
+## + Age               1      4.80 23801 4705.5
+## + Mentality         1      3.51 23802 4705.6
+## + Acceleration      1      2.62 23803 4705.7
+## 
+## Step:  AIC=4645.44
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Agility           1    582.24 22443 4606.5
+## + Height            1    159.10 22866 4640.4
+## + Acceleration      1    101.33 22924 4644.9
+## &lt;none&gt;                          23025 4645.4
+## + Mentality         1     74.78 22950 4647.0
+## + Weight            1     70.37 22955 4647.4
+## + Age               1     23.85 23001 4651.1
+## + ConditionFitness  1     14.33 23011 4651.8
+## 
+## Step:  AIC=4606.51
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility
+## 
+##                    Df Sum of Sq   RSS    AIC
+## + Height            1    356.95 22086 4584.9
+## + Weight            1    134.59 22308 4603.1
+## &lt;none&gt;                          22443 4606.5
+## + Mentality         1     40.06 22403 4610.8
+## + Age               1     12.76 22430 4613.0
+## + ConditionFitness  1      0.87 22442 4613.9
+## + Acceleration      1      0.72 22442 4614.0
+## 
+## Step:  AIC=4584.94
+## LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance + Agility + 
+##     Height
+## 
+##                    Df Sum of Sq   RSS    AIC
+## &lt;none&gt;                          22086 4584.9
+## + Weight            1    6.0430 22080 4591.9
+## + Mentality         1    4.4891 22081 4592.1
+## + Acceleration      1    3.7991 22082 4592.1
+## + ConditionFitness  1    2.2037 22084 4592.3
+## + Age               1    0.0608 22086 4592.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mod_for)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = LongPassAccuracy ~ TopSpeed + Teamwork + Jump + 
+##     Balance + Agility + Height, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -12.4177  -2.2009  -0.0368   2.2641  12.1375 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 39.52347    5.48863   7.201 8.74e-13 ***
+## TopSpeed     0.56021    0.01981  28.280  &lt; 2e-16 ***
+## Teamwork     0.94919    0.02683  35.384  &lt; 2e-16 ***
+## Jump        -0.38166    0.02480 -15.388  &lt; 2e-16 ***
+## Balance     -0.20783    0.03427  -6.065 1.60e-09 ***
+## Agility     -0.22568    0.02826  -7.987 2.44e-15 ***
+## Height      -0.10775    0.01994  -5.403 7.44e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.497 on 1806 degrees of freedom
+## Multiple R-squared:  0.6743, Adjusted R-squared:  0.6732 
+## F-statistic: 623.2 on 6 and 1806 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="selecao-stepwise-criterio-bic" class="section level2">
+<h2>Seleção <em>stepwise</em>, critério <em>BIC</em></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod_step &lt;-<span class="st"> </span><span class="kw">step</span>(ajuste, <span class="dt">direction =</span> <span class="st">&#39;both&#39;</span>, <span class="dt">k =</span> <span class="kw">log</span>(n))</code></pre></div>
+<pre><code>## Start:  AIC=4621.1
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Age + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Age               1       0.0 22069 4613.6
+## - ConditionFitness  1       2.9 22072 4613.8
+## - Acceleration      1       3.1 22073 4613.9
+## - Mentality         1       5.0 22074 4614.0
+## - Weight            1       5.3 22075 4614.0
+## &lt;none&gt;                          22069 4621.1
+## - Height            1     201.6 22271 4630.1
+## - Balance           1     349.8 22419 4642.1
+## - Agility           1     565.1 22634 4659.4
+## - TopSpeed          1    2075.2 24145 4776.5
+## - Jump              1    2805.9 24875 4830.6
+## - Teamwork          1    9996.6 32066 5290.9
+## 
+## Step:  AIC=4613.6
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + ConditionFitness + Height + 
+##     Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - ConditionFitness  1       2.9 22072 4606.3
+## - Acceleration      1       3.2 22073 4606.4
+## - Mentality         1       5.0 22074 4606.5
+## - Weight            1       5.3 22075 4606.5
+## &lt;none&gt;                          22069 4613.6
+## + Age               1       0.0 22069 4621.1
+## - Height            1     213.8 22283 4623.6
+## - Balance           1     351.9 22421 4634.8
+## - Agility           1     569.6 22639 4652.3
+## - TopSpeed          1    2079.0 24148 4769.3
+## - Jump              1    2813.0 24882 4823.6
+## - Teamwork          1   10296.6 32366 5300.3
+## 
+## Step:  AIC=4606.33
+## LongPassAccuracy ~ Agility + Acceleration + TopSpeed + Balance + 
+##     Jump + Teamwork + Mentality + Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Acceleration      1       3.5 22076 4599.1
+## - Mentality         1       3.9 22076 4599.1
+## - Weight            1       5.7 22078 4599.3
+## &lt;none&gt;                          22072 4606.3
+## + ConditionFitness  1       2.9 22069 4613.6
+## + Age               1       0.0 22072 4613.8
+## - Height            1     213.4 22286 4616.3
+## - Balance           1     359.5 22432 4628.1
+## - Agility           1     585.0 22657 4646.2
+## - TopSpeed          1    2096.4 24169 4763.3
+## - Jump              1    2847.4 24920 4818.8
+## - Teamwork          1   10762.7 32835 5318.9
+## 
+## Step:  AIC=4599.11
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Mentality + Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Mentality         1       4.2 22080 4591.9
+## - Weight            1       5.7 22081 4592.1
+## &lt;none&gt;                          22076 4599.1
+## + Acceleration      1       3.5 22072 4606.3
+## + ConditionFitness  1       3.1 22073 4606.4
+## + Age               1       0.0 22076 4606.6
+## - Height            1     209.9 22286 4608.8
+## - Balance           1     356.5 22432 4620.6
+## - Agility           1     746.4 22822 4651.9
+## - Jump              1    2856.3 24932 4812.2
+## - TopSpeed          1    9292.0 31368 5228.5
+## - Teamwork          1   10769.0 32845 5311.9
+## 
+## Step:  AIC=4591.95
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height + Weight
+## 
+##                    Df Sum of Sq   RSS    AIC
+## - Weight            1       6.0 22086 4584.9
+## &lt;none&gt;                          22080 4591.9
+## + Mentality         1       4.2 22076 4599.1
+## + Acceleration      1       3.8 22076 4599.1
+## + ConditionFitness  1       1.9 22078 4599.3
+## + Age               1       0.0 22080 4599.5
+## - Height            1     228.4 22308 4603.1
+## - Balance           1     360.1 22440 4613.8
+## - Agility           1     781.2 22861 4647.5
+## - Jump              1    2897.6 24977 4808.0
+## - TopSpeed          1    9645.8 31726 5241.6
+## - Teamwork          1   15066.7 37147 5527.6
+## 
+## Step:  AIC=4584.94
+## LongPassAccuracy ~ Agility + TopSpeed + Balance + Jump + Teamwork + 
+##     Height
+## 
+##                    Df Sum of Sq   RSS    AIC
+## &lt;none&gt;                          22086 4584.9
+## + Weight            1       6.0 22080 4591.9
+## + Mentality         1       4.5 22081 4592.1
+## + Acceleration      1       3.8 22082 4592.1
+## + ConditionFitness  1       2.2 22084 4592.3
+## + Age               1       0.1 22086 4592.4
+## - Height            1     356.9 22443 4606.5
+## - Balance           1     449.8 22536 4614.0
+## - Agility           1     780.1 22866 4640.4
+## - Jump              1    2895.8 24982 4800.8
+## - TopSpeed          1    9780.3 31866 5242.1
+## - Teamwork          1   15311.1 37397 5532.3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mod_step)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = LongPassAccuracy ~ Agility + TopSpeed + Balance + 
+##     Jump + Teamwork + Height, data = dados)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -12.4177  -2.2009  -0.0368   2.2641  12.1375 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 39.52347    5.48863   7.201 8.74e-13 ***
+## Agility     -0.22568    0.02826  -7.987 2.44e-15 ***
+## TopSpeed     0.56021    0.01981  28.280  &lt; 2e-16 ***
+## Balance     -0.20783    0.03427  -6.065 1.60e-09 ***
+## Jump        -0.38166    0.02480 -15.388  &lt; 2e-16 ***
+## Teamwork     0.94919    0.02683  35.384  &lt; 2e-16 ***
+## Height      -0.10775    0.01994  -5.403 7.44e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.497 on 1806 degrees of freedom
+## Multiple R-squared:  0.6743, Adjusted R-squared:  0.6732 
+## F-statistic: 623.2 on 6 and 1806 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

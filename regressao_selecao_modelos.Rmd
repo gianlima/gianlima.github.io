@@ -1,0 +1,407 @@
+---
+title: "Seleção de modelos"
+author: "Gian Lima"
+output:
+  html_document:
+    theme: flatly
+    highlight: pygments
+    toc_depth: 3
+    # code_download: true
+    # code_folding: show
+    toc: true
+    toc_float:
+      collapsed: false
+    # df_print: kable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Vamos usar a base de dados EURO4PlayerSkillsSep11 do pacote SportsAnalytics.
+O objetivo é modelar a precisão em passes de longa distância de jogadores
+de futebol em função de covariáveis referentes a características dos jogadores.
+
+```{r warning = F, message = F}
+require(SportsAnalytics)
+require(car)
+data(EURO4PlayerSkillsSep11)
+summary(EURO4PlayerSkillsSep11)
+
+```
+
+## Selecionando as covariáveis para análise
+
+```{r}
+dados <- EURO4PlayerSkillsSep11[-1166,c('Agility' , 'Acceleration' , 'TopSpeed' 
+                                        ,'Balance', 'Jump', 'Teamwork', 'Mentality', 
+                                        'ConditionFitness','Height', 'Age', 'Weight',
+                                        'LongPassAccuracy')]
+dados <- na.omit(dados)
+```
+
+O jogador da linha 1166 foi excluído pois os dados correspondentes, 
+sua maioria, eram iguais a zero (provavelmente dados missing). Além
+disso, 37 jogadores foram excluídos da base por não terem todas
+as informações disponíveis. A base final para análise tem 
+
+Antes de usar a função step para selecionar covariáveis via testes
+de hipóteses usando os algoritmos backward, forward e stepwise,
+vamos fazer isso no braço.
+
+# Algoritmo **backward**
+
+## Ajuste com todas as covariáveis
+
+```{r}
+ajuste <- lm(LongPassAccuracy ~ ., data = dados)
+drop1(ajuste, test = 'F')
+```
+
+A função `drop1` apresenta os resultados do teste F produzidos mediante
+extração das covariáveis do modelo (uma a uma). A variável Age tem
+maior p-valor (p = 0.9698) e será eliminada do modelo.
+
+## Modelo ajustado sem a variável *Age*
+
+```{r}
+ajuste2 <- update(ajuste, ~.-Age) 
+drop1(ajuste2, test = 'F')
+```
+
+A variável `ConditionFitness` tem maior p-valor (p = 0.6295) e será 
+eliminada do modelo.
+
+## Modelo ajustado sem a variável *ConditionFitness*
+
+```{r}
+ajuste3 <- update(ajuste2, ~.-ConditionFitness)
+drop1(ajuste3, test = 'F') 
+```
+
+A variável `Acceleration` tem maior p-valor (p = 0.5949) e será eliminada do modelo.
+
+## Modelo ajustado sem a variável *Acceleration*
+
+```{r}
+ajuste4 <- update(ajuste3, ~.-Acceleration)
+drop1(ajuste4, test = 'F') 
+```
+
+A variável *Mentality* tem maior p-valor (p = 0.5592) e será eliminada do modelo.
+
+## Modelo ajustado sem a variável *Mentality*
+
+```{r}
+ajuste5 <- update(ajuste4, ~.-Mentality)
+drop1(ajuste5, test = 'F') 
+```
+
+A variável `Weight` tem maior p-valor (p = 0.4822) e será eliminada do modelo.
+
+## Modelo ajustado sem a variável Weight
+
+```{r}
+ajuste6 <- update(ajuste5, ~.-Weight)
+drop1(ajuste6, test = 'F')
+```
+
+Todas as variáveis remanescentes têm efeito significativo. O processo
+é encerrado com o modelo atual, sem excluir novas covariáveis.
+
+## Resumo do modelo final
+
+```{r}
+summary(ajuste6) 
+```
+
+
+# Algoritmo **forward**
+
+## Modelo nulo (só com intercepto)
+```{r}
+ajuste0 <- lm(LongPassAccuracy ~ 1, data = dados)
+```
+
+```{r}
+add1(ajuste0, scope=~Agility + Acceleration + TopSpeed 
+     + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+     + Height + Age + Weight, test = 'F')
+```
+
+A função `add1` apresenta os resultados do teste F produzidos mediante
+inclusão das covariáveis do modelo (uma a uma). A variável *TopSpeed* tem
+maior valor para a estatística F (F = 865.2358), e p-valor extremamente baixo, 
+e será incluída ao modelo.
+
+Nota: neste caso avaliar menor p-valor e maior valor da estatística F
+é equivalente apenas porque todas as covariáveis têm um grau de liberdade
+associado.
+
+## Modelo com a inclusão de *TopSpeed*
+
+```{r}
+ajuste2 <- lm(LongPassAccuracy ~ TopSpeed, data = dados)
+```
+
+```{r}
+add1(ajuste2, scope=~Agility + Acceleration  + TopSpeed
+     + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+     + Height + Age + Weight, test = 'F')
+```
+
+A inclusão da variável *Teamwork* produziu maior valor para a estatística
+F (e p-valor extremamente baixo) e será incluída ao modelo.
+
+## Modelo com a inclusão de Teamwork
+
+```{r}
+ajuste3 <- lm(LongPassAccuracy ~ TopSpeed + Teamwork, data = dados)
+add1(ajuste3, scope=~Agility + Acceleration  + TopSpeed
+     + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+     + Height + Age + Weight, test = 'F')
+```
+
+     
+## Modelo com a inclusão de *Jump*
+
+```{r}
+ajuste4 <- lm(LongPassAccuracy ~ TopSpeed + Teamwork + Jump, data = dados)
+add1(ajuste4, scope=~Agility + Acceleration  + TopSpeed
+     + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+     + Height + Age + Weight, test = 'F')
+```
+
+     
+## Modelo com a inclusão de *Balance*
+
+```{r}
+ajuste5 <- lm(LongPassAccuracy ~ TopSpeed + Teamwork + Jump + Balance, data = dados)
+add1(ajuste5, scope=~Agility + Acceleration  + TopSpeed
+     + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+     + Height + Age + Weight, test = 'F')
+```
+
+## Modelo com a inclusão de *Agility*
+
+```{r}
+ajuste6 <- lm(LongPassAccuracy ~ TopSpeed + Teamwork + 
+                Jump + Balance + Agility, data = dados)
+add1(ajuste6, scope=~Agility + Acceleration  + TopSpeed
+     + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+     + Height + Age + Weight, test = 'F') 
+```
+
+
+## Modelo com a inclusão de *Height*
+
+```{r}
+ajuste7 <- lm(LongPassAccuracy ~ TopSpeed + Teamwork + 
+                Jump + Balance + Agility + Height, data = dados)
+add1(ajuste7, scope=~Agility + Acceleration  + TopSpeed
+     + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+     + Height + Age + Weight, test = 'F') 
+```
+
+As variáveis que ainda não foram incluídas no modelo não apresentam
+efeito significativo, segundo o teste F. O processo é encerrado
+com o modelo atual, sem adicionar novas covariáveis.
+
+# Usando a função step do R
+
+## Seleção **backward**
+
+```{r}
+mod_back <- step(ajuste, direction = 'backward', test = 'F')
+```
+
+## Seleção **forward**
+```{r}
+mod_for <- step(ajuste0, scope=~Agility + Acceleration  + TopSpeed
+                + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+                + Height + Age + Weight, direction = 'forward', test = 'F')
+```
+
+## Seleção **stepwise**
+
+```{r}
+mod_step <- step(ajuste, direction = 'both', test = 'F')
+```
+
+```{r}
+compareCoefs(mod_back, mod_for, mod_step)
+```
+
+Os três métodos produziram o mesmo modelo (mesmo conjunto de covariáveis
+selecionadas). Isso não acontece sempre, é plenamente possível obter
+modelos diferentes usando métodos de seleção diferentes.
+
+# Análise baseada em critérios de ajuste
+
+```{r warning = F, message= F}
+require(leaps)
+all_reg <- regsubsets(LongPassAccuracy ~ Agility + Acceleration  + TopSpeed
+                      + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+                      + Height + Age + Weight, method = "exhaustive",
+                      nvmax = 11, data = dados)
+```
+
+A função `regsubsets` vai ajustar todos os modelos de regressão possíveis,
+e armazenar os valores dos critérios de qualidade para os melhores ajustes
+com j = 1, j = 2, ..., j = k covariáveis.
+
+```{r}
+plot(all_reg)
+```
+
+BICs para os modelos ótimos para cada número de covariáveis.
+
+```{r}
+s1 <- summary(all_reg, matrix.logical=TRUE); s1
+```
+
+Cada linha da matriz lógica apresenta o melhor modelo para um particular
+número de covariáveis. Neste caso `TRUE` indica que a variável é incluída
+no modelo e `FALSE` que ela não é incluída.
+
+Assim, a título de exemplo, o melhor modelo com uma covariável tem
+*TopSpeed* como regressora; o melhor modelo com duas covariáveis é
+ajustado por *TopSpeed* e *Teamwork* e assim por diante.
+
+Como nesse primeiro momento apenas são comparados modelos com igual
+número de parâmetros, qualquer critério de qualidade de ajuste vai
+indicar a seleção do mesmo modelo.
+
+Para comparar a sequência de modelos obtidos para diferentes números de
+covariáveis, podemos recorrer aos critérios de qualidade de ajuste
+estudados.
+
+$R^2$
+```{r}
+s1$rsq 
+```
+
+$R^2$ ajustado
+```{r}
+s1$adjr2 
+```
+
+Cp de Mallows
+
+```{r}
+s1$cp
+```
+
+BIC
+```{r}
+s1$bic 
+```
+
+
+```{r}
+which.max(s1$adjr2) 
+```
+
+O modelo com seis covariáveis produziu maior valor de $R^2$ ajustado.
+
+```{r}
+which.min(s1$bic) 
+```
+
+O modelo com seis covariáveis produziu menor valor de BIC.
+
+```{r}
+which.max(s1$rsq) 
+```
+
+O modelo com onze covariáveis produziu menor valor de $R^2$ (obviamente).
+
+## Vamos produzir gráficos
+
+```{r}
+n_cov <- 1:11
+plot(n_cov, s1$rsq, type = 'b', xlab = 'Número de covariáveis', ylab = 'R2', las = 1, pch = 20)
+plot(n_cov, s1$adjr2, type = 'b', xlab = 'Número de covariáveis', ylab = 'Adjusted R2', las = 1, pch = 20)
+plot(n_cov, s1$bic, type = 'b', xlab = 'Número de covariáveis', ylab = 'BIC', las = 1, pch = 20)
+```
+
+
+## Agora a análise do Cp de Mallows
+
+```{r}
+plot(n_cov, s1$cp, xlab = 'Número de covariáveis', ylab = 'BIC', las = 1, pch = 20)
+abline(0,1)
+```
+
+Os elevados valores de Cp para modelos com uma a três covariáveis
+dificulta a visualização dos resultados.
+
+```{r}
+plot(n_cov[3:11], s1$cp[3:11], xlab = 'Número de covariáveis', ylab = 'Cp', las = 1, pch = 20)
+abline(0,1)
+```
+
+O modelo com menor Cp próximo à reta identidade é o modelo com seis
+covariáveis.
+
+# Minimização dos critérios AIC e BIC
+
+Agora vamos repetir a análise usando os algoritmos backward, forward e
+stepwise com base na minimização dos critérios AIC e BIC. Primeiro
+usando AIC (k=2 é a constante de penalização).
+
+## Seleção *backward*, critério AIC
+
+```{r}
+mod_back <- step(ajuste, direction = 'backward', k = 2)
+summary(mod_back)
+```
+
+
+## Seleção *forward*, critério AIC
+
+```{r}
+mod_for <- step(ajuste0, scope=~Agility + Acceleration  + TopSpeed
+                + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+                + Height + Age + Weight, direction = 'forward', k = 2)
+summary(mod_for)
+```
+
+
+## Seleção *stepwise*, critério AIC
+
+```{r}
+n <- nrow(dados)
+mod_step <- step(ajuste, direction = 'both', k = log(n))
+summary(mod_step)
+```
+
+usando BIC (k=log(n) é a constante de penalização).
+
+## Seleção *backward*, critério BIC
+
+```{r}
+mod_back <- step(ajuste, direction = 'backward', k = log(n))
+summary(mod_back)
+```
+
+## Seleção *forward*, critério *BIC*
+
+```{r}
+mod_for <- step(ajuste0, scope=~Agility + Acceleration  + TopSpeed
+                + Balance + Jump + Teamwork + Mentality + ConditionFitness 
+                + Height + Age + Weight, direction = 'forward', k = log(n))
+summary(mod_for)
+```
+
+
+## Seleção *stepwise*, critério *BIC*
+
+```{r}
+mod_step <- step(ajuste, direction = 'both', k = log(n))
+summary(mod_step)
+```
+
+
+
+
