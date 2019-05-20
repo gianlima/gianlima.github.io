@@ -11,5 +11,5 @@ My passion for learning and my curiosity led me to discover that through _data a
 
 I'm interested in programming, more specifically in R and Python languages which can help me see and understand the world with the help of _statistics technics_ and other subjects as _artificial intelligence_ and _data science._
 
-Check out my projects on this site or on my [github](www.github.com/gianlima). You can reach at gian.lima@live.com. 
+Check out my projects on this site or on my [github](www.github.com/gianlima). You can reach me at gian.lima@live.com. 
 
