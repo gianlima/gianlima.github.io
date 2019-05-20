@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Gian Lima" />
+
+
+<title>Diagnóstico do ajuste do modelo de regressão linear</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Gian Lima</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r-exams-tutorial/">Tutorial Exams</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Diagnóstico do ajuste do modelo de regressão linear</h1>
+<h4 class="author">Gian Lima</h4>
+
+</div>
+
+
+<div id="matriz-dos-scatterplots" class="section level1">
+<h1>Matriz dos Scatterplots</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(magrittr)
+<span class="kw">require</span>(faraway)
+<span class="kw">require</span>(car)
+<span class="kw">data</span>(<span class="st">&quot;teengamb&quot;</span>)
+<span class="kw">pairs</span>(teengamb, <span class="dt">cex =</span> <span class="dv">2</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="modelo-e-anova" class="section level1">
+<h1>Modelo e ANOVA</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble ~<span class="st"> </span>., <span class="dt">data =</span> teengamb)
+<span class="kw">summary</span>(ajuste)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = gamble ~ ., data = teengamb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -51.082 -11.320  -1.451   9.452  94.252 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  22.55565   17.19680   1.312   0.1968    
+## sex         -22.11833    8.21111  -2.694   0.0101 *  
+## status        0.05223    0.28111   0.186   0.8535    
+## income        4.96198    1.02539   4.839 1.79e-05 ***
+## verbal       -2.95949    2.17215  -1.362   0.1803    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.69 on 42 degrees of freedom
+## Multiple R-squared:  0.5267, Adjusted R-squared:  0.4816 
+## F-statistic: 11.69 on 4 and 42 DF,  p-value: 1.815e-06</code></pre>
+</div>
+<div id="diagnostico-do-ajuste" class="section level1">
+<h1>Diagnóstico do ajuste</h1>
+<p><img src="Aulaxxx/Aulaxxx-03.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-04.jpg" style="width:49.0%" /></p>
+</div>
+<div id="tipos-de-residuos-5" class="section level1">
+<h1>Tipos de resíduos: (5)</h1>
+<p><img src="Aulaxxx/Aulaxxx-05.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-06.jpg" style="width:49.0%" /></p>
+<div id="residuos-ordinarios" class="section level2">
+<h2>1. Resíduos ordinários</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">resid</span>(ajuste) %&gt;%<span class="st"> </span><span class="kw">head</span>(., <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##          1          2          3          4          5 
+##  10.650743   9.371132   5.463030 -17.495749  29.519469</code></pre>
+</div>
+<div id="residuos-padronizados" class="section level2">
+<h2>2. Resíduos padronizados</h2>
+<div class="figure">
+<img src="Aulaxxx/Aulaxxx-07.jpg" style="width:49.0%" />
+
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">QMRes &lt;-<span class="st"> </span><span class="kw">summary</span>(ajuste)$sigma^<span class="dv">2</span> 
+(<span class="kw">resid</span>(ajuste)/<span class="kw">sqrt</span>(QMRes)) %&gt;%<span class="st"> </span><span class="kw">head</span>(., <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##          1          2          3          4          5 
+##  0.4693954  0.4130009  0.2407645 -0.7710659  1.3009707</code></pre>
+</div>
+<div id="residuos-studentizados" class="section level2">
+<h2>3. Resíduos studentizados</h2>
+<div class="figure">
+<img src="Aulaxxx/Aulaxxx-08.jpg" style="width:49.0%" />
+
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rstandard</span>(ajuste) %&gt;%<span class="st"> </span><span class="kw">head</span>(., <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##          1          2          3          4          5 
+##  0.4893473  0.4374148  0.2487901 -0.8140147  1.4017888</code></pre>
+</div>
+<div id="residuos-studentizados-externamente" class="section level2">
+<h2>4. Resíduos studentizados externamente</h2>
+<div class="figure">
+<img src="Aulaxxx/Aulaxxx-09.jpg" style="width:49.0%" />
+
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rstudent</span>(ajuste) %&gt;%<span class="st"> </span><span class="kw">head</span>(., <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##          1          2          3          4          5 
+##  0.4848708  0.4331639  0.2459918 -0.8106860  1.4185827</code></pre>
+</div>
+<div id="residuos-press" class="section level2">
+<h2>5. Resíduos PRESS</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rstandard</span>(ajuste, <span class="dt">type=</span><span class="st">&quot;pred&quot;</span>) %&gt;%<span class="st"> </span><span class="kw">head</span>(., <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##          1          2          3          4          5 
+##  11.575413  10.511798   5.833307 -19.499075  34.271941</code></pre>
+</div>
+</div>
+<div id="analise-de-residuos" class="section level1">
+<h1>Análise de Resíduos</h1>
+<p><img src="Aulaxxx/Aulaxxx-11.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-12.jpg" style="width:49.0%" /></p>
+<div id="grafico-de-residuos-vs-valores-ajustados" class="section level2">
+<h2>Gráfico de Resíduos vs Valores Ajustados</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">fitted</span>(ajuste)
+res &lt;-<span class="st"> </span><span class="kw">rstudent</span>(ajuste)
+<span class="kw">par</span>(<span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">las =</span> <span class="dv">1</span>)
+<span class="kw">plot</span>(fit, res, <span class="dt">xlab =</span> <span class="st">&#39;Valores ajustados&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos studentizados&#39;</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Fica bastante evidente que os resíduos não apresentam variância constante.</p>
+</div>
+<div id="testes-de-hipotese" class="section level2">
+<h2>Testes de Hipótese</h2>
+<p><img src="Aulaxxx/Aulaxxx-33.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-34.jpg" style="width:49.0%" /></p>
+</div>
+<div id="teste-de-variancia-constante" class="section level2">
+<h2>Teste de variância constante</h2>
+<p><span class="math display">\[H_0: \text{Resíduos têm variância constante}\]</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncvTest</span>(ajuste)</code></pre></div>
+<pre><code>## Non-constant Variance Score Test 
+## Variance formula: ~ fitted.values 
+## Chisquare = 24.29051, Df = 1, p = 8.2846e-07</code></pre>
+<p>Temos evidência altamente significativa de variância não constante.</p>
+</div>
+<div id="teste-de-normalidade-para-os-residuos-shapiro-wilk" class="section level2">
+<h2>Teste de normalidade para os resíduos (Shapiro-Wilk)</h2>
+<p><span class="math display">\[H_0: \text{Os resíduos seguem distribuição normal }\]</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(<span class="kw">rstudent</span>(ajuste))</code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  rstudent(ajuste)
+## W = 0.76398, p-value = 2.706e-07</code></pre>
+<p>A hipótese de normalidade é rejeitada.</p>
+</div>
+<div id="grafico-quantil-quantil-com-envelope-de-confianca" class="section level2">
+<h2>Gráfico quantil-quantil com envelope de confiança</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qqPlot</span>(ajuste, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>, <span class="dt">xlab =</span> <span class="st">&#39;Quantis t-Student&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos studentizados&#39;</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre><code>## [1] 24 39</code></pre>
+<p>Os resíduos não apresentam boa aderência à distribuição t-Student de referência.</p>
+</div>
+<div id="residuos-vs-variaveis-incluidas-no-modelo" class="section level2">
+<h2>Resíduos vs variáveis incluídas no modelo</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(teengamb$sex, res, <span class="dt">xlab =</span> <span class="st">&#39;Sexo&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos studentizados&#39;</span>, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">plot</span>(teengamb$status, res, <span class="dt">xlab =</span> <span class="st">&#39;Status&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos studentizados&#39;</span>, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">plot</span>(teengamb$income, res, <span class="dt">xlab =</span> <span class="st">&#39;Income&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos studentizados&#39;</span>, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">plot</span>(teengamb$verbal, res, <span class="dt">xlab =</span> <span class="st">&#39;Verbal&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos studentizados&#39;</span>, <span class="dt">pch =</span> <span class="dv">20</span>)
+<span class="kw">lines</span>(<span class="kw">lowess</span>(res ~<span class="st"> </span>teengamb$verbal), <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>A variância dos resíduos não aparenta ser constante em relação às variáveis <code>sexo</code> e <code>income</code>.</p>
+</div>
+<div id="graficos-de-residuos-parciais" class="section level2">
+<h2>Gráficos de resíduos parciais</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="kw">termplot</span>(ajuste, <span class="dt">partial.resid =</span> <span class="ot">TRUE</span>, <span class="dt">terms =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">col.res =</span> <span class="st">&#39;black&#39;</span>)
+<span class="kw">termplot</span>(ajuste, <span class="dt">partial.resid =</span> <span class="ot">TRUE</span>, <span class="dt">terms =</span> <span class="dv">2</span>, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">col.res =</span> <span class="st">&#39;black&#39;</span>)
+<span class="kw">termplot</span>(ajuste, <span class="dt">partial.resid =</span> <span class="ot">TRUE</span>, <span class="dt">terms =</span> <span class="dv">3</span>, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">col.res =</span> <span class="st">&#39;black&#39;</span>)
+<span class="kw">termplot</span>(ajuste, <span class="dt">partial.resid =</span> <span class="ot">TRUE</span>, <span class="dt">terms =</span> <span class="dv">4</span>, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">col.res =</span> <span class="st">&#39;black&#39;</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Os gráficos de resíduos parciais evidenciam a relação entre sexo e income (linear?) com a resposta (ajustado pelo efeito das demais variáveis).</p>
+</div>
+<div id="graficos-de-diagnostico-padrao-do-r" class="section level2">
+<h2>Gráficos de diagnóstico (padrão do R)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(ajuste, <span class="dt">which =</span> <span class="dv">1</span>:<span class="dv">4</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="usando-recursos-de-diagnostico-do-pacote-car" class="section level2">
+<h2>Usando recursos de diagnóstico do pacote car</h2>
+</div>
+<div id="graficos-de-residuos-parciais-1" class="section level2">
+<h2>Gráficos de Resíduos Parciais</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">crPlots</span>(ajuste, <span class="dt">cex =</span> <span class="dv">2</span>, <span class="dt">pch =</span> <span class="dv">20</span>) </code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="grafico-de-residuos-vs-variaveis-no-modelo" class="section level2">
+<h2>Gráfico de Resíduos vs Variáveis no modelo</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">residualPlots</span>(ajuste, <span class="dt">cex =</span> <span class="dv">2</span>, <span class="dt">pch =</span> <span class="dv">20</span>) </code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre><code>##            Test stat Pr(&gt;|Test stat|)   
+## sex           0.6729         0.504814   
+## status        0.5854         0.561466   
+## income        0.6807         0.499908   
+## verbal       -0.2674         0.790538   
+## Tukey test    2.7242         0.006445 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="grafico-de-residuos-marginais-residuos-versus-variavel-nao-ajustada" class="section level2">
+<h2>Gráfico de resíduos marginais (resíduos versus variável não ajustada</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">marginalModelPlots</span>(ajuste) </code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="diagnostico-de-outliers-pontos-de-alavanca-e-influencia" class="section level2">
+<h2>Diagnóstico de outliers, pontos de alavanca e influência</h2>
+<p><img src="Aulaxxx/Aulaxxx-35.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-36.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-37.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-38.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-39.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-40.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-41.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-42.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-43.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-44.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-45.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-46.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-47.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-48.jpg" style="width:49.0%" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">influenceIndexPlot</span>(ajuste, <span class="dt">id.n =</span> <span class="dv">3</span>, <span class="dt">cex.lab =</span> <span class="fl">1.4</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-18-1.png" width="1056" /></p>
+</div>
+</div>
+<div id="analise-de-pontos-atipicos" class="section level1">
+<h1>Análise de pontos atípicos</h1>
+<p>Vamos relevar, por um instante, as demais inadequações do ajuste e nos concentrar no efeito da observação <strong>24</strong>, indicada como outlier e observação influente.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">teengamb[<span class="dv">24</span>,]</code></pre></div>
+<pre><code>##    sex status income verbal gamble
+## 24   0     27     10      4    156</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(teengamb)</code></pre></div>
+<pre><code>##       sex             status          income           verbal     
+##  Min.   :0.0000   Min.   :18.00   Min.   : 0.600   Min.   : 1.00  
+##  1st Qu.:0.0000   1st Qu.:28.00   1st Qu.: 2.000   1st Qu.: 6.00  
+##  Median :0.0000   Median :43.00   Median : 3.250   Median : 7.00  
+##  Mean   :0.4043   Mean   :45.23   Mean   : 4.642   Mean   : 6.66  
+##  3rd Qu.:1.0000   3rd Qu.:61.50   3rd Qu.: 6.210   3rd Qu.: 8.00  
+##  Max.   :1.0000   Max.   :75.00   Max.   :15.000   Max.   :10.00  
+##      gamble     
+##  Min.   :  0.0  
+##  1st Qu.:  1.1  
+##  Median :  6.0  
+##  Mean   : 19.3  
+##  3rd Qu.: 19.4  
+##  Max.   :156.0</code></pre>
+<p>Trata-se do adolesente com maior valor gasto em apostas. Vamos reajustar o modelo desconsiderando este indivíduo.</p>
+<div id="utilizar-o-modelo-ajuste-e-retirar-a-observacao-24" class="section level3">
+<h3>Utilizar o modelo ajuste e retirar a observação <strong>24</strong></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste_v2 &lt;-<span class="st"> </span><span class="kw">update</span>(ajuste, <span class="dt">subset =</span> -<span class="dv">24</span>)</code></pre></div>
+</div>
+<div id="comparar-estimativas-e-erros-padroes-produzidas-pelos-dois-modelos" class="section level3">
+<h3>Comparar estimativas e erros padrões produzidas pelos dois modelos</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compareCoefs</span>(ajuste, ajuste_v2)</code></pre></div>
+<pre><code>## Calls:
+## 1: lm(formula = gamble ~ ., data = teengamb)
+## 2: lm(formula = gamble ~ ., data = teengamb, subset = -24)
+## 
+##             Model 1 Model 2
+## (Intercept)   22.56    7.63
+## SE            17.20   12.93
+##                            
+## sex          -22.12  -16.30
+## SE             8.21    6.13
+##                            
+## status       0.0522  0.1739
+## SE           0.2811  0.2083
+##                            
+## income        4.962   4.331
+## SE            1.025   0.764
+##                            
+## verbal        -2.96   -1.80
+## SE             2.17    1.61
+## </code></pre>
+<p>Nota-se redução expressiva na estimativa referente ao efeito de sexo. Os erros padrões de sexo e income são reduzidos ao desconsiderar o dado sob investigação. De qualquer forma, as conclusões se mantêm com relação aos efeitos significativos e não significativos na análise.</p>
+</div>
+<div id="conferir-se-a-variancia-esta-constante" class="section level3">
+<h3>Conferir se a variância está constante</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(ajuste_v2, <span class="dt">which =</span> <span class="dv">1</span>:<span class="dv">4</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))
+<span class="kw">qqPlot</span>(ajuste_v2)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<pre><code>## 36 39 
+## 35 38</code></pre>
+<p>Mesmo após a exclusão dos dados do indivíduo <strong>24</strong> os resíduos ainda apresentam variância não constante. Ainda há um resíduo com valor absoluto próximo a 3 que mereceria alguma atenção.</p>
+</div>
+<div id="grafico-para-os-dfbetas" class="section level3">
+<h3>Gráfico para os dfbetas</h3>
+<div class="figure">
+<img src="Aulaxxx/Aulaxxx-47.jpg" style="width:49.0%" />
+
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dfbetaPlots</span>(ajuste, <span class="dt">id.n =</span> <span class="dv">3</span>, <span class="dt">cex.lab =</span> <span class="fl">1.4</span>, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">20</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>Novamente a observação <strong>24</strong> aparece como potencial ponto influente na estimativa de cada parâmetro do modelo.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">i_med &lt;-<span class="st"> </span><span class="kw">influence.measures</span>(ajuste)
+<span class="kw">summary</span>(i_med)</code></pre></div>
+<pre><code>## Potentially influential observations of
+##   lm(formula = gamble ~ ., data = teengamb) :
+## 
+##    dfb.1_  dfb.sex dfb.stts dfb.incm dfb.vrbl dffit   cov.r   cook.d hat  
+## 24  1.18_* -0.96   -0.59     0.83    -0.72     2.26_*  0.05_*  0.56   0.12
+## 31  0.17   -0.09   -0.04     0.12    -0.15     0.31    1.43_*  0.02   0.24
+## 33 -0.08   -0.04   -0.02     0.26     0.06     0.31    1.39_*  0.02   0.22
+## 35 -0.47    0.18    0.05     0.22     0.36    -0.51    1.53_*  0.05   0.31
+## 39  0.11    0.06   -0.28    -0.59     0.20    -0.80    0.61_*  0.11   0.09
+## 42  0.08   -0.01   -0.04    -0.12    -0.03    -0.13    1.61_*  0.00   0.30</code></pre>
+</div>
+</div>
+<div id="analise-de-multicolinearidade" class="section level1">
+<h1>Análise de multicolinearidade</h1>
+<p><img src="Aulaxxx/Aulaxxx-50.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-51.jpg" style="width:49.0%" /></p>
+<p><img src="Aulaxxx/Aulaxxx-52.jpg" style="width:49.0%" /> <img src="Aulaxxx/Aulaxxx-53.jpg" style="width:49.0%" /></p>
+<div class="figure">
+<img src="Aulaxxx/Aulaxxx-54.jpg" style="width:49.0%" />
+
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(faraway)
+<span class="kw">require</span>(corrplot)</code></pre></div>
+<pre><code>## Loading required package: corrplot</code></pre>
+<pre><code>## corrplot 0.84 loaded</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(car)</code></pre></div>
+<p>Nosso objetivo aqui é ajustar um modelo de regressão linear considerando a variável <code>hipcenter</code> como resposta e as demais variáveis como explicativas.</p>
+<p>Como diagnóstico preliminar de multicolinearidade vamos analisar as correlações bivariadas.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat_cor &lt;-<span class="st"> </span><span class="kw">cor</span>(seatpos)
+<span class="kw">round</span>(mat_cor, <span class="dv">2</span>)</code></pre></div>
+<pre><code>##             Age Weight HtShoes    Ht Seated   Arm Thigh   Leg hipcenter
+## Age        1.00   0.08   -0.08 -0.09  -0.17  0.36  0.09 -0.04      0.21
+## Weight     0.08   1.00    0.83  0.83   0.78  0.70  0.57  0.78     -0.64
+## HtShoes   -0.08   0.83    1.00  1.00   0.93  0.75  0.72  0.91     -0.80
+## Ht        -0.09   0.83    1.00  1.00   0.93  0.75  0.73  0.91     -0.80
+## Seated    -0.17   0.78    0.93  0.93   1.00  0.63  0.61  0.81     -0.73
+## Arm        0.36   0.70    0.75  0.75   0.63  1.00  0.67  0.75     -0.59
+## Thigh      0.09   0.57    0.72  0.73   0.61  0.67  1.00  0.65     -0.59
+## Leg       -0.04   0.78    0.91  0.91   0.81  0.75  0.65  1.00     -0.79
+## hipcenter  0.21  -0.64   -0.80 -0.80  -0.73 -0.59 -0.59 -0.79      1.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corrplot.mixed</span>(mat_cor, <span class="dt">upper =</span> <span class="st">&#39;ellipse&#39;</span>, <span class="dt">number.cex =</span> <span class="fl">1.2</span>)</code></pre></div>
+<p><img src="regressao_outlier_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>É possível observar correlações lineares bastante fortes entre as covariáveis, algumas delas maiores que 0,90. Fortíssimo indicador de multicolinearidade.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">modelo &lt;-<span class="st"> </span><span class="kw">lm</span>(hipcenter ~<span class="st"> </span>. , <span class="dt">data =</span> seatpos)
+<span class="kw">summary</span>(modelo)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = hipcenter ~ ., data = seatpos)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -73.827 -22.833  -3.678  25.017  62.337 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) 436.43213  166.57162   2.620   0.0138 *
+## Age           0.77572    0.57033   1.360   0.1843  
+## Weight        0.02631    0.33097   0.080   0.9372  
+## HtShoes      -2.69241    9.75304  -0.276   0.7845  
+## Ht            0.60134   10.12987   0.059   0.9531  
+## Seated        0.53375    3.76189   0.142   0.8882  
+## Arm          -1.32807    3.90020  -0.341   0.7359  
+## Thigh        -1.14312    2.66002  -0.430   0.6706  
+## Leg          -6.43905    4.71386  -1.366   0.1824  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 37.72 on 29 degrees of freedom
+## Multiple R-squared:  0.6866, Adjusted R-squared:  0.6001 
+## F-statistic:  7.94 on 8 and 29 DF,  p-value: 1.306e-05</code></pre>
+<p>Embora as correlações bivariadas entre a resposta e as explicativas sejam numericamente bastante elevadas, o modelo ajustado não indica significância para nenhuma variável explicativa. Esse resultado é contraditório, ainda, com o valor do <span class="math inline">\(R^2\)</span> (0.687), que é bastante expressivo e pouco compatível com um modelo sem qualquer variável associada à resposta.</p>
+<div id="valores-de-vif" class="section level3">
+<h3>Valores de VIF</h3>
+<p>Na mão:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste_Leg &lt;-<span class="st"> </span><span class="kw">lm</span>(Leg ~<span class="st"> </span>Age +<span class="st"> </span>Weight +<span class="st"> </span>HtShoes +<span class="st"> </span>Ht +<span class="st"> </span>Seated +<span class="st"> </span>Arm +<span class="st"> </span>Thigh, <span class="dt">data =</span> seatpos)
+R2 &lt;-<span class="st"> </span><span class="kw">summary</span>(ajuste_Leg)$r.squared
+vif_Leg &lt;-<span class="st"> </span>(<span class="dv">1</span>/(<span class="dv">1</span>-R2)) </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vif</span>(modelo)</code></pre></div>
+<pre><code>##        Age     Weight    HtShoes         Ht     Seated        Arm 
+##   1.997931   3.647030 307.429378 333.137832   8.951054   4.496368 
+##      Thigh        Leg 
+##   2.762886   6.694291</code></pre>
+<p>Há muita colinearidade nos dados. Se extrairmos a raiz quadrada de qualquer um desses valores, teremos quantas vezes o respectivo erro padrão é maior do que aquele que teríamos se as variáveis fossem ortogonais.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="kw">vif</span>(modelo))</code></pre></div>
+<pre><code>##       Age    Weight   HtShoes        Ht    Seated       Arm     Thigh 
+##  1.413482  1.909720 17.533664 18.252064  2.991831  2.120464  1.662193 
+##       Leg 
+##  2.587333</code></pre>
+<p>Para avlaiar o efeito da multicolinearidade, vamos perturbar levemente a variável resposta, adicionando erros aleatórios com distribuição <code>Normal(0 , 5)</code> a cada valor de y.</p>
+</div>
+<div id="modelo-2---perturbacao-na-variavel-resposta" class="section level2">
+<h2>Modelo 2 - Perturbação na variável resposta</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">modelo2 &lt;-<span class="st"> </span><span class="kw">lm</span>(hipcenter +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">38</span>, <span class="dv">0</span>, <span class="dv">5</span>) ~<span class="st"> </span>. , <span class="dt">data =</span> seatpos)
+<span class="kw">summary</span>(modelo2)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = hipcenter + rnorm(38, 0, 5) ~ ., data = seatpos)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -74.132 -25.358  -6.471  23.433  64.214 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) 434.88231  167.89142   2.590   0.0149 *
+## Age           0.75050    0.57485   1.306   0.2020  
+## Weight        0.05439    0.33359   0.163   0.8716  
+## HtShoes      -0.94843    9.83031  -0.096   0.9238  
+## Ht           -1.38665   10.21014  -0.136   0.8929  
+## Seated        0.59567    3.79170   0.157   0.8763  
+## Arm          -0.77366    3.93110  -0.197   0.8454  
+## Thigh        -0.56059    2.68110  -0.209   0.8358  
+## Leg          -6.71307    4.75121  -1.413   0.1683  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 38.02 on 29 degrees of freedom
+## Multiple R-squared:  0.6795, Adjusted R-squared:  0.5911 
+## F-statistic: 7.687 on 8 and 29 DF,  p-value: 1.751e-05</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(modelo)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = hipcenter ~ ., data = seatpos)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -73.827 -22.833  -3.678  25.017  62.337 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) 436.43213  166.57162   2.620   0.0138 *
+## Age           0.77572    0.57033   1.360   0.1843  
+## Weight        0.02631    0.33097   0.080   0.9372  
+## HtShoes      -2.69241    9.75304  -0.276   0.7845  
+## Ht            0.60134   10.12987   0.059   0.9531  
+## Seated        0.53375    3.76189   0.142   0.8882  
+## Arm          -1.32807    3.90020  -0.341   0.7359  
+## Thigh        -1.14312    2.66002  -0.430   0.6706  
+## Leg          -6.43905    4.71386  -1.366   0.1824  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 37.72 on 29 degrees of freedom
+## Multiple R-squared:  0.6866, Adjusted R-squared:  0.6001 
+## F-statistic:  7.94 on 8 and 29 DF,  p-value: 1.306e-05</code></pre>
+<p>Embora o <span class="math inline">\(R^2\)</span> dos dois modelos seja praticamente o mesmo, percebe-se uma boa variação nas estimativas pontuais geradas pelos dois modelos. Esse tipo de comportamento frente a pequenas perturbações nos dados é típico em casos de multicolinearidade. Com exceção da idade, as demais variáveis explicativas estão, em geral, fortemente correlacionadas. O que aconteceria se usássemos apenas uma delas na especificação do modelo? Vamos considerar a altura aferida com o indivíduo descalço.</p>
+</div>
+<div id="modelo-3---regressao-linear-simples" class="section level2">
+<h2>Modelo 3 - regressão linear simples</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">modelo3 &lt;-<span class="st"> </span><span class="kw">lm</span>(hipcenter ~<span class="st"> </span>Ht, <span class="dt">data =</span> seatpos)
+<span class="kw">summary</span>(modelo3)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = hipcenter ~ Ht, data = seatpos)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -99.956 -27.850   5.656  20.883  72.066 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 556.2553    90.6704   6.135 4.59e-07 ***
+## Ht           -4.2650     0.5351  -7.970 1.83e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 36.37 on 36 degrees of freedom
+## Multiple R-squared:  0.6383, Adjusted R-squared:  0.6282 
+## F-statistic: 63.53 on 1 and 36 DF,  p-value: 1.831e-09</code></pre>
+<p>A associação entre a altura e a variável resposta é altamente significativa. Além disso, a variação no coeficiente de determinação, resultante da eliminação de todas as outras variáveis, foi bem pequena. Algo semelhante ocorreria se escolhessemos alguma outra variável ao invés de Ht. Fica como exercício. Vamos usar a técnica de análise de componentes principais para encontrar uma (ou poucas) combinações lineares ortogonais das variáveis explicativas que conservem a maior parte possível da variação dos dados.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pca &lt;-<span class="st"> </span><span class="kw">princomp</span>(seatpos[,<span class="dv">1</span>:<span class="dv">8</span>], <span class="dt">cor =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>O argumento <code>cor = T</code> serve para executar a análise com base nos dados padronizados. NA ACP, isso é importante devido às diferentes escalas das variáveis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(pca)</code></pre></div>
+<pre><code>## Importance of components:
+##                           Comp.1    Comp.2     Comp.3     Comp.4
+## Standard deviation     2.3818450 1.1121088 0.68098711 0.49087508
+## Proportion of Variance 0.7091482 0.1545983 0.05796793 0.03011979
+## Cumulative Proportion  0.7091482 0.8637465 0.92171439 0.95183418
+##                            Comp.5     Comp.6      Comp.7       Comp.8
+## Standard deviation     0.44070349 0.37306059 0.224375861 0.0398527115
+## Proportion of Variance 0.02427745 0.01739678 0.006293066 0.0001985298
+## Cumulative Proportion  0.97611163 0.99350840 0.999801470 1.0000000000</code></pre>
+<p>O primeiro componente explica 70.9% da variação original dos dados; o segundo componente explica 15,4% e, somados, os dois explicam 86,3% da variação total.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pca$loadings</code></pre></div>
+<pre><code>## 
+## Loadings:
+##         Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8
+## Age             0.876  0.164  0.165  0.335  0.255              
+## Weight   0.367         0.430  0.600 -0.554                     
+## HtShoes  0.411 -0.106                0.220         0.537 -0.692
+## Ht       0.412 -0.112                0.189         0.509  0.721
+## Seated   0.381 -0.218  0.171  0.150  0.617 -0.230 -0.567       
+## Arm      0.349  0.374        -0.554 -0.238 -0.608              
+## Thigh    0.328  0.125 -0.862  0.312 -0.104        -0.145       
+## Leg      0.390         0.117 -0.430 -0.221  0.703 -0.321       
+## 
+##                Comp.1 Comp.2 Comp.3 Comp.4 Comp.5 Comp.6 Comp.7 Comp.8
+## SS loadings     1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000
+## Proportion Var  0.125  0.125  0.125  0.125  0.125  0.125  0.125  0.125
+## Cumulative Var  0.125  0.250  0.375  0.500  0.625  0.750  0.875  1.000</code></pre>
+<p>As cargas (loadings) dos componentes correspondem aos coeficientes das combinações lineares. Assim, o primeiro componente é praticamente uma média aritmética de todas as variáveis explicativas, com exceção da idade. É um componente referente ao tamanho do motorista, de forma geral. No segundo componente o coeficiente correspondente à idade é muito maior que os demais, de forma que esse componente expressa, de forma predominante, a idade dos motoristas.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">scores &lt;-<span class="st"> </span>pca$scores; scores %&gt;%<span class="st"> </span><span class="kw">head</span>(., <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##       Comp.1      Comp.2     Comp.3      Comp.4      Comp.5      Comp.6
+## 1  3.4911907  0.63044905 -0.6458071 -0.09591629  0.44570887  0.40843490
+## 2 -0.6388676  0.09514266  0.4627576 -0.10269656 -1.15719897 -0.15065776
+## 3 -3.7931332 -0.84557487 -0.7829229  0.35153482  0.03460612  0.08482316
+## 4  3.9029053 -0.96067938 -0.5369357 -0.52832731  0.10139621 -0.45410122
+## 5  0.7644369 -1.30904590 -0.1819518  0.53859884  0.63525066  0.25475659
+##        Comp.7       Comp.8
+## 1 -0.06019110  0.000245038
+## 2  0.31568209  0.007890707
+## 3 -0.17216322  0.043066971
+## 4 -0.03950468 -0.055263885
+## 5 -0.10064334 -0.099924556</code></pre>
+<p>Os escores são os valores dos componentes calculados para cada indivíduo.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(scores) %&gt;%<span class="st"> </span><span class="kw">head</span>(., <span class="dt">n =</span> <span class="dv">5</span>)</code></pre></div>
+<pre><code>##               Comp.1        Comp.2        Comp.3        Comp.4
+## Comp.1  1.000000e+00  1.249992e-16 -1.226132e-15 -1.888602e-16
+## Comp.2  1.249992e-16  1.000000e+00 -9.779672e-17 -1.540450e-16
+## Comp.3 -1.226132e-15 -9.779672e-17  1.000000e+00 -2.602792e-16
+## Comp.4 -1.888602e-16 -1.540450e-16 -2.602792e-16  1.000000e+00
+## Comp.5 -1.855034e-16 -3.775487e-16 -1.608255e-16  1.620036e-16
+##               Comp.5        Comp.6        Comp.7        Comp.8
+## Comp.1 -1.855034e-16  2.759950e-16  9.541682e-16 -2.713978e-15
+## Comp.2 -3.775487e-16 -4.185627e-16  1.214319e-16 -1.274241e-15
+## Comp.3 -1.608255e-16  8.195732e-16 -4.229654e-16  5.149752e-15
+## Comp.4  1.620036e-16 -2.725670e-16  2.967738e-15 -9.751971e-15
+## Comp.5  1.000000e+00 -7.370720e-16 -1.517962e-15  1.213681e-14</code></pre>
+<p>Observe que os escores são ortogonais.</p>
+<p>Vamos fazer um novo ajuste do modelo de regressão agora substituindo as variáveis originais pelos escores dos dois componentes principais.</p>
+<div id="modelo-4" class="section level3">
+<h3>Modelo 4</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">seatpos_novo &lt;-<span class="st"> </span><span class="kw">data.frame</span>(seatpos$hipcenter, scores[,<span class="dv">1</span>:<span class="dv">2</span>])
+ajuste_pca &lt;-<span class="st"> </span><span class="kw">lm</span>(seatpos.hipcenter ~<span class="st"> </span>., <span class="dt">data =</span> seatpos_novo)
+<span class="kw">summary</span>(ajuste_pca)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = seatpos.hipcenter ~ ., data = seatpos_novo)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -84.643 -25.582  -0.743  24.887  61.798 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -164.885      5.772 -28.568  &lt; 2e-16 ***
+## Comp.1       -19.440      2.423  -8.022 1.93e-09 ***
+## Comp.2        11.171      5.190   2.153   0.0383 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 35.58 on 35 degrees of freedom
+## Multiple R-squared:  0.6634, Adjusted R-squared:  0.6442 
+## F-statistic:  34.5 on 2 and 35 DF,  p-value: 5.292e-09</code></pre>
+<p>Observe que ambos os componentes estão associados de forma significativa à posição de dirigir. Além disso, o <span class="math inline">\(R^2\)</span> e a significância do modelo ajustado são bastante próximos aos do modelo original.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

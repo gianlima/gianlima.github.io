@@ -11,6 +11,6 @@ navbar:
       href: about.html
 output:
   html_document:
-    theme: yeti
-    highlight: default
+    theme: flatly
+    highlight: pygments
 
