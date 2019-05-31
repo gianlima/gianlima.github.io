@@ -5,7 +5,7 @@ output:
   html_document:
     theme: flatly
     highlight: pygments
-    toc_depth: 3
+    toc_depth: 4
     # code_download: true
     # code_folding: show
     toc: true
@@ -129,7 +129,7 @@ with(cars,lines(lowess(dist~speed),col='red',lwd=2))
 
 A dispersão da distância de frenagem parece aumentar conforme a velocidade.
 
-Ajuste 1: regressão linear via mínimos quadrados ordinários.
+#### Ajuste 1: regressão linear via mínimos quadrados ordinários
 
 ```{r}
 ajuste <- lm(dist~speed,data = cars) 
@@ -148,7 +148,7 @@ ncvTest(ajuste)
 Como a hipótese nula é a de variância constante para os erros, temos evidência
 significativa de variância não constante ao nível de 5%.
 
-Ajuste 2: regressão linear via mínimos quadrados ponderados.
+#### Ajuste 2: regressão linear via mínimos quadrados ponderados
 vamos assumir que a variância aumenta linearmente conforme a velocidade (x).
 Assim, os pesos vão ser definidos por 1/x.
 
@@ -161,6 +161,7 @@ compareCoefs(ajuste, ajuste2, zvals = TRUE, pvals = TRUE)
 Comparação das estimativas e erros fornecidas pelos dois modelos.
 
 ```{r}
+par(mfrow = c(2,2))
 plot(ajuste2, pch = 20, cex = 1.4)
 ```
 
@@ -180,7 +181,7 @@ ncvTest(ajuste2)
 
 A hipótese de variância constante já não é rejeitada.
 
-Ajuste 3: regressão linear via mínimos quadrados ponderados.
+#### Ajuste 3: regressão linear via mínimos quadrados ponderados
 Agora, vamos assumir uma forma paramétrica para a relação do desvio
 padrão dos erros com relação à velocidade (x) e estimar os parâmetros.
 Vamos assumir DP(Erros) = theta1 + velocidade^theta2 e usar a função

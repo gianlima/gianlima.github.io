@@ -322,7 +322,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2,h3,h4",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
@@ -572,7 +572,8 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 <span class="kw">with</span>(cars,<span class="kw">lines</span>(<span class="kw">lowess</span>(dist~speed),<span class="dt">col=</span><span class="st">&#39;red&#39;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)) </code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>A dispersão da distância de frenagem parece aumentar conforme a velocidade.</p>
-<p>Ajuste 1: regressão linear via mínimos quadrados ordinários.</p>
+<div id="ajuste-1-regressao-linear-via-minimos-quadrados-ordinarios" class="section level4">
+<h4>Ajuste 1: regressão linear via mínimos quadrados ordinários</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(dist~speed,<span class="dt">data =</span> cars) 
 <span class="kw">summary</span>(ajuste) </code></pre></div>
 <pre><code>## 
@@ -602,7 +603,10 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 ## Variance formula: ~ fitted.values 
 ## Chisquare = 4.650233, Df = 1, p = 0.031049</code></pre>
 <p>Como a hipótese nula é a de variância constante para os erros, temos evidência significativa de variância não constante ao nível de 5%.</p>
-<p>Ajuste 2: regressão linear via mínimos quadrados ponderados. vamos assumir que a variância aumenta linearmente conforme a velocidade (x). Assim, os pesos vão ser definidos por 1/x.</p>
+</div>
+<div id="ajuste-2-regressao-linear-via-minimos-quadrados-ponderados" class="section level4">
+<h4>Ajuste 2: regressão linear via mínimos quadrados ponderados</h4>
+<p>vamos assumir que a variância aumenta linearmente conforme a velocidade (x). Assim, os pesos vão ser definidos por 1/x.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(dist ~<span class="st"> </span>speed, <span class="dt">weights =</span> <span class="dv">1</span>/speed, <span class="dt">data =</span> cars) 
 <span class="kw">summary</span>(ajuste) </code></pre></div>
 <pre><code>## 
@@ -640,8 +644,9 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 ## Pr(&gt;|z|)     &lt;2e-16  &lt;2e-16
 ## </code></pre>
 <p>Comparação das estimativas e erros fornecidas pelos dois modelos.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ajuste2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</code></pre></div>
-<p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-15-2.png" width="672" /><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-15-3.png" width="672" /><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-15-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(ajuste2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</code></pre></div>
+<p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>Os resíduos reforçam a evidência de variância não constante.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(ajuste, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">which =</span> <span class="dv">3</span>)
@@ -653,7 +658,10 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 ## Variance formula: ~ fitted.values 
 ## Chisquare = 0.99636, Df = 1, p = 0.31819</code></pre>
 <p>A hipótese de variância constante já não é rejeitada.</p>
-<p>Ajuste 3: regressão linear via mínimos quadrados ponderados. Agora, vamos assumir uma forma paramétrica para a relação do desvio padrão dos erros com relação à velocidade (x) e estimar os parâmetros. Vamos assumir DP(Erros) = theta1 + velocidade^theta2 e usar a função gls, pacote nlme, para estimar, conjuntamente e por máxima verossimilhança, os betas e os thetas.</p>
+</div>
+<div id="ajuste-3-regressao-linear-via-minimos-quadrados-ponderados" class="section level4">
+<h4>Ajuste 3: regressão linear via mínimos quadrados ponderados</h4>
+<p>Agora, vamos assumir uma forma paramétrica para a relação do desvio padrão dos erros com relação à velocidade (x) e estimar os parâmetros. Vamos assumir DP(Erros) = theta1 + velocidade^theta2 e usar a função gls, pacote nlme, para estimar, conjuntamente e por máxima verossimilhança, os betas e os thetas.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste3 &lt;-<span class="st"> </span><span class="kw">gls</span>(dist ~<span class="st"> </span>speed, <span class="dt">data =</span> cars, <span class="dt">weight =</span> <span class="kw">varConstPower</span>(<span class="dt">form=</span>~speed))
 residuos3 &lt;-<span class="st"> </span><span class="kw">residuals</span>(ajuste3, <span class="dt">type=</span><span class="st">&#39;normalized&#39;</span>)
 <span class="kw">plot</span>(cars$speed, residuos3, <span class="dt">xlab =</span> <span class="st">&#39;Velociadade (mph)&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos&#39;</span>,
@@ -709,6 +717,7 @@ residuos3 &lt;-<span class="st"> </span><span class="kw">residuals</span>(ajuste
 ## z              9.46   10.52   10.88
 ## Pr(&gt;|z|)     &lt;2e-16  &lt;2e-16  &lt;2e-16
 ## </code></pre>
+</div>
 </div>
 <div id="exemplo-3---regressao-robusta" class="section level2">
 <h2>Exemplo 3 - Regressão robusta</h2>
