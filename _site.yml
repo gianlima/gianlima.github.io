@@ -14,6 +14,8 @@ navbar:
       - text: "Conteúdo de regressão"
       - text: "Módulo 4 - Técnicas de diagnóstico"
         href: regressao_outlier.html
+      - text: "Módulo 5 - Medidas corretivas dos erros"
+        href: regressao_problemas_suposicoes.html
       - text: "Módulo 6 - Seleção de modelos"
         href: regressao_selecao_modelos.html
 output:
