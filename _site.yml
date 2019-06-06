@@ -20,6 +20,8 @@ navbar:
         href: regressao_problemas_suposicoes.html
       - text: "Módulo 6 - Seleção de modelos"
         href: regressao_selecao_modelos.html
+      - text: "Módulo 7 - Regressão com covariáveis categóricas"
+        href: regressao_categorica.html
 output:
   html_document:
     theme: flatly
