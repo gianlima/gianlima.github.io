@@ -5,23 +5,16 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Tutorial Exams"
-      href: r-exams-tutorial/
+    - text: "Projetos"
+      menu:
+      - text: "Tutorial Exams"
+        href: r-exams-tutorial/
     - text: "About"
       href: about.html
-    - text: "Estudos"
+    - text: "Disciplinas"
       menu:
-      - text: "Conteúdo de regressão"
-      - text: "Módulo 3 - Regressão linear múltipla"
-        href: regressao_multipla.html
-      - text: "Módulo 4 - Técnicas de diagnóstico"
-        href: regressao_outlier.html
-      - text: "Módulo 5 - Medidas corretivas dos erros"
-        href: regressao_problemas_suposicoes.html
-      - text: "Módulo 6 - Seleção de modelos"
-        href: regressao_selecao_modelos.html
-      - text: "Módulo 7 - Regressão com covariáveis categóricas"
-        href: regressao_categorica.html
+      - text: "Regressão Linear"
+        href: regressao_linear/
   right:
     - text: GitHub
       icon: fa-github fa-lg
