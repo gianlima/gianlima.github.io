@@ -6,10 +6,14 @@ title: "Hi, I'm Gian Lima"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<div class="panel panel-primary">
+  <div class="panel-heading">Who I am</div>
+  <div class="panel-body">
 I'm a student who loves spending some time seeing and analysing data. _Statistics_ is my main subject at the Federal University of Paraná ([UFPR](www.ufpr.br/portalufpr/)), Brazil.
 My passion for learning and my curiosity led me to discover that through _data analysis_ it's possible to see patterns we didn't even think that could exist. That's an useful way of improving processess, solving problems and consequently helping people.
 
 I'm interested in programming, more specifically in R and Python languages which can help me see and understand the world with the help of _statistics technics_ and other subjects as _artificial intelligence_ and _data science._
 
 Check out my projects on this site or on my [github](www.github.com/gianlima). You can reach me at gian.lima@live.com. 
-
+</div>
+</div>
