@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Cesar Taconeli" />
@@ -24,45 +25,73 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -78,7 +107,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -296,48 +325,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -386,8 +376,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -473,7 +461,13 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/gianlima">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -496,14 +490,14 @@ distancia: Distância do imóvel ao marco central do município (em km)<br />
 ncomodos: Número de cômodos<br />
 pcomerc: Número de pontos comerciais num raio de um quilômetro<br />
 valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dados &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span class="st">&#39;https://docs.ufpr.br/~taconeli/CE07118/Imoveis18.csv&#39;</span>)
-<span class="co"># dados &lt;- read.csv2(&#39;Imoveis18.csv&#39;)</span>
-<span class="kw">head</span>(dados,<span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">dados &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span class="st">&#39;https://docs.ufpr.br/~taconeli/CE07118/Imoveis18.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co"># dados &lt;- read.csv2(&#39;Imoveis18.csv&#39;)</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">head</span>(dados,<span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##    area idade distancia ncomodos pcomerc   valor
 ## 1 100.8    15       5.8        3      18 190.232
 ## 2 114.4    10       8.7        6      13 204.368
 ## 3  86.9    13      17.1        5       9 162.940</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(dados) </code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">summary</span>(dados) </a></code></pre></div>
 <pre><code>##       area           idade         distancia        ncomodos    
 ##  Min.   : 48.6   Min.   : 1.00   Min.   : 2.00   Min.   : 1.00  
 ##  1st Qu.:107.2   1st Qu.: 9.00   1st Qu.: 8.20   1st Qu.: 4.00  
@@ -518,31 +512,31 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ##  Mean   :10.11   Mean   :214.8  
 ##  3rd Qu.:12.00   3rd Qu.:240.7  
 ##  Max.   :21.00   Max.   :328.2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(magrittr)
-<span class="kw">require</span>(car)
-<span class="kw">require</span>(corrplot)
-<span class="kw">require</span>(effects)
-<span class="kw">require</span>(ggplot2)
-<span class="kw">par</span>(<span class="dt">cex=</span><span class="fl">1.2</span>)
-<span class="kw">scatterplotMatrix</span>(dados) </code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">require</span>(magrittr)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">require</span>(car)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">require</span>(corrplot)</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="kw">require</span>(effects)</a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="kw">require</span>(ggplot2)</a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="kw">par</span>(<span class="dt">cex=</span><span class="fl">1.2</span>)</a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="kw">scatterplotMatrix</span>(dados) </a></code></pre></div>
 <p><img src="regressao_multipla_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Matriz de gráficos de dispersão. Os resultados fornecem um primeiro indicativo de correlação positiva entre o preço de venda e a área e número de cômodos do imóvel. Também há alguma evidência de correlação negativa em relação à idade do imóvel.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corrplot.mixed</span>(<span class="kw">cor</span>(dados), <span class="dt">upper =</span> <span class="st">&quot;ellipse&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">corrplot.mixed</span>(<span class="kw">cor</span>(dados), <span class="dt">upper =</span> <span class="st">&quot;ellipse&quot;</span>)</a></code></pre></div>
 <p><img src="regressao_multipla_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <div id="ajuste-1" class="section level2">
 <h2>Ajuste 1</h2>
 <p>Vamos ajustar o modelo de regressão linear múltipla:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste1 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>area +<span class="st"> </span>idade +<span class="st"> </span>distancia +<span class="st"> </span>ncomodos +<span class="st"> </span>pcomerc, <span class="dt">data =</span> dados)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">ajuste1 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>area <span class="op">+</span><span class="st"> </span>idade <span class="op">+</span><span class="st"> </span>distancia <span class="op">+</span><span class="st"> </span>ncomodos <span class="op">+</span><span class="st"> </span>pcomerc, <span class="dt">data =</span> dados)</a></code></pre></div>
 <p>O mesmo modelo pode ser ajustado, de forma mais breve, através do seguinte comando:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste1 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>., <span class="dt">data =</span> dados)
-<span class="kw">model.matrix</span>(ajuste1)[<span class="dv">1</span>:<span class="dv">3</span>,]</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">ajuste1 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">model.matrix</span>(ajuste1)[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,]</a></code></pre></div>
 <pre><code>##   (Intercept)  area idade distancia ncomodos pcomerc
 ## 1           1 100.8    15       5.8        3      18
 ## 2           1 114.4    10       8.7        6      13
 ## 3           1  86.9    13      17.1        5       9</code></pre>
 <p>Três primeiras linhas da matriz do modelo.</p>
 <p>Vamos extrair os principais resultados da análise.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(ajuste1) </code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">print</span>(ajuste1) </a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ ., data = dados)
@@ -553,7 +547,7 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ##     pcomerc  
 ##      0.1818</code></pre>
 <p>Estimativas de mínimos quadrados dos parâmetros de regressão.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste1)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">summary</span>(ajuste1)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ ., data = dados)
@@ -579,8 +573,8 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 <p>Os resultados do ajuste indicam que o valor de venda está associado à área, número de cômodos e idade do imóvel.</p>
 <p>Estima-se, em média, um aumento de 1496 dólares para cada m^2 a mais de área; uma redução de 713 dólares a cada ano a mais de idade e redução de 917 dólares a cada cômodo a mais. Em cada uma dessas afirmativas estamos considerando fixos os valores das demais variáveis explicativas.</p>
 <p>Vamos ajustar modelos de regressão linear simples para cada variável explicativa e comparar os resultados.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste_area &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>area, <span class="dt">data =</span> dados)
-<span class="kw">summary</span>(ajuste_area)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">ajuste_area &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>area, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="kw">summary</span>(ajuste_area)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ area, data = dados)
@@ -599,8 +593,8 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ## Residual standard error: 23.24 on 498 degrees of freedom
 ## Multiple R-squared:  0.5929, Adjusted R-squared:  0.592 
 ## F-statistic: 725.2 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste_idade &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>idade, <span class="dt">data =</span> dados)
-<span class="kw">summary</span>(ajuste_idade)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">ajuste_idade &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>idade, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">summary</span>(ajuste_idade)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ idade, data = dados)
@@ -619,8 +613,8 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ## Residual standard error: 36.02 on 498 degrees of freedom
 ## Multiple R-squared:  0.02237,    Adjusted R-squared:  0.02041 
 ## F-statistic:  11.4 on 1 and 498 DF,  p-value: 0.0007937</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste_distancia &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>distancia, <span class="dt">data =</span> dados)
-<span class="kw">summary</span>(ajuste_distancia)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">ajuste_distancia &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>distancia, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="kw">summary</span>(ajuste_distancia)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ distancia, data = dados)
@@ -639,8 +633,8 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ## Residual standard error: 36.41 on 498 degrees of freedom
 ## Multiple R-squared:  0.001263,   Adjusted R-squared:  -0.0007428 
 ## F-statistic: 0.6296 on 1 and 498 DF,  p-value: 0.4279</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste_ncomodos &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>ncomodos, <span class="dt">data =</span> dados)
-<span class="kw">summary</span>(ajuste_ncomodos)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">ajuste_ncomodos &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>ncomodos, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="kw">summary</span>(ajuste_ncomodos)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ ncomodos, data = dados)
@@ -659,8 +653,8 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ## Residual standard error: 33.85 on 498 degrees of freedom
 ## Multiple R-squared:  0.1365, Adjusted R-squared:  0.1348 
 ## F-statistic: 78.74 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste_pcomerc &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>pcomerc, <span class="dt">data =</span> dados)
-<span class="kw">summary</span>(ajuste_pcomerc)</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">ajuste_pcomerc &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>pcomerc, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">summary</span>(ajuste_pcomerc)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ pcomerc, data = dados)
@@ -681,28 +675,28 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ## F-statistic: 0.008816 on 1 and 498 DF,  p-value: 0.9252</code></pre>
 <p>Observe o efeito do número de cômodos no valor de venda do imóvel no modelo de regressão linear múltipla e no modelo de regressão linear simples. O que ocorre? Você tem uma justificativa? Conversamos na sala de aula.</p>
 <p>Valores ajustados pelo modelo de regressão linear múltipla</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fitted</span>(ajuste1) %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">fitted</span>(ajuste1) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##        1        2        3 
 ## 188.3977 208.2540 164.0226</code></pre>
 <p>Resíduos</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">residuals</span>(ajuste1) %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">residuals</span>(ajuste1) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##         1         2         3 
 ##  1.834266 -3.886045 -1.082600</code></pre>
 <p>Estimativa de <span class="math inline">\(\sigma^2\)</span></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste1)$sigma^<span class="dv">2</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">summary</span>(ajuste1)<span class="op">$</span>sigma<span class="op">^</span><span class="dv">2</span></a></code></pre></div>
 <pre><code>## [1] 531.4171</code></pre>
 <p>Coeficiente de determinação</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste1)$r.squared </code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">summary</span>(ajuste1)<span class="op">$</span>r.squared </a></code></pre></div>
 <pre><code>## [1] 0.602777</code></pre>
 <p>Aproximadamente 60% da variação dos dados é explicada pelo modelo.</p>
 <p>Coeficiente de determinação ajustado</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste1)$adj.r.squared</code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">summary</span>(ajuste1)<span class="op">$</span>adj.r.squared</a></code></pre></div>
 <pre><code>## [1] 0.5987565</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">fitted</span>(ajuste1), dados$valor, <span class="dt">pch =</span> <span class="dv">20</span>,<span class="dt">xlab =</span> <span class="st">&#39;Vendas ajustadas&#39;</span>, 
-     <span class="dt">ylab =</span> <span class="st">&#39;Vendas observadas&#39;</span>, <span class="dt">las =</span> <span class="dv">1</span>) </code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">plot</span>(<span class="kw">fitted</span>(ajuste1), dados<span class="op">$</span>valor, <span class="dt">pch =</span> <span class="dv">20</span>,<span class="dt">xlab =</span> <span class="st">&#39;Vendas ajustadas&#39;</span>, </a>
+<a class="sourceLine" id="cb34-2" title="2">     <span class="dt">ylab =</span> <span class="st">&#39;Vendas observadas&#39;</span>, <span class="dt">las =</span> <span class="dv">1</span>) </a></code></pre></div>
 <p><img src="regressao_multipla_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Gráfico de valores observados vs valores ajustados.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(ajuste1) </code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">confint</span>(ajuste1) </a></code></pre></div>
 <pre><code>##                  2.5 %      97.5 %
 ## (Intercept) 31.5394135 65.57806196
 ## area         1.3719996  1.62016735
@@ -712,46 +706,46 @@ valor: Preço de venda do imóvel (variável resposta, em milhares de dólares)<
 ## pcomerc     -0.4729642  0.83649878</code></pre>
 <p>Intervalos de confiança (95%) para os parâmetros do modelo.</p>
 <p>Agora vamos fazer algumas predições.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dnovos &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">area =</span> <span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">150</span>), <span class="dt">idade =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">10</span>), 
-                     <span class="dt">distancia =</span> <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">10</span>), <span class="dt">ncomodos =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">8</span>),
-                     <span class="dt">pcomerc =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)) 
-dnovos</code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">dnovos &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">area =</span> <span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">150</span>), <span class="dt">idade =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">10</span>), </a>
+<a class="sourceLine" id="cb37-2" title="2">                     <span class="dt">distancia =</span> <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">10</span>), <span class="dt">ncomodos =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">8</span>),</a>
+<a class="sourceLine" id="cb37-3" title="3">                     <span class="dt">pcomerc =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)) </a>
+<a class="sourceLine" id="cb37-4" title="4">dnovos</a></code></pre></div>
 <pre><code>##   area idade distancia ncomodos pcomerc
 ## 1   80     5        15        5      10
 ## 2  100    10        12        6      10
 ## 3  150    10        10        8      10</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(ajuste1, <span class="dt">newdata =</span> dnovos) </code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">predict</span>(ajuste1, <span class="dt">newdata =</span> dnovos) </a></code></pre></div>
 <pre><code>##        1        2        3 
 ## 159.8716 185.7171 258.9571</code></pre>
 <p>Estimativas pontuais para os preços de venda para os novos dados.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;confidence&#39;</span>, <span class="dt">newdata =</span> dnovos)</code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;confidence&#39;</span>, <span class="dt">newdata =</span> dnovos)</a></code></pre></div>
 <pre><code>##        fit      lwr      upr
 ## 1 159.8716 153.0285 166.7147
 ## 2 185.7171 182.2476 189.1866
 ## 3 258.9571 255.1371 262.7772</code></pre>
 <p>Intervalos de confiança (95%) para os preços médios de venda de imóveis com os três “perfis”.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="dt">newdata =</span> dnovos) </code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="dt">newdata =</span> dnovos) </a></code></pre></div>
 <pre><code>##        fit      lwr      upr
 ## 1 159.8716 114.0646 205.6786
 ## 2 185.7171 140.2914 231.1428
 ## 3 258.9571 213.5033 304.4109</code></pre>
 <p>Intervalos de predição (95%) para o valor de venda de três novos imóveis com as características especificadas.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;confidence&#39;</span>, <span class="dt">newdata =</span> dados)</code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">p1 &lt;-<span class="st"> </span><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;confidence&#39;</span>, <span class="dt">newdata =</span> dados)</a></code></pre></div>
 <p>Intervalos de confiança para os preços médios de venda de imóveis com os perfis dos imóveis da base.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="kw">cbind</span>(dados[<span class="dv">1</span>:<span class="dv">20</span>,<span class="dv">1</span>:<span class="dv">5</span>], p1[<span class="dv">1</span>:<span class="dv">20</span>,])) %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dt">n=</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">(<span class="kw">cbind</span>(dados[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], p1[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,])) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n=</span> <span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##    area idade distancia ncomodos pcomerc      fit      lwr      upr
 ## 1 100.8    15       5.8        3      18 188.3977 181.8104 194.9851
 ## 2 114.4    10       8.7        6      13 208.2540 205.0985 211.4096
 ## 3  86.9    13      17.1        5       9 164.0226 158.2217 169.8235</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="dt">newdata =</span> dados)</code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">p2 &lt;-<span class="st"> </span><span class="kw">predict</span>(ajuste1, <span class="dt">interval =</span> <span class="st">&#39;prediction&#39;</span>, <span class="dt">newdata =</span> dados)</a></code></pre></div>
 <p>Intervalos de predição para os preços de venda de novos imóveis com os perfis dos imóveis da base.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="kw">cbind</span>(dados[<span class="dv">1</span>:<span class="dv">20</span>,<span class="dv">1</span>:<span class="dv">5</span>], p2[<span class="dv">1</span>:<span class="dv">20</span>,])) %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dt">n=</span><span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">(<span class="kw">cbind</span>(dados[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], p2[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,])) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n=</span><span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##    area idade distancia ncomodos pcomerc      fit      lwr      upr
 ## 1 100.8    15       5.8        3      18 188.3977 142.6282 234.1673
 ## 2 114.4    10       8.7        6      13 208.2540 162.8512 253.6568
 ## 3  86.9    13      17.1        5       9 164.0226 118.3596 209.6856</code></pre>
 <p>Agora, alguns testes de hipóteses. Começamos pelo quadro da anova.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(ajuste1)</code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">anova</span>(ajuste1)</a></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: valor
@@ -771,8 +765,8 @@ dnovos</code></pre></div>
 <p>Efeito significativo da inclusão de ncomodos (conforme a redução na soma de quadrados de resíduos) ao modelo ajustado pelos efeitos de area, idade e distancia (p = 0.0444);</p>
 <p>Efeito não significativo da inclusão de pcomerc (conforme a redução na soma de quadrados de resíduos) ao modelo ajustado pelos efeitos de area, idade, distancia e ncomodos (p = 0.5856).</p>
 <p>E se mudarmos a ordem de declaração das variáveis?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste1_alt &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>pcomerc +<span class="st"> </span>ncomodos +<span class="st"> </span>area +<span class="st"> </span>idade +<span class="st"> </span>distancia , <span class="dt">data =</span> dados)
-<span class="kw">anova</span>(ajuste1_alt)</code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">ajuste1_alt &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>pcomerc <span class="op">+</span><span class="st"> </span>ncomodos <span class="op">+</span><span class="st"> </span>area <span class="op">+</span><span class="st"> </span>idade <span class="op">+</span><span class="st"> </span>distancia , <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb53-2" title="2"><span class="kw">anova</span>(ajuste1_alt)</a></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: valor
@@ -787,7 +781,7 @@ dnovos</code></pre></div>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Os resultados são idênticos? Justifique.</p>
 <p>Usando a função Anova do pacote car, temos uma sequência de testes diferentes:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Anova</span>(ajuste1)</code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1"><span class="kw">Anova</span>(ajuste1)</a></code></pre></div>
 <pre><code>## Anova Table (Type II tests)
 ## 
 ## Response: valor
@@ -807,8 +801,8 @@ dnovos</code></pre></div>
 <p>Efeito significativo da inclusão de ncomodos (conforme a redução na soma de quadrados de resíduos) ao modelo ajustado por todas as demais variáveis (p = 0.0439);</p>
 <p>Efeito não significativo da inclusão de pcomerc (conforme a redução na soma de quadrados de resíduos) ao modelo ajustado por todas as demais variáveis (p = 0.5856).</p>
 <p>E se mudarmos a ordem de declaração das variáveis?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste1_alt &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>pcomerc +<span class="st"> </span>ncomodos +<span class="st"> </span>area +<span class="st"> </span>idade +<span class="st"> </span>distancia , <span class="dt">data =</span> dados)
-<span class="kw">Anova</span>(ajuste1_alt)</code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">ajuste1_alt &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>pcomerc <span class="op">+</span><span class="st"> </span>ncomodos <span class="op">+</span><span class="st"> </span>area <span class="op">+</span><span class="st"> </span>idade <span class="op">+</span><span class="st"> </span>distancia , <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb57-2" title="2"><span class="kw">Anova</span>(ajuste1_alt)</a></code></pre></div>
 <pre><code>## Anova Table (Type II tests)
 ## 
 ## Response: valor
@@ -827,9 +821,9 @@ dnovos</code></pre></div>
 </div>
 <div id="ajuste-2" class="section level2">
 <h2>Ajuste 2</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~. -idade, <span class="dt">data =</span> dados) </code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1">ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span>. <span class="op">-</span>idade, <span class="dt">data =</span> dados) </a></code></pre></div>
 <p>Modelo de regressão linear múltipla sem considerar a covariável idade.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(ajuste2, ajuste1)</code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">anova</span>(ajuste2, ajuste1)</a></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: valor ~ (area + idade + distancia + ncomodos + pcomerc) - idade
@@ -840,21 +834,21 @@ dnovos</code></pre></div>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>O acréscimo na soma de quadrados (ASQ) de resíduos, resultante da eliminação do termo idade do modelo, é igual a 4392. A estatística do teste é dada por F = (ASQ/df)/QMRes = 4392/531 = 8.26. Sob a hipótese nula, a estatística F tem distribuição F-Snedecor com parâmetros 1 (associado ao número de parãmetros) fixados pela hipótese nula) e 494 (associado à soma de quadrados de resíduos). Vamos ver quais seriam as conclusões aos níveis de 5 e 1% de significância:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qf</span>(<span class="fl">0.95</span>, <span class="dt">df1 =</span> <span class="dv">1</span>, <span class="dt">df2 =</span> <span class="dv">494</span>)</code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1"><span class="kw">qf</span>(<span class="fl">0.95</span>, <span class="dt">df1 =</span> <span class="dv">1</span>, <span class="dt">df2 =</span> <span class="dv">494</span>)</a></code></pre></div>
 <pre><code>## [1] 3.860352</code></pre>
 <p>Como F = 8.26 &gt; 3.86, podemos rejeitar a hipótese nula e comprovar o efeito da idade do imóvel ao nível de significância de 5%;</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qf</span>(<span class="fl">0.99</span>, <span class="dt">df1 =</span> <span class="dv">1</span>, <span class="dt">df2 =</span> <span class="dv">494</span>)</code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1"><span class="kw">qf</span>(<span class="fl">0.99</span>, <span class="dt">df1 =</span> <span class="dv">1</span>, <span class="dt">df2 =</span> <span class="dv">494</span>)</a></code></pre></div>
 <pre><code>## [1] 6.686455</code></pre>
 <p>Como F = 8.26 &gt; 6.68, podemos rejeitar a hipótese nula e comprovar o efeito da idade do imóvel ao nível de significância de 5%;</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pf</span>(<span class="fl">8.26</span>, <span class="dt">df1 =</span> <span class="dv">1</span>, <span class="dt">df2 =</span> <span class="dv">494</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1"><span class="kw">pf</span>(<span class="fl">8.26</span>, <span class="dt">df1 =</span> <span class="dv">1</span>, <span class="dt">df2 =</span> <span class="dv">494</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] 0.004227479</code></pre>
 <p>Valor p do teste (ligeiramente diferente por erros de arredondamento).</p>
 </div>
 <div id="ajuste-3" class="section level2">
 <h2>Ajuste 3</h2>
 <p>Agora vamos testar a hipótese nula H_0: beta_distancia = beta_pcomerc = 0</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste3 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~. -distancia -<span class="st"> </span>pcomerc, <span class="dt">data =</span> dados)
-<span class="kw">anova</span>(ajuste3, ajuste1)</code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1">ajuste3 &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span>. <span class="op">-</span>distancia <span class="op">-</span><span class="st"> </span>pcomerc, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb68-2" title="2"><span class="kw">anova</span>(ajuste3, ajuste1)</a></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: valor ~ (area + idade + distancia + ncomodos + pcomerc) - distancia - 
@@ -863,7 +857,7 @@ dnovos</code></pre></div>
 ##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
 ## 1    496 262818                           
 ## 2    494 262520  2    297.67 0.2801 0.7558</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste3)</code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1"><span class="kw">summary</span>(ajuste3)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ . - distancia - pcomerc, data = dados)
@@ -886,11 +880,11 @@ dnovos</code></pre></div>
 ## F-statistic: 250.4 on 3 and 496 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Não há evidência significativa contrária à hipótese nula (p = 0.7558). Assim, a partir deste ponto vamos considerar o modelo apenas com efeito de area, idade e ncomodos.</p>
 <p>Região de confiança para area e idade</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ellipse::<span class="kw">ellipse</span>(ajuste1, <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&#39;area&#39;</span>,<span class="st">&#39;idade&#39;</span>), <span class="dt">level =</span> <span class="fl">0.95</span>), <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1"><span class="kw">plot</span>(ellipse<span class="op">::</span><span class="kw">ellipse</span>(ajuste1, <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&#39;area&#39;</span>,<span class="st">&#39;idade&#39;</span>), <span class="dt">level =</span> <span class="fl">0.95</span>), <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</a></code></pre></div>
 <p><img src="regressao_multipla_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>Voltando ao modelo 1, a elipse de confiança para os parâmetros de área e ncomodos:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ellipse::<span class="kw">ellipse</span>(ajuste1, <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&#39;area&#39;</span>,<span class="st">&#39;ncomodos&#39;</span>), <span class="dt">level =</span> <span class="fl">0.95</span>), <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)
-<span class="kw">confint</span>(ajuste1)</code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"><span class="kw">plot</span>(ellipse<span class="op">::</span><span class="kw">ellipse</span>(ajuste1, <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&#39;area&#39;</span>,<span class="st">&#39;ncomodos&#39;</span>), <span class="dt">level =</span> <span class="fl">0.95</span>), <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>)</a>
+<a class="sourceLine" id="cb73-2" title="2"><span class="kw">confint</span>(ajuste1)</a></code></pre></div>
 <pre><code>##                  2.5 %      97.5 %
 ## (Intercept) 31.5394135 65.57806196
 ## area         1.3719996  1.62016735
@@ -898,24 +892,24 @@ dnovos</code></pre></div>
 ## distancia   -0.7200369  0.44848607
 ## ncomodos    -1.8107703 -0.02490471
 ## pcomerc     -0.4729642  0.83649878</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">confint</span>(ajuste1)[<span class="st">&#39;area&#39;</span>,], <span class="dt">lty =</span> <span class="dv">2</span>)
-<span class="kw">abline</span>(<span class="dt">h =</span> <span class="kw">confint</span>(ajuste1)[<span class="st">&#39;ncomodos&#39;</span>,], <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">confint</span>(ajuste1)[<span class="st">&#39;area&#39;</span>,], <span class="dt">lty =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb75-2" title="2"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="kw">confint</span>(ajuste1)[<span class="st">&#39;ncomodos&#39;</span>,], <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="regressao_multipla_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <p>Observe que há pontos (valores dos parâmetros) que pertencem à elipse de confiança mas não à região retangular delimitada pelos intervalos de confiança e vice-versa.</p>
 <p>Explorando os efeitos das variáveis</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">allEffects</span>(ajuste3))</code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1"><span class="kw">plot</span>(<span class="kw">allEffects</span>(ajuste3))</a></code></pre></div>
 <p><img src="regressao_multipla_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 <p>Gráficos de efeitos para cada variável. No eixo vertical temos a resposta esperada (preço médio de venda). Em cada gráfico as demais variáveis são fixadas em suas médias. Além da estimativa pontual (representada pela reta sólida), também são apresentadas as bandas de confiança (95%).</p>
 </div>
 <div id="ajuste-3c" class="section level2">
 <h2>Ajuste 3c</h2>
 <p>Vamos ajustar um novo modelo, agora considerando as variáveis explicativas centradas, isso é, subtraindo de cada variável a respectiva média na amostra.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dados$areac &lt;-<span class="st"> </span>dados$area -<span class="st"> </span><span class="kw">mean</span>(dados$area)
-dados$ncomodosc &lt;-<span class="st"> </span>dados$ncomodos -<span class="st"> </span><span class="kw">mean</span>(dados$ncomodos)
-dados$idadec &lt;-<span class="st"> </span>dados$idade -<span class="st"> </span><span class="kw">mean</span>(dados$idade)
-
-ajuste3c &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>areac +<span class="st"> </span>ncomodosc +<span class="st"> </span>idadec, <span class="dt">data =</span> dados)
-<span class="kw">summary</span>(ajuste3c)</code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1">dados<span class="op">$</span>areac &lt;-<span class="st"> </span>dados<span class="op">$</span>area <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dados<span class="op">$</span>area)</a>
+<a class="sourceLine" id="cb77-2" title="2">dados<span class="op">$</span>ncomodosc &lt;-<span class="st"> </span>dados<span class="op">$</span>ncomodos <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dados<span class="op">$</span>ncomodos)</a>
+<a class="sourceLine" id="cb77-3" title="3">dados<span class="op">$</span>idadec &lt;-<span class="st"> </span>dados<span class="op">$</span>idade <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dados<span class="op">$</span>idade)</a>
+<a class="sourceLine" id="cb77-4" title="4"></a>
+<a class="sourceLine" id="cb77-5" title="5">ajuste3c &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>areac <span class="op">+</span><span class="st"> </span>ncomodosc <span class="op">+</span><span class="st"> </span>idadec, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb77-6" title="6"><span class="kw">summary</span>(ajuste3c)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ areac + ncomodosc + idadec, data = dados)
@@ -936,7 +930,7 @@ ajuste3c &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span c
 ## Residual standard error: 23.02 on 496 degrees of freedom
 ## Multiple R-squared:  0.6023, Adjusted R-squared:  0.5999 
 ## F-statistic: 250.4 on 3 and 496 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste3)</code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1"><span class="kw">summary</span>(ajuste3)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ . - distancia - pcomerc, data = dados)
@@ -960,28 +954,28 @@ ajuste3c &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span c
 <p>Observe que centrar os dados não tem qualquer efeito sobre as estimativas, erros padrões e significâncias dos betas. Isso se repetiria para qualquer outra constante que fosse somada ou adicionada aos valores de cada variável. Adicionalmente:</p>
 <p>1- O intercepto agora tem uma interpretação válida. Podemos interpretá-lo como a estimativa do preço médio de venda para imóveis com características “médias”, ou seja, com valores para as covariáveis definidas pelas médias amostrais. Como o valor ajustado de y avaliado nas médias de x1, x2, …, xp é a média amostral de y, então a estimativa do intercepto será simplesmente ybarra.</p>
 <p>2- O intercepto, agora, é ortogonal aos demais parâmetros do modelo. Para verificar isso, nest aplicação, basta extrair as matrizes de covariâncias dos estimadores produzidas pelos dois modelos.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vcov</span>(ajuste3)</code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" title="1"><span class="kw">vcov</span>(ajuste3)</a></code></pre></div>
 <pre><code>##             (Intercept)          area         idade     ncomodos
 ## (Intercept)  55.4234496 -0.3908146958 -0.8640733558  0.483483132
 ## area         -0.3908147  0.0039576575  0.0008347134 -0.015252800
 ## idade        -0.8640734  0.0008347134  0.0611782661  0.005072786
 ## ncomodos      0.4834831 -0.0152528004  0.0050727862  0.205849522</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vcov</span>(ajuste3c)</code></pre></div>
-<pre><code>##               (Intercept)         areac     ncomodosc       idadec
-## (Intercept)  1.059749e+00 -2.936066e-17  1.568787e-16 4.817623e-17
-## areac       -2.936066e-17  3.957658e-03 -1.525280e-02 8.347134e-04
-## ncomodosc    1.568787e-16 -1.525280e-02  2.058495e-01 5.072786e-03
-## idadec       4.817623e-17  8.347134e-04  5.072786e-03 6.117827e-02</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1"><span class="kw">vcov</span>(ajuste3c)</a></code></pre></div>
+<pre><code>##               (Intercept)         areac     ncomodosc        idadec
+## (Intercept)  1.059749e+00 -1.614591e-17 -5.427469e-17 -7.567791e-18
+## areac       -1.614591e-17  3.957658e-03 -1.525280e-02  8.347134e-04
+## ncomodosc   -5.427469e-17 -1.525280e-02  2.058495e-01  5.072786e-03
+## idadec      -7.567791e-18  8.347134e-04  5.072786e-03  6.117827e-02</code></pre>
 </div>
 <div id="ajuste-3s" class="section level2">
 <h2>Ajuste 3s</h2>
 <p>Agora vamos ajustar um novo modelo em que, além de centradas, as variáveis explicativas estão escalonadas. Ou seja, para uma variável x qualquer, consideramos x’ = (x - media(x))/desv.padrão(x).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dados$areas &lt;-<span class="st"> </span>(dados$area -<span class="st"> </span><span class="kw">mean</span>(dados$area))/<span class="kw">sd</span>(dados$area)
-dados$ncomodoss &lt;-<span class="st"> </span>(dados$ncomodos -<span class="st"> </span><span class="kw">mean</span>(dados$ncomodos))/<span class="kw">sd</span>(dados$ncomodos)
-dados$idades &lt;-<span class="st"> </span>(dados$idade -<span class="st"> </span><span class="kw">mean</span>(dados$idade))/<span class="kw">sd</span>(dados$idade)
-
-ajuste3s &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span class="st"> </span>areas +<span class="st"> </span>ncomodoss +<span class="st"> </span>idades, <span class="dt">data =</span> dados)
-<span class="kw">summary</span>(ajuste3s)</code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1">dados<span class="op">$</span>areas &lt;-<span class="st"> </span>(dados<span class="op">$</span>area <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dados<span class="op">$</span>area))<span class="op">/</span><span class="kw">sd</span>(dados<span class="op">$</span>area)</a>
+<a class="sourceLine" id="cb85-2" title="2">dados<span class="op">$</span>ncomodoss &lt;-<span class="st"> </span>(dados<span class="op">$</span>ncomodos <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dados<span class="op">$</span>ncomodos))<span class="op">/</span><span class="kw">sd</span>(dados<span class="op">$</span>ncomodos)</a>
+<a class="sourceLine" id="cb85-3" title="3">dados<span class="op">$</span>idades &lt;-<span class="st"> </span>(dados<span class="op">$</span>idade <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dados<span class="op">$</span>idade))<span class="op">/</span><span class="kw">sd</span>(dados<span class="op">$</span>idade)</a>
+<a class="sourceLine" id="cb85-4" title="4"></a>
+<a class="sourceLine" id="cb85-5" title="5">ajuste3s &lt;-<span class="st"> </span><span class="kw">lm</span>(valor <span class="op">~</span><span class="st"> </span>areas <span class="op">+</span><span class="st"> </span>ncomodoss <span class="op">+</span><span class="st"> </span>idades, <span class="dt">data =</span> dados)</a>
+<a class="sourceLine" id="cb85-6" title="6"><span class="kw">summary</span>(ajuste3s)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ areas + ncomodoss + idades, data = dados)
@@ -1002,7 +996,7 @@ ajuste3s &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span c
 ## Residual standard error: 23.02 on 496 degrees of freedom
 ## Multiple R-squared:  0.6023, Adjusted R-squared:  0.5999 
 ## F-statistic: 250.4 on 3 and 496 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste3c)</code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" title="1"><span class="kw">summary</span>(ajuste3c)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ areac + ncomodosc + idadec, data = dados)
@@ -1023,7 +1017,7 @@ ajuste3s &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span c
 ## Residual standard error: 23.02 on 496 degrees of freedom
 ## Multiple R-squared:  0.6023, Adjusted R-squared:  0.5999 
 ## F-statistic: 250.4 on 3 and 496 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste3)</code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1"><span class="kw">summary</span>(ajuste3)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = valor ~ . - distancia - pcomerc, data = dados)
@@ -1048,14 +1042,14 @@ ajuste3s &lt;-<span class="st"> </span><span class="kw">lm</span>(valor ~<span c
 <p>Observe que agora, embora as significâncias das variáveis sejam as mesmas, as estimativas e os erros padrões mudaram, devido à mudança de escala. Neste modelo as interpretações dos parâmetros não são mais em relação ao “acréscimo de uma unidade em x”, mas sim quanto ao “acréscimo de um desvio padrão de x em x”.</p>
 <p>Como resultado de eliminar o efeito de escala, os valores das estimativas (suas grandezas) são diretamente comparáveis. Assim, fica evidente o maior efeito da área do imóvel no preço de venda. Nos modelos anteriores os valores das estimativas dependiam da escala (e da unidade de medida) das respectivas variáveis. Aqui isso já não acontece.</p>
 <p>A interpretação do intercepto é a mesma do ajuste anterior.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">estim &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">coef</span>(ajuste3s), <span class="kw">confint</span>(ajuste3s))[-<span class="dv">1</span>,]</code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">estim &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">coef</span>(ajuste3s), <span class="kw">confint</span>(ajuste3s))[<span class="op">-</span><span class="dv">1</span>,]</a></code></pre></div>
 <p>Data frame com as estimativas pontuais e intervalos de confiança 95% para os betas (exceto o intercepto).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(estim) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Estimativa&#39;</span>, <span class="st">&#39;LI&#39;</span>, <span class="st">&#39;LS&#39;</span>)
-
-p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y =</span> Estimativa, <span class="dt">ymin =</span> LI, <span class="dt">ymax =</span> LS, <span class="dt">x =</span> <span class="kw">rownames</span>(estim)),
-            <span class="dt">data =</span> estim) +<span class="st"> </span><span class="kw">geom_pointrange</span>()
-
-p +<span class="st"> </span><span class="kw">coord_flip</span>() +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Variável&quot;</span>) +<span class="st"> </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>)</code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1"><span class="kw">names</span>(estim) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Estimativa&#39;</span>, <span class="st">&#39;LI&#39;</span>, <span class="st">&#39;LS&#39;</span>)</a>
+<a class="sourceLine" id="cb92-2" title="2"></a>
+<a class="sourceLine" id="cb92-3" title="3">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y =</span> Estimativa, <span class="dt">ymin =</span> LI, <span class="dt">ymax =</span> LS, <span class="dt">x =</span> <span class="kw">rownames</span>(estim)),</a>
+<a class="sourceLine" id="cb92-4" title="4">            <span class="dt">data =</span> estim) <span class="op">+</span><span class="st"> </span><span class="kw">geom_pointrange</span>()</a>
+<a class="sourceLine" id="cb92-5" title="5"></a>
+<a class="sourceLine" id="cb92-6" title="6">p <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Variável&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>)</a></code></pre></div>
 <p><img src="regressao_multipla_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 </div>
 
@@ -1077,6 +1071,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

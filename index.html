@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -20,6 +21,8 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 
 
@@ -227,18 +230,6 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
@@ -302,7 +293,13 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/gianlima">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -319,7 +316,7 @@ $(document).ready(function () {
 
 <p>I’m a student who loves spending some time seeing and analysing data. <em>Statistics</em> is my main subject at the Federal University of Paraná (<a href="www.ufpr.br/portalufpr/">UFPR</a>), Brazil. My passion for learning and my curiosity led me to discover that through <em>data analysis</em> it’s possible to see patterns we didn’t even think that could exist. That’s an useful way of improving processess, solving problems and consequently helping people.</p>
 <p>I’m interested in programming, more specifically in R and Python languages which can help me see and understand the world with the help of <em>statistics technics</em> and other subjects as <em>artificial intelligence</em> and <em>data science.</em></p>
-<p>Check out my projects on this site or on my <a href="www.github.com/gianlima">github</a>. You can reach me at <a href="mailto:gian.lima@live.com">gian.lima@live.com</a>.</p>
+<p>Check out my projects on this site or on my <a href="www.github.com/gianlima">github</a>. You can reach me at <a href="mailto:gian.lima@live.com" class="email">gian.lima@live.com</a>.</p>
 
 
 
@@ -338,6 +335,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Cesar Taconeli" />
@@ -24,45 +25,73 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -78,7 +107,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -296,48 +325,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -386,8 +376,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -473,7 +461,13 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/gianlima">
+    <span class="fa fa-github fa-lg"></span>
+     
+    GitHub
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -492,46 +486,46 @@ div.tocify {
 <p>Aula - Transformações, ponderação e regressão robusta.</p>
 <div id="exemplo-1---tranformacao-na-resposta---o-metodo-de-box-cox." class="section level2">
 <h2>Exemplo 1 - Tranformação na resposta - o método de Box-Cox.</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(magrittr)
-<span class="kw">require</span>(faraway)
-<span class="kw">require</span>(car)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">require</span>(magrittr)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">require</span>(faraway)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">require</span>(car)</a></code></pre></div>
 <p>Vamos fazer uma análise de regressão linear considerando a concentração de ozônio como resposta e temperatura, unidade e ibh como preditoras.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone2 &lt;-<span class="st"> </span><span class="kw">subset</span>(ozone, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&#39;O3&#39;</span>, <span class="st">&#39;temp&#39;</span>, <span class="st">&#39;humidity&#39;</span>, <span class="st">&#39;ibh&#39;</span>))
-<span class="kw">pairs</span>(ozone2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">ozone2 &lt;-<span class="st"> </span><span class="kw">subset</span>(ozone, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&#39;O3&#39;</span>, <span class="st">&#39;temp&#39;</span>, <span class="st">&#39;humidity&#39;</span>, <span class="st">&#39;ibh&#39;</span>))</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">pairs</span>(ozone2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Podemos observar relações não lineares, evidente variância não constante, alguma evidência de assimetria. Claramente são apenas evidências baseadas em descritivas bivariadas.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(O3 ~<span class="st"> </span>temp +<span class="st"> </span>humidity +<span class="st"> </span>ibh, <span class="dt">data =</span> ozone2)
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(ajuste)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(O3 <span class="op">~</span><span class="st"> </span>temp <span class="op">+</span><span class="st"> </span>humidity <span class="op">+</span><span class="st"> </span>ibh, <span class="dt">data =</span> ozone2)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw">plot</span>(ajuste)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Há fortes indícios de variância não constante para os erros, alguma evidência de não normalidade.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncvTest</span>(ajuste) </code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">ncvTest</span>(ajuste) </a></code></pre></div>
 <pre><code>## Non-constant Variance Score Test 
 ## Variance formula: ~ fitted.values 
 ## Chisquare = 32.35328, Df = 1, p = 1.2854e-08</code></pre>
 <p>A hipótese de variância constante é rejeitada.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(<span class="kw">rstandard</span>(ajuste)) </code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">shapiro.test</span>(<span class="kw">rstandard</span>(ajuste)) </a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  rstandard(ajuste)
 ## W = 0.9919, p-value = 0.06875</code></pre>
 <p>Vamos usar o método de Box-Cox para identificar uma transformação adequada.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b1 &lt;-<span class="st"> </span><span class="kw">boxCox</span>(ajuste, <span class="dt">lambda =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.1</span>))</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">b1 &lt;-<span class="st"> </span><span class="kw">boxCox</span>(ajuste, <span class="dt">lambda =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.1</span>))</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b1$x[<span class="kw">which.max</span>(b1$y)]</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">b1<span class="op">$</span>x[<span class="kw">which.max</span>(b1<span class="op">$</span>y)]</a></code></pre></div>
 <pre><code>## [1] 0.2828283</code></pre>
 <p>Uma transformação do tipo raiz cúbica é indicada.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone2$O3_trans &lt;-<span class="st"> </span>ozone2$O3^(<span class="dv">1</span>/<span class="dv">3</span>) <span class="co"># Variável transformada.</span>
-ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(O3_trans ~<span class="st"> </span>temp +<span class="st"> </span>humidity +<span class="st"> </span>ibh, <span class="dt">data =</span> ozone2)
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(ajuste2)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">ozone2<span class="op">$</span>O3_trans &lt;-<span class="st"> </span>ozone2<span class="op">$</span>O3<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>) <span class="co"># Variável transformada.</span></a>
+<a class="sourceLine" id="cb11-2" title="2">ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(O3_trans <span class="op">~</span><span class="st"> </span>temp <span class="op">+</span><span class="st"> </span>humidity <span class="op">+</span><span class="st"> </span>ibh, <span class="dt">data =</span> ozone2)</a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="kw">plot</span>(ajuste2)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncvTest</span>(ajuste2)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">ncvTest</span>(ajuste2)</a></code></pre></div>
 <pre><code>## Non-constant Variance Score Test 
 ## Variance formula: ~ fitted.values 
 ## Chisquare = 0.3076184, Df = 1, p = 0.57915</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(<span class="kw">rstandard</span>(ajuste2))</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">shapiro.test</span>(<span class="kw">rstandard</span>(ajuste2))</a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -539,33 +533,33 @@ ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(O3_trans ~<span
 ## W = 0.99324, p-value = 0.1444</code></pre>
 <p>Observe que não há mais evidências contrárias às hipóteses de variância constante e normalidade. Os gráficos de resíduos têm um padrão bem mais adequado, indicando um bom ajuste.</p>
 <p>Vamos fazer as predições e produzir um gráfico de efeitos. Vamos fixar temperatura e ibh na média, e predizer a concentração de ozônio para uma sequência de valores para umidade.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">novo_humidity &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(ozone2$humidity), <span class="kw">max</span>(ozone2$humidity), <span class="dt">length.out =</span> <span class="dv">100</span>)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">novo_humidity &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(ozone2<span class="op">$</span>humidity), <span class="kw">max</span>(ozone2<span class="op">$</span>humidity), <span class="dt">length.out =</span> <span class="dv">100</span>)</a></code></pre></div>
 <p>Grid de valores para umidade.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">novos_dados &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">temp =</span> <span class="kw">mean</span>(ozone2$temp), <span class="dt">ibh =</span> <span class="kw">mean</span>(ozone2$ibh), 
-                           <span class="dt">humidity =</span> novo_humidity)</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">novos_dados &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">temp =</span> <span class="kw">mean</span>(ozone2<span class="op">$</span>temp), <span class="dt">ibh =</span> <span class="kw">mean</span>(ozone2<span class="op">$</span>ibh), </a>
+<a class="sourceLine" id="cb17-2" title="2">                           <span class="dt">humidity =</span> novo_humidity)</a></code></pre></div>
 <p>Criando a base para predição.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predic &lt;-<span class="st"> </span><span class="kw">predict</span>(ajuste2, <span class="dt">newdata =</span> novos_dados, <span class="dt">interval =</span> <span class="st">&quot;prediction&quot;</span>)
-predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### Predições na escala original.
-
-<span class="kw">plot</span>(novo_humidity, predic_orig[,<span class="dv">1</span>], <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>), <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>,
-     <span class="dt">xlab =</span> <span class="st">&#39;Umidade&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;O3&#39;</span>)
-<span class="kw">lines</span>(novo_humidity, predic_orig[,<span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
-<span class="kw">lines</span>(novo_humidity, predic_orig[,<span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">predic &lt;-<span class="st"> </span><span class="kw">predict</span>(ajuste2, <span class="dt">newdata =</span> novos_dados, <span class="dt">interval =</span> <span class="st">&quot;prediction&quot;</span>)</a>
+<a class="sourceLine" id="cb18-2" title="2">predic_orig &lt;-<span class="st"> </span>predic<span class="op">^</span><span class="dv">3</span> <span class="co">### Predições na escala original.</span></a>
+<a class="sourceLine" id="cb18-3" title="3"></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="kw">plot</span>(novo_humidity, predic_orig[,<span class="dv">1</span>], <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>), <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>,</a>
+<a class="sourceLine" id="cb18-5" title="5">     <span class="dt">xlab =</span> <span class="st">&#39;Umidade&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;O3&#39;</span>)</a>
+<a class="sourceLine" id="cb18-6" title="6"><span class="kw">lines</span>(novo_humidity, predic_orig[,<span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb18-7" title="7"><span class="kw">lines</span>(novo_humidity, predic_orig[,<span class="dv">3</span>], <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Gráfico de efeitos.</p>
 </div>
 <div id="exemplo-2---minimos-quadrados-ponderados." class="section level2">
 <h2>Exemplo 2 - Mínimos quadrados ponderados.</h2>
 <p>Vamos utilizar a base de dados cars, disponível na base do R.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(car) 
-<span class="kw">require</span>(nlme) 
-
-<span class="kw">head</span>(cars,<span class="dv">3</span>) </code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">require</span>(car) </a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="kw">require</span>(nlme) </a>
+<a class="sourceLine" id="cb19-3" title="3"></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="kw">head</span>(cars,<span class="dv">3</span>) </a></code></pre></div>
 <pre><code>##   speed dist
 ## 1     4    2
 ## 2     4   10
 ## 3     7    4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(cars) </code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">summary</span>(cars) </a></code></pre></div>
 <pre><code>##      speed           dist       
 ##  Min.   : 4.0   Min.   :  2.00  
 ##  1st Qu.:12.0   1st Qu.: 26.00  
@@ -573,15 +567,15 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 ##  Mean   :15.4   Mean   : 42.98  
 ##  3rd Qu.:19.0   3rd Qu.: 56.00  
 ##  Max.   :25.0   Max.   :120.00</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">las =</span> <span class="dv">1</span>)
-<span class="kw">plot</span>(cars,<span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">xlab=</span><span class="st">&#39;Velocidade (mph)&#39;</span>,<span class="dt">ylab=</span><span class="st">&#39;Distância de frenagem (m)&#39;</span>) 
-<span class="kw">with</span>(cars,<span class="kw">lines</span>(<span class="kw">lowess</span>(dist~speed),<span class="dt">col=</span><span class="st">&#39;red&#39;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)) </code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">par</span>(<span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">las =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="kw">plot</span>(cars,<span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">xlab=</span><span class="st">&#39;Velocidade (mph)&#39;</span>,<span class="dt">ylab=</span><span class="st">&#39;Distância de frenagem (m)&#39;</span>) </a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="kw">with</span>(cars,<span class="kw">lines</span>(<span class="kw">lowess</span>(dist<span class="op">~</span>speed),<span class="dt">col=</span><span class="st">&#39;red&#39;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)) </a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>A dispersão da distância de frenagem parece aumentar conforme a velocidade.</p>
 <div id="ajuste-1-regressao-linear-via-minimos-quadrados-ordinarios" class="section level4">
 <h4>Ajuste 1: regressão linear via mínimos quadrados ordinários</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(dist~speed,<span class="dt">data =</span> cars) 
-<span class="kw">summary</span>(ajuste) </code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(dist<span class="op">~</span>speed,<span class="dt">data =</span> cars) </a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="kw">summary</span>(ajuste) </a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
@@ -600,11 +594,11 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 ## Residual standard error: 15.38 on 48 degrees of freedom
 ## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
 ## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(ajuste, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="kw">plot</span>(ajuste, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>Os resíduos reforçam a evidência de variância não constante.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncvTest</span>(ajuste) </code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">ncvTest</span>(ajuste) </a></code></pre></div>
 <pre><code>## Non-constant Variance Score Test 
 ## Variance formula: ~ fitted.values 
 ## Chisquare = 4.650233, Df = 1, p = 0.031049</code></pre>
@@ -613,8 +607,8 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 <div id="ajuste-2-regressao-linear-via-minimos-quadrados-ponderados" class="section level4">
 <h4>Ajuste 2: regressão linear via mínimos quadrados ponderados</h4>
 <p>vamos assumir que a variância aumenta linearmente conforme a velocidade (x). Assim, os pesos vão ser definidos por 1/x.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(dist ~<span class="st"> </span>speed, <span class="dt">weights =</span> <span class="dv">1</span>/speed, <span class="dt">data =</span> cars) 
-<span class="kw">summary</span>(ajuste) </code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">ajuste2 &lt;-<span class="st"> </span><span class="kw">lm</span>(dist <span class="op">~</span><span class="st"> </span>speed, <span class="dt">weights =</span> <span class="dv">1</span><span class="op">/</span>speed, <span class="dt">data =</span> cars) </a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="kw">summary</span>(ajuste) </a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
@@ -633,7 +627,7 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 ## Residual standard error: 15.38 on 48 degrees of freedom
 ## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
 ## F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compareCoefs</span>(ajuste, ajuste2, <span class="dt">zvals =</span> <span class="ot">TRUE</span>, <span class="dt">pvals =</span> <span class="ot">TRUE</span>) </code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">compareCoefs</span>(ajuste, ajuste2, <span class="dt">zvals =</span> <span class="ot">TRUE</span>, <span class="dt">pvals =</span> <span class="ot">TRUE</span>) </a></code></pre></div>
 <pre><code>## Calls:
 ## 1: lm(formula = dist ~ speed, data = cars)
 ## 2: lm(formula = dist ~ speed, data = cars, weights = 1/speed)
@@ -650,16 +644,16 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 ## Pr(&gt;|z|)     &lt;2e-16  &lt;2e-16
 ## </code></pre>
 <p>Comparação das estimativas e erros fornecidas pelos dois modelos.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(ajuste2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="kw">plot</span>(ajuste2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>Os resíduos reforçam a evidência de variância não constante.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(ajuste, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">which =</span> <span class="dv">3</span>)
-<span class="kw">plot</span>(ajuste2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">which =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="kw">plot</span>(ajuste, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">which =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="kw">plot</span>(ajuste2, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.4</span>, <span class="dt">which =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>Visualmente, o padrão de variância não constante é menos acentuado.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncvTest</span>(ajuste2) </code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">ncvTest</span>(ajuste2) </a></code></pre></div>
 <pre><code>## Non-constant Variance Score Test 
 ## Variance formula: ~ fitted.values 
 ## Chisquare = 0.99636, Df = 1, p = 0.31819</code></pre>
@@ -668,12 +662,12 @@ predic_orig &lt;-<span class="st"> </span>predic^<span class="dv">3</span> ### P
 <div id="ajuste-3-regressao-linear-via-minimos-quadrados-ponderados" class="section level4">
 <h4>Ajuste 3: regressão linear via mínimos quadrados ponderados</h4>
 <p>Agora, vamos assumir uma forma paramétrica para a relação do desvio padrão dos erros com relação à velocidade (x) e estimar os parâmetros. Vamos assumir DP(Erros) = theta1 + velocidade^theta2 e usar a função gls, pacote nlme, para estimar, conjuntamente e por máxima verossimilhança, os betas e os thetas.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste3 &lt;-<span class="st"> </span><span class="kw">gls</span>(dist ~<span class="st"> </span>speed, <span class="dt">data =</span> cars, <span class="dt">weight =</span> <span class="kw">varConstPower</span>(<span class="dt">form=</span>~speed))
-residuos3 &lt;-<span class="st"> </span><span class="kw">residuals</span>(ajuste3, <span class="dt">type=</span><span class="st">&#39;normalized&#39;</span>)
-<span class="kw">plot</span>(cars$speed, residuos3, <span class="dt">xlab =</span> <span class="st">&#39;Velociadade (mph)&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos&#39;</span>,
-     <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(-<span class="dv">2</span>,<span class="dv">3</span>))</code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">ajuste3 &lt;-<span class="st"> </span><span class="kw">gls</span>(dist <span class="op">~</span><span class="st"> </span>speed, <span class="dt">data =</span> cars, <span class="dt">weight =</span> <span class="kw">varConstPower</span>(<span class="dt">form=</span><span class="op">~</span>speed))</a>
+<a class="sourceLine" id="cb37-2" title="2">residuos3 &lt;-<span class="st"> </span><span class="kw">residuals</span>(ajuste3, <span class="dt">type=</span><span class="st">&#39;normalized&#39;</span>)</a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="kw">plot</span>(cars<span class="op">$</span>speed, residuos3, <span class="dt">xlab =</span> <span class="st">&#39;Velociadade (mph)&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Resíduos&#39;</span>,</a>
+<a class="sourceLine" id="cb37-4" title="4">     <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">3</span>))</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste3)</code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">summary</span>(ajuste3)</a></code></pre></div>
 <pre><code>## Generalized least squares fit by REML
 ##   Model: dist ~ speed 
 ##   Data: cars 
@@ -685,12 +679,12 @@ residuos3 &lt;-<span class="st"> </span><span class="kw">residuals</span>(ajuste
 ##  Formula: ~speed 
 ##  Parameter estimates:
 ##    const    power 
-## 3.160298 1.022360 
+## 3.160369 1.022362 
 ## 
 ## Coefficients:
 ##                  Value Std.Error   t-value p-value
-## (Intercept) -11.085383  4.052379 -2.735525  0.0087
-## speed         3.484162  0.320237 10.879953  0.0000
+## (Intercept) -11.085392  4.052384 -2.735524  0.0087
+## speed         3.484163  0.320237 10.879947  0.0000
 ## 
 ##  Correlation: 
 ##       (Intr)
@@ -698,12 +692,12 @@ residuos3 &lt;-<span class="st"> </span><span class="kw">residuals</span>(ajuste
 ## 
 ## Standardized residuals:
 ##        Min         Q1        Med         Q3        Max 
-## -1.4520579 -0.6898222 -0.1308281  0.6375031  3.0756995 
+## -1.4520582 -0.6898223 -0.1308282  0.6375030  3.0757001 
 ## 
-## Residual standard error: 0.7637039 
+## Residual standard error: 0.7636964 
 ## Degrees of freedom: 50 total; 48 residual</code></pre>
 <p>Observe que theta2 (parâmetro de potência) é estimado em 1.022. Assim, temos que a relação entre DP(erros) e x (e entre Var(erros) e x) é aproximadamente linear.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compareCoefs</span>(ajuste,ajuste2,ajuste3, <span class="dt">zvals=</span><span class="ot">TRUE</span>, <span class="dt">pvals=</span><span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">compareCoefs</span>(ajuste,ajuste2,ajuste3, <span class="dt">zvals=</span><span class="ot">TRUE</span>, <span class="dt">pvals=</span><span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Warning in compareCoefs(ajuste, ajuste2, ajuste3, zvals = TRUE, pvals =
 ## TRUE): models to be compared are of different classes</code></pre>
 <pre><code>## Calls:
@@ -728,16 +722,16 @@ residuos3 &lt;-<span class="st"> </span><span class="kw">residuals</span>(ajuste
 <div id="exemplo-3---regressao-robusta" class="section level2">
 <h2>Exemplo 3 - Regressão robusta</h2>
 <p>Vamos usar a base de dados teengamb, do pacote faraway.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(faraway)
-<span class="kw">require</span>(MASS)
-<span class="kw">require</span>(quantreg)
-
-ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble ~<span class="st"> </span>., <span class="dt">data =</span> teengamb)
-<span class="kw">x11</span>()
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
-<span class="kw">plot</span>(ajuste)</code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">require</span>(faraway)</a>
+<a class="sourceLine" id="cb43-2" title="2"><span class="kw">require</span>(MASS)</a>
+<a class="sourceLine" id="cb43-3" title="3"><span class="kw">require</span>(quantreg)</a>
+<a class="sourceLine" id="cb43-4" title="4"></a>
+<a class="sourceLine" id="cb43-5" title="5">ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> teengamb)</a>
+<a class="sourceLine" id="cb43-6" title="6"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb43-7" title="7"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb43-8" title="8"><span class="kw">plot</span>(ajuste)</a></code></pre></div>
 <p><img src="regressao_problemas_suposicoes_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(<span class="kw">rstandard</span>(ajuste))</code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">shapiro.test</span>(<span class="kw">rstandard</span>(ajuste))</a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -747,8 +741,8 @@ ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble ~<span cl
 <div id="metodo-de-huber" class="section level3">
 <h3>Método de Huber</h3>
 <p>Vamos usar regressão robusta, obter os estimadores M baseado no método de Huber.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste2 &lt;-<span class="st"> </span><span class="kw">rlm</span>(gamble ~<span class="st"> </span>., <span class="dt">psi =</span> psi.huber, <span class="dt">data =</span> teengamb)
-<span class="kw">summary</span>(ajuste)</code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">ajuste2 &lt;-<span class="st"> </span><span class="kw">rlm</span>(gamble <span class="op">~</span><span class="st"> </span>., <span class="dt">psi =</span> psi.huber, <span class="dt">data =</span> teengamb)</a>
+<a class="sourceLine" id="cb46-2" title="2"><span class="kw">summary</span>(ajuste)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = gamble ~ ., data = teengamb)
@@ -770,7 +764,7 @@ ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble ~<span cl
 ## Residual standard error: 22.69 on 42 degrees of freedom
 ## Multiple R-squared:  0.5267, Adjusted R-squared:  0.4816 
 ## F-statistic: 11.69 on 4 and 42 DF,  p-value: 1.815e-06</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ajuste2)</code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">summary</span>(ajuste2)</a></code></pre></div>
 <pre><code>## 
 ## Call: rlm(formula = gamble ~ ., data = teengamb, psi = psi.huber)
 ## Residuals:
@@ -791,8 +785,8 @@ ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble ~<span cl
 <div id="funcao-biweight" class="section level3">
 <h3>Função biweight</h3>
 <p>Agora usando a função biweight no lugar da huber.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste3 &lt;-<span class="st"> </span><span class="kw">rlm</span>(gamble ~<span class="st"> </span>., <span class="dt">psi =</span> psi.bisquare, <span class="dt">data =</span> teengamb)
-<span class="kw">summary</span>(ajuste3)</code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">ajuste3 &lt;-<span class="st"> </span><span class="kw">rlm</span>(gamble <span class="op">~</span><span class="st"> </span>., <span class="dt">psi =</span> psi.bisquare, <span class="dt">data =</span> teengamb)</a>
+<a class="sourceLine" id="cb50-2" title="2"><span class="kw">summary</span>(ajuste3)</a></code></pre></div>
 <pre><code>## 
 ## Call: rlm(formula = gamble ~ ., data = teengamb, psi = psi.bisquare)
 ## Residuals:
@@ -810,12 +804,12 @@ ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble ~<span cl
 ## Residual standard error: 13.59 on 42 degrees of freedom</code></pre>
 <p>Os erros padrões são um pouco menores em relação ao ajuste anterior, novamente se verifica diferença nas estimativas e erros padrões em relação aos resultados do ajuste por mínimos quadrados.</p>
 <p>Vamos avaliar os pesos atribuídos às observações no ajuste final.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cbind</span>(<span class="kw">resid</span>(ajuste), ajuste2$w) %&gt;%<span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">3</span>)</code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">cbind</span>(<span class="kw">resid</span>(ajuste), ajuste2<span class="op">$</span>w) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dt">n =</span> <span class="dv">3</span>)</a></code></pre></div>
 <pre><code>##        [,1] [,2]
 ## 1 10.650743    1
 ## 2  9.371132    1
 ## 3  5.463030    1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cbind</span>(<span class="kw">resid</span>(ajuste), ajuste2$w)[<span class="kw">c</span>(<span class="dv">24</span>,<span class="dv">36</span>,<span class="dv">39</span>),]</code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1"><span class="kw">cbind</span>(<span class="kw">resid</span>(ajuste), ajuste2<span class="op">$</span>w)[<span class="kw">c</span>(<span class="dv">24</span>,<span class="dv">36</span>,<span class="dv">39</span>),]</a></code></pre></div>
 <pre><code>##         [,1]      [,2]
 ## 24  94.25222 0.1831289
 ## 36  45.60513 0.3959127
@@ -825,8 +819,8 @@ ajuste &lt;-<span class="st"> </span><span class="kw">lm</span>(gamble ~<span cl
 <div id="funcao-rq" class="section level3">
 <h3>Função rq</h3>
 <p>Para o ajuste por least absolute deviations podemos usar a função rq do pacote quantreg.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ajuste4 &lt;-<span class="st"> </span><span class="kw">rq</span>(gamble ~<span class="st"> </span>., <span class="dt">method =</span> <span class="st">&#39;br&#39;</span>, <span class="dt">data =</span> teengamb)
-<span class="kw">summary</span>(ajuste4)</code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">ajuste4 &lt;-<span class="st"> </span><span class="kw">rq</span>(gamble <span class="op">~</span><span class="st"> </span>., <span class="dt">method =</span> <span class="st">&#39;br&#39;</span>, <span class="dt">data =</span> teengamb)</a>
+<a class="sourceLine" id="cb56-2" title="2"><span class="kw">summary</span>(ajuste4)</a></code></pre></div>
 <pre><code>## Warning in rq.fit.br(x, y, tau = tau, ci = TRUE, ...): Solution may be
 ## nonunique</code></pre>
 <pre><code>## 
@@ -862,6 +856,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
