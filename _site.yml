@@ -9,8 +9,6 @@ navbar:
       menu:
       - text: "Tutorial Exams"
         href: r-exams-tutorial/
-    - text: "About"
-      href: about.html
     - text: "Disciplinas"
       menu:
       - text: "Análise de Regressão Linear"
