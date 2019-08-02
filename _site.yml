@@ -13,8 +13,10 @@ navbar:
       href: about.html
     - text: "Disciplinas"
       menu:
-      - text: "Regressão Linear"
+      - text: "Análise de Regressão Linear"
         href: regressao_linear/
+      - text: "Planejamento de Experimentos I"
+        href: planejamento_experimentos/
   right:
     - text: GitHub
       icon: fa-github fa-lg
