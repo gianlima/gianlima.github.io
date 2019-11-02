@@ -15,6 +15,8 @@ navbar:
         href: regressao_linear/
       - text: "Planejamento de Experimentos I"
         href: planejamento_experimentos/
+      - text: "GLM"
+        href: glm/
   right:
     - text: GitHub
       icon: fa-github fa-lg
